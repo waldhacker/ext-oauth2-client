@@ -1,0 +1,12 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method Waldhacker\\\\Oauth2Client\\\\LoginProvider\\\\Oauth2LoginProvider\\:\\:render\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: ../Classes/LoginProvider/Oauth2LoginProvider.php
+
+		-
+			message: "#^Cannot call method fetchAllAssociative\\(\\) on Doctrine\\\\DBAL\\\\Driver\\\\Statement\\|int\\.$#"
+			count: 2
+			path: ../Classes/Repository/BackendUserRepository.php
+

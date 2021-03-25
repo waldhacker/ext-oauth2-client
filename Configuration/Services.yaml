@@ -1,0 +1,26 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Waldhacker\Oauth2Client\:
+    resource: '../Classes/*'
+
+  Waldhacker\Oauth2Client\LoginProvider\Oauth2LoginProvider:
+    public: true
+
+  Waldhacker\Oauth2Client\Service\LoginService:
+    public: true
+
+  Waldhacker\Oauth2Client\Controller\RegistrationController:
+    public: true
+
+  Waldhacker\Oauth2Client\Controller\ShowBackendModule:
+    public: true
+
+  Waldhacker\Oauth2Client\Controller\RegistrationFinalize:
+    public: true
+
+  Waldhacker\Oauth2Client\SetupModule\ProviderUserFunc:
+    public: true

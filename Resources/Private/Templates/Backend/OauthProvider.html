@@ -1,0 +1,21 @@
+<html
+        lang="en"
+        xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+        xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+        data-namespace-typo3-fluid="true">
+
+<f:layout name="Login" />
+
+<f:section name="loginFormFields">
+    <style>#t3-login-submit {display:none;}</style>
+    <div class="form-group">
+        <div class="input-group">
+            <f:for each="{providers}" as="provider">
+                <button type="submit" class="btn btn-block btn-login" name="oauth2-provider" value="{provider.identifier}">
+                    <core:icon identifier="{provider.iconIdentifier}" size="default"/> {provider.label}
+                </button>
+            </f:for>
+        </div>
+    </div>
+</f:section>
+</html>

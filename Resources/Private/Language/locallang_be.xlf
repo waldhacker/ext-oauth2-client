@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" date="2021-03-25T18:20:51Z" product-name="oauth2_client">
+        <header />
+        <body>
+            <trans-unit id="oauth2Providers.enabled" resname="oauth2Providers.enabled">
+                <source>Enabled OAuth2 Providers</source>
+            </trans-unit>
+            <trans-unit id="oauth2Providers.description" resname="oauth2Providers.description">
+                <source>OAuth2 Providers allow you to log in with external services such as Google or Github depending on the configuration.</source>
+            </trans-unit>
+            <trans-unit id="oauth2Providers.notAvailable" resname="oauth2Providers.notAvailable">
+                <source>No OAuth2 Providers are currently available. A system administrator can add providers via system configuration (LocalConfiguration).</source>
+            </trans-unit>
+            <trans-unit id="oauth2Providers.manageLinkTitle" resname="oauth2Providers.manageLinkTitle">
+                <source>Manage OAuth2 Providers</source>
+            </trans-unit>
+            <trans-unit id="oauth2Providers.setupLinkTitle" resname="oauth2Providers.setupLinkTitle">
+                <source>Setup OAuth2 Providers</source>
+            </trans-unit>
+            <trans-unit id="overview.title" resname="overview.title">
+                <source>OAuth2 Providers</source>
+            </trans-unit>
+            <trans-unit id="overview.badge.inactive" resname="overview.badge.inactive">
+                <source>Inactive</source>
+            </trans-unit>
+            <trans-unit id="overview.badge.active" resname="overview.badge.active">
+                <source>Active</source>
+            </trans-unit>
+            <trans-unit id="overview.deactivateLinkLabel" resname="overview.deactivateLinkLabel">
+                <source>Deactivate</source>
+            </trans-unit>
+            <trans-unit id="overview.deactivateLinkTitle" resname="overview.deactivateLinkTitle">
+                <source>Deactivate %s</source>
+            </trans-unit>
+            <trans-unit id="overview.activateLinkTitle" resname="overview.activateLinkTitle">
+                <source>Activate %s</source>
+            </trans-unit>
+            <trans-unit id="overview.activateLinkLabel" resname="overview.activateLinkLabel">
+                <source>Activate</source>
+            </trans-unit>
+            <trans-unit id="flash.providerConfigurationAdded.title" resname="flash.providerConfigurationAdded.title">
+                <source>Success</source>
+            </trans-unit>
+            <trans-unit id="flash.providerConfigurationAdded.description" resname="flash.providerConfigurationAdded.description">
+                <source>Provider configuration successfully added.</source>
+            </trans-unit>
+            <trans-unit id="flash.providerConfigurationFailed.description" resname="flash.providerConfigurationFailed.description">
+                <source>Please try again. If the error persists, please check the logs or contact your system administrator.</source>
+            </trans-unit>
+            <trans-unit id="flash.providerConfigurationFailed.title" resname="flash.providerConfigurationFailed.title">
+                <source>Error while adding provider.</source>
+            </trans-unit>
+            <trans-unit id="buttons.deactivateProvider.confirmation.text" resname="buttons.deactivateProvider.confirmation.text">
+                <source>Are you sure you want to remove %s? This action can not be undone and will be applied immediately!</source>
+            </trans-unit>
+            <trans-unit id="buttons.deactivateProvider" resname="buttons.deactivateProvider">
+                <source>Remove %s?</source>
+            </trans-unit>
+            <trans-unit id="labels.oauth2.enabled" resname="labels.oauth2.enabled">
+                <source>OAuth2 Enabled</source>
+            </trans-unit>
+            <trans-unit id="labels.oauth2.disabled" resname="labels.oauth2.disabled">
+                <source>No OAuth2 configured</source>
+            </trans-unit>
+            <trans-unit id="login.link" resname="login.link">
+                <source>OAuth2 Login (Social Login)</source>
+            </trans-unit>
+            <trans-unit id="userSettings.label" resname="userSettings.label">
+                <source>OAuth2 Authentication Providers (Social Login)</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

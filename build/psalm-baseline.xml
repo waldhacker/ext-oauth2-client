@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.6.4@97fe86c4e158b5a57c5150aa5055c38b5a809aab">
+  <file src="Classes/Controller/ShowBackendModule.php">
+    <InternalMethod occurrences="1">
+      <code>setTemplate</code>
+    </InternalMethod>
+  </file>
+  <file src="Classes/Form/RenderType/Oauth2ProvidersElement.php">
+    <PropertyTypeCoercion occurrences="2">
+      <code>GeneralUtility::makeInstance(Oauth2ProviderManager::class, $extensionConfiguration)</code>
+      <code>GeneralUtility::makeInstance(UriBuilder::class)</code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="Classes/Repository/BackendUserRepository.php">
+    <PossiblyInvalidMethodCall occurrences="2">
+      <code>fetchAllAssociative</code>
+      <code>fetchAllAssociative</code>
+    </PossiblyInvalidMethodCall>
+    <UndefinedInterfaceMethod occurrences="2">
+      <code>fetchAllAssociative</code>
+      <code>fetchAllAssociative</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="Classes/Service/Oauth2ProviderManager.php">
+    <LessSpecificReturnStatement occurrences="1">
+      <code>new $implementationClassName($configuration)</code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType occurrences="1">
+      <code>AbstractProvider</code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="Classes/Service/Oauth2Service.php">
+    <TypeDoesNotContainType occurrences="1">
+      <code>is_array($_SESSION)</code>
+    </TypeDoesNotContainType>
+  </file>
+</files>

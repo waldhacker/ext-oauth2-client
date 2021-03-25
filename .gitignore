@@ -1,0 +1,7 @@
+.build/
+composer.lock
+.phplint-cache
+.php_cs.cache
+.phplint.cache
+.phpunit.cache
+Documentation-GENERATED-temp

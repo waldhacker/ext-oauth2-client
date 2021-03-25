@@ -1,0 +1,82 @@
+{
+    "name": "waldhacker/typo3-oauth2-client",
+    "type": "typo3-cms-extension",
+    "description": "",
+    "homepage": "https://waldhacker.dev",
+    "license": ["GPL-2.0-or-later"],
+    "keywords": ["TYPO3 CMS"],
+    "require": {
+        "league/oauth2-client": "^2.6.0",
+        "typo3/cms-core": "^11.1.0 || dev-master",
+        "typo3/cms-backend": "^11.1.0 || dev-master",
+        "typo3/cms-fluid": "^11.1.0 || dev-master",
+        "psr/log": "*",
+        "ext-pdo": "*"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest",
+        "overtrue/phplint": "^2.0",
+        "phpstan/phpstan": "^0.12.50",
+        "phpstan/extension-installer": "^1.0",
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "typo3/coding-standards": "^0.2.0",
+        "symfony/yaml": "^5.1",
+        "saschaegerer/phpstan-typo3": "@dev",
+        "vimeo/psalm": "^3.0 | ^4.0"
+    },
+    "suggest": {
+        "league/oauth2-github": "Github Authentication"
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "oauth2_client",
+            "cms-package-dir": "{$vendor-dir}/typo3/cms",
+            "web-dir": ".build/web"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Waldhacker\\Oauth2Client\\": "Classes/"
+        }
+    },
+    "config": {
+        "vendor-dir": ".build/vendor",
+        "bin-dir": ".build/bin"
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "mkdir -p .build/web/typo3conf/ext/", "[ -L .build/web/typo3conf/ext/oauth2_client ] || ln -snvf ../../../../. .build/web/typo3conf/ext/oauth2_client"
+        ],
+        "ci:lint:php": [
+            "phplint -c build/phplint.yaml"
+        ],
+        "ci:lint:yaml": [
+            "php build/yaml-lint.php Configuration/"
+        ],
+        "ci:stan": [
+            "phpstan analyze --configuration build/phpstan.neon"
+        ],
+        "ci:stan:baseline": [
+            "phpstan analyze --configuration build/phpstan.neon --generate-baseline build/phpstan.baseline.neon"
+        ],
+        "ci:psalm": [
+            "psalm -c build/psalm.xml"
+        ],
+        "ci:psalm:baseline": [
+            "psalm -c build/psalm.xml --set-baseline=build/psalm-baseline.xml"
+        ],
+        "ci:cgl:check": [
+            "php-cs-fixer fix --config build/phpcs.dist -v --dry-run"
+        ],
+        "ci:cgl:fix": [
+            "php-cs-fixer fix --config build/phpcs.dist"
+        ],
+        "ci:tests:unit:cover": [
+            "mkdir -p .build/logs",
+            "phpdbg -d memory_limit=1024M -qrr ./.build/bin/phpunit -c build/phpunit.xml --coverage-clover .build/logs/clover.xml --coverage-cobertura .build/logs/cobertura.xml"
+        ],
+        "ci:tests:unit": [
+            "phpunit -c build/phpunit.xml --log-junit .build/logs/junit.xml"
+        ]
+    }
+}
