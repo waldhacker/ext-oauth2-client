@@ -47,7 +47,6 @@ lint:
     - build-dev
   script:
     - composer run ci:lint:yaml
-    - composer run ci:lint:typoscript
 
 psalm:
   stage: ci
