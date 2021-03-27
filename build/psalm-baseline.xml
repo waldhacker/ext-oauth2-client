@@ -12,10 +12,18 @@
     </PropertyTypeCoercion>
   </file>
   <file src="Classes/Repository/BackendUserRepository.php">
+    <InternalProperty occurrences="3">
+      <code>$backendUser-&gt;user</code>
+      <code>$backendUser-&gt;user</code>
+      <code>$backendUser-&gt;user</code>
+    </InternalProperty>
     <PossiblyInvalidMethodCall occurrences="2">
       <code>fetchAllAssociative</code>
       <code>fetchAllAssociative</code>
     </PossiblyInvalidMethodCall>
+    <PossiblyNullArrayAccess occurrences="1">
+      <code>$backendUser-&gt;user['admin']</code>
+    </PossiblyNullArrayAccess>
     <UndefinedInterfaceMethod occurrences="2">
       <code>fetchAllAssociative</code>
       <code>fetchAllAssociative</code>
@@ -30,7 +38,8 @@
     </MoreSpecificReturnType>
   </file>
   <file src="Classes/Service/Oauth2Service.php">
-    <TypeDoesNotContainType occurrences="1">
+    <TypeDoesNotContainType occurrences="2">
+      <code>is_array($_SESSION)</code>
       <code>is_array($_SESSION)</code>
     </TypeDoesNotContainType>
   </file>

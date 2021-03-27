@@ -31,14 +31,14 @@ class Oauth2Service implements LoggerAwareInterface
     public function __construct(
         Oauth2ProviderManager $oauth2ProviderManager
     ) {
-        if (!is_array($_SESSION)) {
-            @session_start();
-        }
         $this->oauth2ProviderManager = $oauth2ProviderManager;
     }
 
     public function getAuthorizationUrl(string $providerId, ?string $callbackUrl = null): string
     {
+        if (!is_array($_SESSION)) {
+            @session_start();
+        }
         $provider = $this->oauth2ProviderManager->createProvider($providerId, $callbackUrl);
         $authUrl = $provider->getAuthorizationUrl();
         $_SESSION['oauth2-state'] = $provider->getState();
@@ -47,6 +47,9 @@ class Oauth2Service implements LoggerAwareInterface
 
     public function getUser(string $code, string $state, string $providerId, ?string $callbackUrl = null): ?ResourceOwnerInterface
     {
+        if (!is_array($_SESSION)) {
+            @session_start();
+        }
         if (!isset($_SESSION['oauth2-state']) || $_SESSION['oauth2-state'] !== $state) {
             return null;
         }

@@ -18,6 +18,7 @@ declare(strict_types=1);
 
 namespace Waldhacker\Oauth2Client\Repository;
 
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
@@ -69,8 +70,13 @@ class BackendUserRepository
                     ],
                 ],
             ];
-        $this->dataHandler->start($data, []);
+        // see SetupModuleController - fake admin to allow manipulating be_users as editor
+        $backendUser = $this->getBackendUser();
+        $savedUserAdminState = $backendUser->user['admin'];
+        $backendUser->user['admin'] = true;
+        $this->dataHandler->start($data, [], $backendUser);
         $this->dataHandler->process_datamap();
+        $backendUser->user['admin'] = $savedUserAdminState;
     }
 
     public function getActiveProviders(): array
@@ -85,5 +91,15 @@ class BackendUserRepository
             ->fetchAllAssociative();
         $keys = array_column($result, 'provider');
         return (array)array_combine($keys, $result);
+    }
+
+    /**
+     * Returns the current BE user.
+     *
+     * @return BackendUserAuthentication
+     */
+    protected function getBackendUser()
+    {
+        return $GLOBALS['BE_USER'];
     }
 }

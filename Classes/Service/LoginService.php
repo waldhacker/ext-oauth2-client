@@ -19,10 +19,12 @@ declare(strict_types=1);
 namespace Waldhacker\Oauth2Client\Service;
 
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Core\Service\AbstractService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\HttpUtility;
+use Waldhacker\Oauth2Client\Events\UserLookupEvent;
 use Waldhacker\Oauth2Client\Repository\BackendUserRepository;
 
 class LoginService extends AbstractService
@@ -61,15 +63,18 @@ class LoginService extends AbstractService
         $callbackUrl = (string)$this->uriBuilder->buildUriFromRoute('login', [
             'loginProvider' => self::PROVIDER_ID,
             'oauth2-provider' => $providerId,
-            'login_status' => 'login'
+            'login_status' => 'login',
+            'commandLI' => 'attempt'
         ], UriBuilder::ABSOLUTE_URL);
         if (empty(GeneralUtility::_GET('code'))) {
             $authUrl = $this->oauth2Service->getAuthorizationUrl($providerId, $callbackUrl);
             HttpUtility::redirect($authUrl);
         } elseif (!empty(GeneralUtility::_GET('state')) && !empty(GeneralUtility::_GET('code'))) {
+            $code = GeneralUtility::_GET('code');
+            $state = GeneralUtility::_GET('state');
             $this->user = $this->oauth2Service->getUser(
-                GeneralUtility::_GET('code'),
-                GeneralUtility::_GET('state'),
+                $code,
+                $state,
                 $providerId,
                 $callbackUrl
             );
@@ -77,14 +82,26 @@ class LoginService extends AbstractService
                 return null;
             }
             $userRecord = $this->backendUserRepository->getUserByIdentity($providerId, (string)$this->user->getId());
+            /** @var EventDispatcherInterface $eventDispatcher */
+            $eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
+            $userRecord = $eventDispatcher->dispatch(new UserLookupEvent($providerId, $this->user, $userRecord, $code, $state))->getUserRecord();
+            if ($userRecord === null) {
+                unset($this->user);
+            }
         }
         return $userRecord ?? null;
     }
 
     public function authUser(): int
     {
-        if ($this->user instanceof ResourceOwnerInterface) {
-            return 200;
+        if (GeneralUtility::_GP('loginProvider') === self::PROVIDER_ID &&
+            GeneralUtility::_GP('oauth2-provider') &&
+            GeneralUtility::_GP('code')
+        ) {
+            if ($this->user instanceof ResourceOwnerInterface) {
+                return 200;
+            }
+            return -100;
         }
         return 100;
     }

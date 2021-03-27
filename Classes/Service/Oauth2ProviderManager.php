@@ -44,6 +44,12 @@ class Oauth2ProviderManager
         }
     }
 
+    /**
+     * @api
+     * @param string $providerId
+     * @param string|null $redirectUrl
+     * @return AbstractProvider
+     */
     public function createProvider(string $providerId, ?string $redirectUrl = null): AbstractProvider
     {
         if (!isset($this->providerConfigurations[$providerId])) {

@@ -1,0 +1,23 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+skinparam backgroundColor #EEE
+skinparam handwritten false
+skinparam sequence {
+    ArrowColor DarkGreen
+    ArrowFontSize 18
+    ParticipantBorderColor ForestGreen
+    ParticipantFontSize 20
+    ParticipantBackgroundColor TECHNOLOGY
+}
+
+autonumber
+
+"TYPO3 Login" -> "OAuth2 App": Authentication Request
+"OAuth2 App" -> "TYPO3 Login": Authentication Response: Callback URL
+"TYPO3 Login" -> "TYPO3 Login": Validate Session State
+"TYPO3 Login" -> "OAuth2 App": Fetch Access Token
+"OAuth2 App" -> "TYPO3 Login": Respond with AccessToken and ResourceOwner
+"TYPO3 Login" -> "TYPO3 Login": Match by ResourceOwner ID & Provider ID
+"TYPO3 Login" -> "TYPO3 Login": (optional) Evaluate MFA
+"TYPO3 Login" -> "TYPO3 Backend": Return found user and login
+@enduml

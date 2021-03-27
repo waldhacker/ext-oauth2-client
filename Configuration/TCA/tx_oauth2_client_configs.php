@@ -24,8 +24,15 @@ return [
         'delete' => 'deleted',
         'sortby' => 'sorting',
         'hideTable'   => 1,
+        'typeicon_classes' => [
+            'default' => 'actions-key'
+        ],
         'enablecolumns' => [
             'disabled' => 'disabled',
+        ],
+        'security' => [
+            'ignoreWebMountRestriction' => true,
+            'ignoreRootLevelRestriction' => true,
         ],
         'rootLevel' => 1
     ],

@@ -10,3 +10,13 @@ parameters:
 			count: 2
 			path: ../Classes/Repository/BackendUserRepository.php
 
+		-
+			message: "#^Offset 'admin' does not exist on array\\|null\\.$#"
+			count: 1
+			path: ../Classes/Repository/BackendUserRepository.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:getUserRecord\\(\\)\\.$#"
+			count: 1
+			path: ../Classes/Service/LoginService.php
+
