@@ -62,7 +62,7 @@ publish_tags:
   stage: publish
   tags:
     - common
-  image: $CI_REGISTRY/waldhacker/mainframe/docker/base/php/docker
+  image: $CI_REGISTRY/waldhacker/mainframe/gitlab/runner/images/docker:stable
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v\d+.\d+.\d+/'
   script:
@@ -72,7 +72,7 @@ publish_branch:
   stage: publish
   tags:
     - common
-  image: $CI_REGISTRY/waldhacker/mainframe/docker/base/php/docker
+  image: $CI_REGISTRY/waldhacker/mainframe/gitlab/runner/images/docker:stable
   rules:
     - if: '$CI_COMMIT_TAG == null'
   script:
