@@ -5,7 +5,7 @@ stages:
 
 build-dev:
   stage: build_ci
-  image: composer:2
+  image: $CI_REGISTRY/waldhacker/mainframe/docker/base/php/7.4
   tags:
     - common
   needs: [ ]
@@ -20,7 +20,7 @@ build-dev:
 
 lintphp:
   stage: ci
-  image: $CI_REGISTRY/waldhacker/mainframe/gitlab/runner/images/docker:stable
+  image: $CI_REGISTRY/waldhacker/mainframe/docker/base/php/7.4
   tags:
     - common
   needs:
@@ -30,7 +30,7 @@ lintphp:
 
 stan:
   stage: ci
-  image: $CI_REGISTRY/waldhacker/mainframe/gitlab/runner/images/docker:stable
+  image: $CI_REGISTRY/waldhacker/mainframe/docker/base/php/7.4
   tags:
     - common
   needs:
@@ -40,7 +40,7 @@ stan:
 
 lint:
   stage: ci
-  image: $CI_REGISTRY/waldhacker/mainframe/gitlab/runner/images/docker:stable
+  image: $CI_REGISTRY/waldhacker/mainframe/docker/base/php/7.4
   tags:
     - common
   needs:
@@ -51,7 +51,7 @@ lint:
 
 psalm:
   stage: ci
-  image: $CI_REGISTRY/waldhacker/mainframe/gitlab/runner/images/docker:stable
+  image: $CI_REGISTRY/waldhacker/mainframe/docker/base/php/7.4
   tags:
     - common
   needs:
