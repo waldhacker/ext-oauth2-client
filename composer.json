@@ -41,7 +41,11 @@
     },
     "config": {
         "vendor-dir": ".build/vendor",
-        "bin-dir": ".build/bin"
+        "bin-dir": ".build/bin",
+        "platform": {
+            "php": "7.4.15"
+        },
+        "sort-packages": true
     },
     "scripts": {
         "post-autoload-dump": [
