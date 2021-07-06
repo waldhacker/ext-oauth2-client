@@ -65,7 +65,9 @@ class Oauth2Service implements LoggerAwareInterface
                 $user = $provider->getResourceOwner($accessToken);
             }
         } catch (\Exception $e) {
-            $this->logger->warning($e->getMessage());
+            if ($this->logger !== null) {
+                $this->logger->warning($e->getMessage());
+            }
         }
         return $user;
     }

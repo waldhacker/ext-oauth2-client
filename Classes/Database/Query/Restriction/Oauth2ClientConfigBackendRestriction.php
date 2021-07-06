@@ -36,6 +36,7 @@ class Oauth2ClientConfigBackendRestriction implements QueryRestrictionInterface,
 
     public function __construct(Context $context = null)
     {
+        /** @var Context $this->context */
         $this->context = $context ?? GeneralUtility::makeInstance(Context::class);
 
         $this->backendUserId = 0;
@@ -56,7 +57,7 @@ class Oauth2ClientConfigBackendRestriction implements QueryRestrictionInterface,
 
             $constraints[] = $expressionBuilder->eq(
                 $tableAlias . '.' . $userWithEditRightsColumn,
-                (int)$this->backendUserId
+                $this->backendUserId
             );
         }
 
