@@ -28,7 +28,6 @@
 </f:if>
 
 <f:section name="Item">
-    <f:variable name="providerTitle" value="{provider.description -> f:translate(id: provider.description)}" />
     <div class="card card-size-fixed-small" id="{identifier}-provider">
         <div class="card-header">
             <div class="card-icon">
@@ -53,7 +52,7 @@
             </div>
         </div>
         <div class="card-content">
-            <p class="card-text">{provider.description -> f:translate(id: provider.description)}</p>
+            <p class="card-text"><f:if condition="{provider.description}">{provider.description -> f:translate(id: provider.description)}</f:if></p>
         </div>
         <div class="card-footer">
             <f:if condition="{activeProviders.{provider.identifier}.uid}">

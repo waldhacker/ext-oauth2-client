@@ -24,3 +24,6 @@ services:
 
   Waldhacker\Oauth2Client\SetupModule\ProviderUserFunc:
     public: true
+
+  Waldhacker\Oauth2Client\DataHandling\DataHandlerHook:
+    public: true

@@ -28,9 +28,8 @@ class Oauth2Service implements LoggerAwareInterface
     use LoggerAwareTrait;
     protected Oauth2ProviderManager $oauth2ProviderManager;
 
-    public function __construct(
-        Oauth2ProviderManager $oauth2ProviderManager
-    ) {
+    public function __construct(Oauth2ProviderManager $oauth2ProviderManager)
+    {
         $this->oauth2ProviderManager = $oauth2ProviderManager;
     }
 

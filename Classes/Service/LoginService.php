@@ -26,6 +26,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\HttpUtility;
 use Waldhacker\Oauth2Client\Events\UserLookupEvent;
 use Waldhacker\Oauth2Client\Repository\BackendUserRepository;
+use Waldhacker\Oauth2Client\Service\Oauth2ProviderManager;
 
 class LoginService extends AbstractService
 {
@@ -35,15 +36,18 @@ class LoginService extends AbstractService
     private UriBuilder $uriBuilder;
     private BackendUserRepository $backendUserRepository;
     private ?ResourceOwnerInterface $user = null;
+    private Oauth2ProviderManager $oauth2ProviderManager;
 
     public function __construct(
         Oauth2Service $oauth2Service,
         UriBuilder $uriBuilder,
-        BackendUserRepository $backendUserRepository
+        BackendUserRepository $backendUserRepository,
+        Oauth2ProviderManager $oauth2ProviderManager
     ) {
         $this->oauth2Service = $oauth2Service;
         $this->uriBuilder = $uriBuilder;
         $this->backendUserRepository = $backendUserRepository;
+        $this->oauth2ProviderManager = $oauth2ProviderManager;
     }
 
     public function initAuth(string $subType, array $loginData): void
@@ -56,10 +60,17 @@ class LoginService extends AbstractService
         if ($this->loginData['status'] !== 'login') {
             return null;
         }
-        $providerId = GeneralUtility::_GP('oauth2-provider');
-        if (empty($providerId)) {
+        $providerId = empty(GeneralUtility::_GP('oauth2-provider'))
+            ? ''
+            : (string)GeneralUtility::_GP('oauth2-provider');
+
+        if (
+            empty($providerId)
+            || !$this->oauth2ProviderManager->hasProvider($providerId)
+        ) {
             return null;
         }
+
         $callbackUrl = (string)$this->uriBuilder->buildUriFromRoute('login', [
             'loginProvider' => self::PROVIDER_ID,
             'oauth2-provider' => $providerId,
@@ -72,15 +83,18 @@ class LoginService extends AbstractService
         } elseif (!empty(GeneralUtility::_GET('state')) && !empty(GeneralUtility::_GET('code'))) {
             $code = GeneralUtility::_GET('code');
             $state = GeneralUtility::_GET('state');
+
             $this->user = $this->oauth2Service->getUser(
                 $code,
                 $state,
                 $providerId,
                 $callbackUrl
             );
+
             if ($this->user === null) {
                 return null;
             }
+
             $userRecord = $this->backendUserRepository->getUserByIdentity($providerId, (string)$this->user->getId());
             /** @var EventDispatcherInterface $eventDispatcher */
             $eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
