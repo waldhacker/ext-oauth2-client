@@ -26,7 +26,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\HttpUtility;
 use Waldhacker\Oauth2Client\Events\UserLookupEvent;
 use Waldhacker\Oauth2Client\Repository\BackendUserRepository;
-use Waldhacker\Oauth2Client\Service\Oauth2ProviderManager;
 
 class LoginService extends AbstractService
 {

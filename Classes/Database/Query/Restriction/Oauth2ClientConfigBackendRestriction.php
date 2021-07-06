@@ -36,8 +36,7 @@ class Oauth2ClientConfigBackendRestriction implements QueryRestrictionInterface,
 
     public function __construct(Context $context = null)
     {
-        /** @var Context $this->context */
-        $this->context = $context ?? GeneralUtility::makeInstance(Context::class);
+        $this->context = $context ?? $this->getContext();
 
         $this->backendUserId = 0;
         if ($this->context->hasAspect('backend.user')) {
@@ -67,5 +66,12 @@ class Oauth2ClientConfigBackendRestriction implements QueryRestrictionInterface,
     public function isEnforced(): bool
     {
         return true;
+    }
+
+    protected function getContext(): Context
+    {
+        /** @var Context $context */
+        $context = GeneralUtility::makeInstance(Context::class);
+        return $context;
     }
 }
