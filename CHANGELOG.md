@@ -1,19 +1,29 @@
 # Changelog
 
 
-## (unreleased)
+## 1.0.0 (2021-07-11)
 
 ### Features
+
+* Add local dev env. [Susanne Moog]
 
 * Add Documentation. [Susanne Moog]
 
 * Initial version. [Susanne Moog]
+
+### Bugfixes
+
+* Harden config handling. [Susanne Moog]
 
 ### Security
 
 * [SECURITY] Restrict read/write access to tx_oauth2_client_configs. [Ralf Zimmermann]
 
 ### Tasks
+
+* Add TER release capabilities. [Susanne Moog]
+
+* Add Readme. [Susanne Moog]
 
 * Add Readme. [Susanne Moog]
 

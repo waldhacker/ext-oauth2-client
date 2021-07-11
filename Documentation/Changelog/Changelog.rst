@@ -2,11 +2,13 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+1.0.0 (2021-07-11)
+------------------
 
 Tasks
 ~~~~~
+- Add TER release capabilities. [Susanne Moog]
+- Add Readme. [Susanne Moog]
 - Add Readme. [Susanne Moog]
 - Fix ci errors. [Ralf Zimmermann]
 - Fix ci errors. [Ralf Zimmermann]
@@ -25,8 +27,13 @@ Tasks
 
 Features
 ~~~~~~~~
+- Add local dev env. [Susanne Moog]
 - Add Documentation. [Susanne Moog]
 - Initial version. [Susanne Moog]
+
+Bugfixes
+~~~~~~~~
+- Harden config handling. [Susanne Moog]
 
 Other
 ~~~~~

@@ -37,8 +37,3 @@ jobs:
           composer run ci:lint:yaml
           composer run ci:psalm
           composer run ci:stan
-
-      - name: Test Build Extensions
-        run: |
-          chmod +x ./build/build-extension.sh
-          ./build/build-extension.sh
