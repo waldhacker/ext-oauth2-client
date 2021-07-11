@@ -16,4 +16,5 @@ For more info, please refer to the documentation.
 ## Issues & Contributions
 
 Find the code at https://github.com/waldhacker/ext-oauth2-client
+
 Report issues at https://github.com/waldhacker/ext-oauth2-client/issues
