@@ -29,6 +29,7 @@ return [
         ],
         'enablecolumns' => [
             'disabled' => 'disabled',
+            'be_user' => 'parentid',
         ],
         'security' => [
             'ignoreWebMountRestriction' => true,
@@ -48,21 +49,21 @@ return [
 
         'parentid' => [
             'config' => [
-                'type' => 'passthrough',
+                'type' => 'passthrough'
             ]
         ],
         'provider' => [
             'label' => 'Provider',
             'config' => [
                 'type' => 'input',
-                'readonly' => true
+                'readOnly' => true
             ]
         ],
         'identifier' => [
             'label' => 'Identifier',
             'config' => [
                 'type' => 'input',
-                'readonly' => true
+                'readOnly' => true
             ]
         ],
     ],

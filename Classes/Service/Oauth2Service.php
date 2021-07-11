@@ -28,9 +28,8 @@ class Oauth2Service implements LoggerAwareInterface
     use LoggerAwareTrait;
     protected Oauth2ProviderManager $oauth2ProviderManager;
 
-    public function __construct(
-        Oauth2ProviderManager $oauth2ProviderManager
-    ) {
+    public function __construct(Oauth2ProviderManager $oauth2ProviderManager)
+    {
         $this->oauth2ProviderManager = $oauth2ProviderManager;
     }
 
@@ -66,7 +65,9 @@ class Oauth2Service implements LoggerAwareInterface
                 $user = $provider->getResourceOwner($accessToken);
             }
         } catch (\Exception $e) {
-            $this->logger->warning($e->getMessage());
+            if ($this->logger !== null) {
+                $this->logger->warning($e->getMessage());
+            }
         }
         return $user;
     }

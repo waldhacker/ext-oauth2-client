@@ -46,4 +46,11 @@ defined('TYPO3') || die();
         'priority' => '70',
         'class' => \Waldhacker\Oauth2Client\Form\RenderType\Oauth2ProvidersElement::class,
     ];
+
+    $GLOBALS['TYPO3_CONF_VARS']['DB']['additionalQueryRestrictions'][\Waldhacker\Oauth2Client\Database\Query\Restriction\Oauth2ClientConfigBackendRestriction::class] = [];
+
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][1625556930] =
+        \Waldhacker\Oauth2Client\DataHandling\DataHandlerHook::class;
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass'][1625556930] =
+        \Waldhacker\Oauth2Client\DataHandling\DataHandlerHook::class;
 })();

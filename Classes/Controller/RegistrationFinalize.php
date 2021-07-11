@@ -25,6 +25,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use Waldhacker\Oauth2Client\Repository\BackendUserRepository;
+use Waldhacker\Oauth2Client\Service\Oauth2ProviderManager;
 use Waldhacker\Oauth2Client\Service\Oauth2Service;
 
 class RegistrationFinalize extends AbstractBackendController
@@ -33,13 +34,20 @@ class RegistrationFinalize extends AbstractBackendController
     private BackendUserRepository $backendUserRepository;
     private UriBuilder $uriBuilder;
     private ResponseFactoryInterface $responseFactory;
+    private Oauth2ProviderManager $oauth2ProviderManager;
 
-    public function __construct(Oauth2Service $oauth2Service, BackendUserRepository $backendUserRepository, UriBuilder $uriBuilder, ResponseFactoryInterface $responseFactory)
-    {
+    public function __construct(
+        Oauth2Service $oauth2Service,
+        BackendUserRepository $backendUserRepository,
+        UriBuilder $uriBuilder,
+        ResponseFactoryInterface $responseFactory,
+        Oauth2ProviderManager $oauth2ProviderManager
+    ) {
         $this->oauth2Service = $oauth2Service;
         $this->backendUserRepository = $backendUserRepository;
         $this->uriBuilder = $uriBuilder;
         $this->responseFactory = $responseFactory;
+        $this->oauth2ProviderManager = $oauth2ProviderManager;
     }
 
     public function __invoke(ServerRequestInterface $request): ResponseInterface
@@ -50,10 +58,18 @@ class RegistrationFinalize extends AbstractBackendController
         }
         $state = $parsedBody['oauth2-state'] ?? null;
         $code = $parsedBody['oauth2-code'] ?? null;
-        $providerId = $parsedBody['oauth2-provider'] ?? null;
-        if (!isset($state, $code, $providerId)) {
+        $providerId = isset($parsedBody['oauth2-provider'])
+            ? (string)$parsedBody['oauth2-provider']
+            : '';
+
+        if (
+            !isset($state, $code)
+            || empty($providerId)
+            || !$this->oauth2ProviderManager->hasProvider($providerId)
+        ) {
             return $this->redirectWithWarning();
         }
+
         $callbackUrl = (string)$this->uriBuilder->buildUriFromRoute(
             'oauth2_callback',
             [
@@ -73,6 +89,7 @@ class RegistrationFinalize extends AbstractBackendController
         } else {
             return $this->redirectWithWarning();
         }
+
         return $this->responseFactory->createResponse(302)
         ->withHeader('location', (string)$this->uriBuilder->buildUriFromRoute('oauth2_user_manage'));
     }

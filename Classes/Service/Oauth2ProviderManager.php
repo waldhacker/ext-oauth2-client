@@ -72,4 +72,9 @@ class Oauth2ProviderManager
         }
         return null;
     }
+
+    public function hasProvider(string $providerId): bool
+    {
+        return isset($this->providerConfigurations[$providerId]);
+    }
 }

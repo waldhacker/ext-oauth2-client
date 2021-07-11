@@ -64,7 +64,7 @@
             "phpstan analyze --configuration build/phpstan.neon --generate-baseline build/phpstan.baseline.neon"
         ],
         "ci:psalm": [
-            "psalm -c build/psalm.xml"
+            "psalm --config=build/psalm.xml"
         ],
         "ci:psalm:baseline": [
             "psalm -c build/psalm.xml --set-baseline=build/psalm-baseline.xml"

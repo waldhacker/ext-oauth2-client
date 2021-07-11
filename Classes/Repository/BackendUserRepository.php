@@ -22,6 +22,7 @@ use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use Waldhacker\Oauth2Client\Database\Query\Restriction\Oauth2ClientConfigBackendRestriction;
 
 class BackendUserRepository
 {
@@ -42,6 +43,8 @@ class BackendUserRepository
     public function getUserByIdentity(string $provider, string $identifier): ?array
     {
         $qb = $this->connectionPool->getQueryBuilderForTable('be_users');
+        $qb->getRestrictions()->removeByType(Oauth2ClientConfigBackendRestriction::class);
+
         $result = $qb->select('be_users.*')
             ->from('tx_oauth2_client_configs', 'config')
             ->join('config', 'be_users', 'be_users', 'config.parentid=be_users.uid')
@@ -49,6 +52,7 @@ class BackendUserRepository
             ->andWhere($qb->expr()->eq('provider', $qb->createNamedParameter($provider)))
             ->execute()
             ->fetchAllAssociative();
+
         return $result[0] ?? null;
     }
 
@@ -66,7 +70,6 @@ class BackendUserRepository
                     'NEW12345' => [
                         'identifier' => $identifier,
                         'provider' => $provider,
-                        'pid' => 0,
                     ],
                 ],
             ];

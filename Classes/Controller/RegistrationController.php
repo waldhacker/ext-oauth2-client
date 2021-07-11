@@ -28,6 +28,7 @@ use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
+use Waldhacker\Oauth2Client\Service\Oauth2ProviderManager;
 use Waldhacker\Oauth2Client\Service\Oauth2Service;
 
 class RegistrationController implements LoggerAwareInterface
@@ -43,23 +44,33 @@ class RegistrationController implements LoggerAwareInterface
 
     private Oauth2Service $oauth2Service;
     private ResponseFactoryInterface $responseFactory;
+    private Oauth2ProviderManager $oauth2ProviderManager;
 
     public function __construct(
         UriBuilder $uriBuilder,
         Oauth2Service $oauth2Service,
-        ResponseFactoryInterface $responseFactory
+        ResponseFactoryInterface $responseFactory,
+        Oauth2ProviderManager $oauth2ProviderManager
     ) {
         $this->uriBuilder = $uriBuilder;
         $this->oauth2Service = $oauth2Service;
         $this->responseFactory = $responseFactory;
+        $this->oauth2ProviderManager = $oauth2ProviderManager;
     }
 
     public function handleRequest(ServerRequestInterface $request): ResponseInterface
     {
         $queryParams = $request->getQueryParams();
         $action = $queryParams['action'];
-        $providerId = $queryParams['oauth2-provider'];
-        if ($providerId === null || !in_array($action, self::$allowedActions, true)) {
+        $providerId = isset($queryParams['oauth2-provider'])
+            ? (string)$queryParams['oauth2-provider']
+            : '';
+
+        if (
+            empty($providerId)
+            || !$this->oauth2ProviderManager->hasProvider($providerId)
+            || !in_array($action, self::$allowedActions, true)
+        ) {
             return $this->responseFactory->createResponse(401);
         }
 
@@ -79,6 +90,7 @@ class RegistrationController implements LoggerAwareInterface
             ],
             UriBuilder::ABSOLUTE_URL
         );
+
         $authUrl = $this->oauth2Service->getAuthorizationUrl($providerId, $callbackUrl);
         return $this->responseFactory->createResponse(302)
             ->withHeader('location', $authUrl);
