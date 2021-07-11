@@ -1,0 +1,30 @@
+{
+    "name": "waldhacker/typo3-oauth2-client",
+    "type": "typo3-cms-extension",
+    "description": "",
+    "homepage": "https://waldhacker.dev",
+    "license": ["GPL-2.0-or-later"],
+    "keywords": ["TYPO3 CMS"],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "league/oauth2-client": "^2.6.0"
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "oauth2_client"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Waldhacker\\Oauth2Client\\": "Classes/"
+        }
+    },
+    "config": {
+        "vendor-dir": "Resources/Private/PHP/",
+        "platform": {
+            "php": "7.4.15"
+        },
+        "sort-packages": true
+    }
+}

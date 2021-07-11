@@ -16,6 +16,10 @@
 
 defined('TYPO3') || die();
 
+if (file_exists(__DIR__ . '/Resources/Private/PHP/autoload.php')) {
+    require_once(__DIR__ . '/Resources/Private/PHP/autoload.php');
+}
+
 (static function () {
     $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['oauth2_client'] = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['oauth2_client'] ?? [];
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addService(

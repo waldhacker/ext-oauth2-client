@@ -2,5 +2,5 @@
 
 $config = \TYPO3\CodingStandards\CsFixerConfig::create();
 $config->setHeader("This file is part of the OAuth2 Client extension for TYPO3 \n- (c) 2021 Waldhacker UG");
-$config->getFinder()->in(__DIR__ . '/../');
+$config->getFinder()->in(__DIR__ . '/../Classes')->exclude('build');
 return $config;
