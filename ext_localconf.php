@@ -17,6 +17,7 @@
 defined('TYPO3') || die();
 
 (static function () {
+    $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['oauth2_client'] = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['oauth2_client'] ?? [];
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addService(
         'oauth2_client',
         'auth',

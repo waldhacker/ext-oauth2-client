@@ -31,7 +31,7 @@ class Oauth2ProviderManager
     {
         $extensionConfiguration = $extensionConfiguration->get('oauth2_client');
         if (isset($extensionConfiguration['providers'])) {
-            foreach ($extensionConfiguration['providers'] as $identifier => $provider) {
+            foreach ($extensionConfiguration['providers'] ?? [] as $identifier => $provider) {
                 $this->providerConfigurations[$identifier] = new ProviderConfiguration(
                     $identifier,
                     $provider['label'],

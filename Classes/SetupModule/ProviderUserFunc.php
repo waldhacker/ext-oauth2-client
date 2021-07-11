@@ -54,12 +54,13 @@ class ProviderUserFunc
         }
         $html .= '<p class="text-muted">' . nl2br(htmlspecialchars($lang->getLL('oauth2Providers.description'))) . '</p>';
         if ($this->oauth2ProviderManager->getConfiguredProviders() === null) {
-            $html .= '<span class="badge badge-danger">' . htmlspecialchars($lang->getLL('oauth2Providers.notAvailable')) . '</span>';
+            $html .= '<span class="badge badge-danger">' . htmlspecialchars($lang->getLL('oauth2Providers.notAvailable')) . '</span><br />';
+        } else {
+            $html .= '<a href="' . htmlspecialchars((string)$this->uriBuilder->buildUriFromRoute('oauth2_user_manage')) . '" class="btn btn-' . ($activeProviders ? 'default' : 'success') . '">';
+            $html .= GeneralUtility::makeInstance(IconFactory::class)->getIcon($hasActiveProviders ? 'actions-cog' : 'actions-add', Icon::SIZE_SMALL);
+            $html .= ' <span>' . htmlspecialchars($lang->getLL('oauth2Providers.' . ($activeProviders ? 'manageLinkTitle' : 'setupLinkTitle'))) . '</span>';
+            $html .= '</a>';
         }
-        $html .= '<a href="' . htmlspecialchars((string)$this->uriBuilder->buildUriFromRoute('oauth2_user_manage')) . '" class="btn btn-' . ($activeProviders ? 'default' : 'success') . '">';
-        $html .= GeneralUtility::makeInstance(IconFactory::class)->getIcon($hasActiveProviders ? 'actions-cog' : 'actions-add', Icon::SIZE_SMALL);
-        $html .= ' <span>' . htmlspecialchars($lang->getLL('oauth2Providers.' . ($activeProviders ? 'manageLinkTitle' : 'setupLinkTitle'))) . '</span>';
-        $html .= '</a>';
         return $html;
     }
 
