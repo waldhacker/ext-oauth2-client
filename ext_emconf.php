@@ -20,7 +20,7 @@ $EM_CONF[$_EXTKEY] = [
     'category' => 'auth',
     'constraints' => [
         'depends' => [
-
+            'typo3' => '11.1.0-11.5.99',
         ],
         'conflicts' => [
         ],
@@ -34,8 +34,8 @@ $EM_CONF[$_EXTKEY] = [
     'uploadfolder' => 0,
     'createDirs' => '',
     'clearCacheOnLoad' => 1,
-    'author' => 'Susanne Moog',
-    'author_email' => 'hello@waldhacker.dev',
-    'author_company' => 'Waldhacker UG',
+    'author' => 'Susanne Moog, Ralf Zimmermann',
+    'author_email' => 'look+typo3@susi.dev, hello@waldhacker.dev',
+    'author_company' => 'Waldhacker UG (haftungsbeschränkt)',
     'version' => '1.0.0',
 ];
