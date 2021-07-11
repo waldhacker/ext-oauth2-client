@@ -82,14 +82,17 @@ ignore_regexps = [
 ## whenever you are tweaking this variable.
 ##
 section_regexps = [
-    ('Tasks', [
-        r'^\[TASK\]\s*((dev|use?r|pkg|test|doc)\s*:\s*)?([^\n]*)$',
-     ]),
     ('Features', [
         r'^\[FEATURE\]\s*((dev|use?r|pkg|test|doc)\s*:\s*)?([^\n]*)$',
      ]),
     ('Bugfixes', [
         r'^\[BUGFIX\]\s*((dev|use?r|pkg|test|doc)\s*:\s*)?([^\n]*)$',
+     ]),
+    ('Security', [
+        r'^\[SECURITY\]\s*((dev|use?r|pkg|test|doc)\s*:\s*)?([^\n]*)$',
+     ]),
+    ('Tasks', [
+        r'^\[TASK\]\s*((dev|use?r|pkg|test|doc)\s*:\s*)?([^\n]*)$',
      ]),
 
     ('Other', None ## Match all lines
