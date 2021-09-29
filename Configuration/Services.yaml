@@ -27,3 +27,9 @@ services:
 
   Waldhacker\Oauth2Client\DataHandling\DataHandlerHook:
     public: true
+
+  Waldhacker\Oauth2Client\EventListener\ModifyLoginFormViewListener:
+    tags:
+      - name: event.listener
+        identifier: 'oauth2_client'
+        event: TYPO3\CMS\FrontendLogin\Event\ModifyLoginFormViewEvent

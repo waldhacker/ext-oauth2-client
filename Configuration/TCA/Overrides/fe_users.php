@@ -14,7 +14,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('be_users', [
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('fe_users', [
     'tx_oauth2_client_configs' => [
         'label' => 'OAuth2 Client Configs',
         'config' => [
@@ -26,4 +26,4 @@
         ],
     ],
 ]);
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('be_users', 'tx_oauth2_client_configs', '', 'before:avatar');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('fe_users', 'tx_oauth2_client_configs', '', 'before:lastlogin');

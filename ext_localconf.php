@@ -29,7 +29,7 @@ if (file_exists(__DIR__ . '/Resources/Private/PHP/autoload.php')) {
         [
             'title' => 'OAuth2 Authentication',
             'description' => 'OAuth2 authentication for backend users',
-            'subtype' => 'getUserBE,authUserBE',
+            'subtype' => 'getUserBE,authUserBE,getUserFE,authUserFE',
             'available' => true,
             'priority' => 75,
             'quality' => 50,

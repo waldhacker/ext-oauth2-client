@@ -52,6 +52,11 @@ return [
                 'type' => 'passthrough'
             ]
         ],
+        'parenttable' => [
+            'config' => [
+                'type' => 'passthrough'
+            ]
+        ],
         'provider' => [
             'label' => 'Provider',
             'config' => [

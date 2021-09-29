@@ -27,14 +27,16 @@ final class UserLookupEvent
     private string $providerId;
     private string $code;
     private string $state;
+    private string $loginType;
 
-    public function __construct(string $providerId, ResourceOwnerInterface $resourceOwner, ?array $userRecord, string $code, string $state)
+    public function __construct(string $providerId, ResourceOwnerInterface $resourceOwner, ?array $userRecord, string $code, string $state, string $loginType)
     {
         $this->resourceOwner = $resourceOwner;
         $this->userRecord = $userRecord;
         $this->providerId = $providerId;
         $this->code = $code;
         $this->state = $state;
+        $this->loginType = $loginType;
     }
 
     /**
@@ -77,5 +79,13 @@ final class UserLookupEvent
     public function getState(): string
     {
         return $this->state;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLoginType(): string
+    {
+        return $this->loginType;
     }
 }

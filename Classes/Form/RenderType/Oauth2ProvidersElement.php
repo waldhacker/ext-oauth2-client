@@ -29,7 +29,7 @@ use Waldhacker\Oauth2Client\Service\Oauth2ProviderManager;
 
 class Oauth2ProvidersElement extends AbstractFormElement
 {
-    private const TABLE = 'be_users';
+    private const TABLES = ['be_users', 'fe_users'];
     private Oauth2ProviderManager $oauth2ProviderManager;
     private UriBuilder $uriBuilder;
 
@@ -41,12 +41,12 @@ class Oauth2ProvidersElement extends AbstractFormElement
         $this->oauth2ProviderManager = GeneralUtility::makeInstance(Oauth2ProviderManager::class, $extensionConfiguration);
     }
 
-    public function render()
+    public function render(): array
     {
         $resultArray = $this->initializeResultArray();
         $tableName = $this->data['tableName'];
 
-        if ($tableName !== self::TABLE) {
+        if (!in_array($tableName, self::TABLES,true)) {
             return $resultArray;
         }
 

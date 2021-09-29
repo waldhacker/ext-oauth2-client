@@ -25,33 +25,37 @@ use TYPO3\CMS\Core\Service\AbstractService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\HttpUtility;
 use Waldhacker\Oauth2Client\Events\UserLookupEvent;
-use Waldhacker\Oauth2Client\Repository\BackendUserRepository;
+use Waldhacker\Oauth2Client\Repository\UserRepository;
 
 class LoginService extends AbstractService
 {
     const PROVIDER_ID = '1616569531';
     private array $loginData = [];
+    private array $authInfo = [];
     private Oauth2Service $oauth2Service;
     private UriBuilder $uriBuilder;
-    private BackendUserRepository $backendUserRepository;
+    private UserRepository $userRepository;
     private ?ResourceOwnerInterface $user = null;
     private Oauth2ProviderManager $oauth2ProviderManager;
+
 
     public function __construct(
         Oauth2Service $oauth2Service,
         UriBuilder $uriBuilder,
-        BackendUserRepository $backendUserRepository,
+        UserRepository $userRepository,
         Oauth2ProviderManager $oauth2ProviderManager
     ) {
         $this->oauth2Service = $oauth2Service;
         $this->uriBuilder = $uriBuilder;
-        $this->backendUserRepository = $backendUserRepository;
+        $this->userRepository = $userRepository;
         $this->oauth2ProviderManager = $oauth2ProviderManager;
     }
 
-    public function initAuth(string $subType, array $loginData): void
+    public function initAuth(string $subType, array $loginData, array $authInfo): void
     {
         $this->loginData = $loginData;
+        $this->authInfo = $authInfo;
+        $this->userRepository->setLoginType($this->authInfo['loginType']);
     }
 
     public function getUser(): ?array
@@ -70,12 +74,35 @@ class LoginService extends AbstractService
             return null;
         }
 
-        $callbackUrl = (string)$this->uriBuilder->buildUriFromRoute('login', [
+        // Configure callback url parameters
+        $callbackParams = [
             'loginProvider' => self::PROVIDER_ID,
             'oauth2-provider' => $providerId,
             'login_status' => 'login',
-            'commandLI' => 'attempt'
-        ], UriBuilder::ABSOLUTE_URL);
+            'commandLI' => 'attempt',
+        ];
+
+        // Modify callback url for frontend logins
+        if ($this->authInfo['loginType'] === 'FE') {
+            // Set logintype param for felogin controller
+            $callbackParams['logintype'] = 'login';
+
+            // Get current frontend url
+            $pathInfo = parse_url(GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL'));
+            if (!empty($pathInfo['scheme']) && !empty($pathInfo['host']) && !empty($pathInfo['path'])) {
+                $baseUrl = $pathInfo['scheme'] . '://' . $pathInfo['host'] . $pathInfo['path'];
+            } else {
+                $baseUrl = GeneralUtility::getIndpEnv('TYPO3_SITE_URL');
+            }
+
+            // Generate frontend url
+            $callbackUrl = preg_replace('/\?.*/', '', $baseUrl) . '?' . http_build_query($callbackParams);
+        } else {
+            // Generate backend url
+            $callbackUrl = (string)$this->uriBuilder->buildUriFromRoute('login', $callbackParams, UriBuilder::ABSOLUTE_URL);
+        }
+
+
         if (empty(GeneralUtility::_GET('code'))) {
             $authUrl = $this->oauth2Service->getAuthorizationUrl($providerId, $callbackUrl);
             HttpUtility::redirect($authUrl);
@@ -94,10 +121,10 @@ class LoginService extends AbstractService
                 return null;
             }
 
-            $userRecord = $this->backendUserRepository->getUserByIdentity($providerId, (string)$this->user->getId());
+            $userRecord = $this->userRepository->getUserByIdentity($providerId, (string)$this->user->getId());
             /** @var EventDispatcherInterface $eventDispatcher */
             $eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
-            $userRecord = $eventDispatcher->dispatch(new UserLookupEvent($providerId, $this->user, $userRecord, $code, $state))->getUserRecord();
+            $userRecord = $eventDispatcher->dispatch(new UserLookupEvent($providerId, $this->user, $userRecord, $code, $state, $this->authInfo['loginType']))->getUserRecord();
             if ($userRecord === null) {
                 unset($this->user);
             }

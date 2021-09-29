@@ -1,0 +1,7 @@
+plugin.tx_felogin_login {
+  view {
+    templateRootPaths.2 = EXT:oauth2_client/Resources/Private/Templates/
+    partialRootPaths.2 = EXT:oauth2_client/Resources/Private/Partials/
+    layoutRootPaths.2 = EXT:oauth2_client/Resources/Private/Layouts/
+  }
+}

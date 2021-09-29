@@ -22,38 +22,13 @@ use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
-use Waldhacker\Oauth2Client\Database\Query\Restriction\Oauth2ClientConfigBackendRestriction;
 
-class BackendUserRepository
+class BackendUserRepository extends UserRepository
 {
-    private DataHandler $dataHandler;
-    private Context $context;
-    private ConnectionPool $connectionPool;
-
-    public function __construct(
-        DataHandler $dataHandler,
-        Context $context,
-        ConnectionPool $connectionPool
-    ) {
-        $this->dataHandler = $dataHandler;
-        $this->context = $context;
-        $this->connectionPool = $connectionPool;
-    }
-
-    public function getUserByIdentity(string $provider, string $identifier): ?array
+    public function __construct(DataHandler $dataHandler, Context $context, ConnectionPool $connectionPool)
     {
-        $qb = $this->connectionPool->getQueryBuilderForTable('be_users');
-        $qb->getRestrictions()->removeByType(Oauth2ClientConfigBackendRestriction::class);
-
-        $result = $qb->select('be_users.*')
-            ->from('tx_oauth2_client_configs', 'config')
-            ->join('config', 'be_users', 'be_users', 'config.parentid=be_users.uid')
-            ->where($qb->expr()->eq('identifier', $qb->createNamedParameter($identifier)))
-            ->andWhere($qb->expr()->eq('provider', $qb->createNamedParameter($provider)))
-            ->execute()
-            ->fetchAllAssociative();
-
-        return $result[0] ?? null;
+        parent::__construct($dataHandler, $context, $connectionPool);
+        $this->setLoginType(self::BACKEND);
     }
 
     public function persistIdentityForUser(string $provider, string $identifier): void
@@ -80,20 +55,6 @@ class BackendUserRepository
         $this->dataHandler->start($data, [], $backendUser);
         $this->dataHandler->process_datamap();
         $backendUser->user['admin'] = $savedUserAdminState;
-    }
-
-    public function getActiveProviders(): array
-    {
-        $qb = $this->connectionPool->getQueryBuilderForTable('be_users');
-        $userid = (int)$this->context->getPropertyFromAspect('backend.user', 'id');
-        $result = $qb->select('config.*')
-            ->from('tx_oauth2_client_configs', 'config')
-            ->join('config', 'be_users', 'be_users', 'config.parentid=be_users.uid')
-            ->where($qb->expr()->eq('be_users.uid', $qb->createNamedParameter($userid, \PDO::PARAM_INT)))
-            ->execute()
-            ->fetchAllAssociative();
-        $keys = array_column($result, 'provider');
-        return (array)array_combine($keys, $result);
     }
 
     /**
