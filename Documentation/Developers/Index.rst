@@ -140,7 +140,7 @@ In your :file:`Configuration/Services.yaml` add a listener for the event:
        tags:
          - name: event.listener
            identifier: 'myListener'
-           event: \Waldhacker\Oauth2Client\Events\UserLookupEvent
+           event: Waldhacker\Oauth2Client\Events\UserLookupEvent
 
 
 .. note::
