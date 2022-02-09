@@ -70,9 +70,9 @@ class DataHandlerHook
      * @param mixed $value
      * @param bool $commandIsProcessed
      * @param DataHandler $dataHandler
-     * @param bool $pasteUpdate
+     * @param bool|string $pasteUpdate
      */
-    public function processCmdmap(string $command, string $table, $id, $value, bool &$commandIsProcessed, DataHandler $dataHandler, bool $pasteUpdate): void
+    public function processCmdmap(string $command, string $table, $id, $value, bool &$commandIsProcessed, DataHandler $dataHandler, $pasteUpdate): void
     {
         if ($table !== 'tx_oauth2_client_configs') {
             return;
