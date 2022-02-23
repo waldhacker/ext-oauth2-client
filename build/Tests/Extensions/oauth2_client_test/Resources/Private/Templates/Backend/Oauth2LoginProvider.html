@@ -1,0 +1,36 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+
+<form action="{f:if(condition: formActionUrl, then: '{formActionUrl}&loginProvider=1616569531', else: '/typo3/index.php?loginProvider=1616569531')}" method="post" name="loginform">
+    <input type="text" name="login_status" value="login" />
+    <input type="text" name="userident" value="" />
+    <input type="text" name="redirect_url" value="{redirectUrl}" />
+    <input type="text" name="loginRefresh" value="{loginRefresh}" />
+    <br />
+
+    <button id="oauth2test-login-keycloak" type="submit" name="oauth2-provider" value="keycloak">login with keycloak</button>
+    <br />
+    <button id="oauth2test-login-google" type="submit" name="oauth2-provider" value="google">login with google</button>
+    <br />
+    <button id="oauth2test-login-github" type="submit" name="oauth2-provider" value="github">login with github</button>
+    <br />
+    <button id="oauth2test-login-gitlab" type="submit" name="oauth2-provider" value="gitlab">login with gitlab</button>
+    <br />
+    <button id="oauth2test-login-gitlab1-fe" type="submit" name="oauth2-provider" value="gitlab1-fe">login with gitlab1-fe</button>
+    <br />
+    <button id="oauth2test-login-gitlab2-be" type="submit" name="oauth2-provider" value="gitlab2-be">login with gitlab2-be</button>
+    <br />
+    <button id="oauth2test-login-gitlab3-both" type="submit" name="oauth2-provider" value="gitlab3-both">login with gitlab3-both</button>
+    <br />
+    <button id="oauth2test-login-gitlab4-fe" type="submit" name="oauth2-provider" value="gitlab4-fe">login with gitlab4-fe</button>
+    <br />
+    <button id="oauth2test-login-gitlab5-be" type="submit" name="oauth2-provider" value="gitlab5-be">login with gitlab5-be</button>
+    <br />
+    <button id="oauth2test-login-gitlab6-both" type="submit" name="oauth2-provider" value="gitlab6-both">login with gitlab6-both</button>
+    <br />
+    <button id="oauth2test-login-gitlab7-fe" type="submit" name="oauth2-provider" value="gitlab7-fe">login with gitlab7-fe</button>
+    <br />
+    <button id="oauth2test-login-gitlab8-fe" type="submit" name="oauth2-provider" value="gitlab8-fe">login with gitlab8-fe</button>
+    <br />
+</form>
+
+</html>

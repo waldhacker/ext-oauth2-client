@@ -14,15 +14,20 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('be_users', [
-    'tx_oauth2_client_configs' => [
-        'label' => 'OAuth2 Client Configs',
-        'config' => [
-            'type' => 'inline',
-            'renderType' => 'oauth2providers',
-            'foreign_table' => 'tx_oauth2_client_configs',
-            'foreign_field' => 'parentid',
+(static function () {
+    $languageFile = 'LLL:EXT:oauth2_client/Resources/Private/Language/locallang_be.xlf:';
+
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('be_users', [
+        'tx_oauth2_client_configs' => [
+            'label' => $languageFile . 'tx_oauth2_client_config',
+            'exclude' => true,
+            'config' => [
+                'type' => 'inline',
+                'renderType' => 'oauth2providers',
+                'foreign_table' => 'tx_oauth2_beuser_provider_configuration',
+                'foreign_field' => 'parentid',
+            ],
         ],
-    ],
-]);
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('be_users', 'tx_oauth2_client_configs', '', 'before:avatar');
+    ]);
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('be_users', 'tx_oauth2_client_configs', '', 'before:avatar');
+})();

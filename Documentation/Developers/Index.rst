@@ -88,7 +88,7 @@ Create a class that will listen to the event and create a user:
 
    class UserCreationListener {
       public function __invoke(UserLookupEvent $event): ?array {
-         if ($event->getProviderId !== 'github') {
+         if ($event->getProviderId() !== 'github') {
             // make sure you only react to "your" provider
             return null;
          }

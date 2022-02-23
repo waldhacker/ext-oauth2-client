@@ -1,15 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.6.4@97fe86c4e158b5a57c5150aa5055c38b5a809aab">
-  <file src="Classes/Controller/ShowBackendModule.php">
+<files psalm-version="4.21.0@d8bec4c7aaee111a532daec32fb09de5687053d1">
+  <file src="Classes/Authentication/BackendAuthenticationService.php">
+    <InternalClass occurrences="2">
+      <code>ServerRequestFactory::fromGlobals()</code>
+      <code>new ImmediateResponseException($response, 1643006821)</code>
+    </InternalClass>
+    <InternalMethod occurrences="2">
+      <code>ServerRequestFactory::fromGlobals()</code>
+      <code>new ImmediateResponseException($response, 1643006821)</code>
+    </InternalMethod>
+  </file>
+  <file src="Classes/Authentication/FrontendAuthenticationService.php">
+    <InternalClass occurrences="2">
+      <code>ServerRequestFactory::fromGlobals()</code>
+      <code>new ImmediateResponseException($response, 1643006821)</code>
+    </InternalClass>
+    <InternalMethod occurrences="2">
+      <code>ServerRequestFactory::fromGlobals()</code>
+      <code>new ImmediateResponseException($response, 1643006821)</code>
+    </InternalMethod>
+  </file>
+  <file src="Classes/Controller/Backend/ManageProvidersController.php">
     <InternalMethod occurrences="1">
       <code>setTemplate</code>
     </InternalMethod>
   </file>
-  <file src="Classes/Form/RenderType/Oauth2ProvidersElement.php">
-    <PropertyTypeCoercion occurrences="2">
-      <code>GeneralUtility::makeInstance(Oauth2ProviderManager::class, $extensionConfiguration)</code>
-      <code>GeneralUtility::makeInstance(UriBuilder::class)</code>
-    </PropertyTypeCoercion>
+  <file src="Classes/Controller/Backend/Registration/AuthorizeController.php">
+    <UndefinedInterfaceMethod occurrences="1">
+      <code>isLoggedIn</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="Classes/Controller/Backend/Registration/VerifyController.php">
+    <UndefinedInterfaceMethod occurrences="1">
+      <code>isLoggedIn</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="Classes/Controller/Frontend/ManageProvidersController.php">
+    <InternalClass occurrences="1">
+      <code>ServerRequestFactory::fromGlobals()</code>
+    </InternalClass>
+    <InternalMethod occurrences="1">
+      <code>ServerRequestFactory::fromGlobals()</code>
+    </InternalMethod>
+    <UndefinedInterfaceMethod occurrences="2">
+      <code>isLoggedIn</code>
+      <code>isLoggedIn</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="Classes/Controller/Frontend/RegistrationController.php">
+    <UndefinedInterfaceMethod occurrences="1">
+      <code>isLoggedIn</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="Classes/Middleware/Frontend/AfterAuthenticationHandler.php">
+    <InternalClass occurrences="2"/>
+    <InternalMethod occurrences="8">
+      <code>GeneralUtility::getContainer()</code>
+      <code>GeneralUtility::getContainer()</code>
+      <code>GeneralUtility::getContainer()</code>
+      <code>handle</code>
+      <code>withParsedBody</code>
+      <code>withProtocolVersion</code>
+    </InternalMethod>
+    <PossiblyInvalidArgument occurrences="1">
+      <code>is_array($request-&gt;getParsedBody()) ? $request-&gt;getParsedBody() : []</code>
+    </PossiblyInvalidArgument>
+    <UndefinedInterfaceMethod occurrences="2">
+      <code>isLoggedIn</code>
+      <code>isLoggedIn</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="Classes/Middleware/Frontend/BeforeAuthenticationHandler.php">
+    <PossiblyInvalidArgument occurrences="1">
+      <code>is_array($request-&gt;getParsedBody()) ? $request-&gt;getParsedBody() : []</code>
+    </PossiblyInvalidArgument>
   </file>
   <file src="Classes/Repository/BackendUserRepository.php">
     <InternalProperty occurrences="3">
@@ -17,30 +81,46 @@
       <code>$backendUser-&gt;user</code>
       <code>$backendUser-&gt;user</code>
     </InternalProperty>
-    <PossiblyInvalidMethodCall occurrences="2">
+    <PossiblyInvalidMethodCall occurrences="3">
+      <code>fetchAllAssociative</code>
       <code>fetchAllAssociative</code>
       <code>fetchAllAssociative</code>
     </PossiblyInvalidMethodCall>
-    <PossiblyNullArrayAccess occurrences="1">
-      <code>$backendUser-&gt;user['admin']</code>
-    </PossiblyNullArrayAccess>
-    <UndefinedInterfaceMethod occurrences="2">
+  </file>
+  <file src="Classes/Repository/FrontendUserRepository.php">
+    <PossiblyInvalidMethodCall occurrences="3">
       <code>fetchAllAssociative</code>
       <code>fetchAllAssociative</code>
-    </UndefinedInterfaceMethod>
+      <code>fetchAllAssociative</code>
+    </PossiblyInvalidMethodCall>
   </file>
-  <file src="Classes/Service/Oauth2ProviderManager.php">
-    <LessSpecificReturnStatement occurrences="1">
-      <code>new $implementationClassName($configuration)</code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType occurrences="1">
-      <code>AbstractProvider</code>
-    </MoreSpecificReturnType>
+  <file src="Classes/Service/SiteService.php">
+    <InternalClass occurrences="1">
+      <code>ServerRequestFactory::fromGlobals()</code>
+    </InternalClass>
+    <InternalMethod occurrences="1">
+      <code>ServerRequestFactory::fromGlobals()</code>
+    </InternalMethod>
   </file>
-  <file src="Classes/Service/Oauth2Service.php">
-    <TypeDoesNotContainType occurrences="2">
-      <code>is_array($_SESSION)</code>
-      <code>is_array($_SESSION)</code>
-    </TypeDoesNotContainType>
+  <file src="Classes/Session/SessionManager.php">
+    <InternalClass occurrences="1">
+      <code>ServerRequestFactory::fromGlobals()</code>
+    </InternalClass>
+    <InternalMethod occurrences="1">
+      <code>ServerRequestFactory::fromGlobals()</code>
+    </InternalMethod>
+    <PossiblyInvalidArgument occurrences="5">
+      <code>$userSession</code>
+      <code>$userSession</code>
+      <code>$userSession</code>
+      <code>$userSession</code>
+      <code>$userSession</code>
+    </PossiblyInvalidArgument>
+  </file>
+  <file src="Classes/Updates/RenameClientConfigsTableUpdateWizard20220122130120.php">
+    <PossiblyInvalidMethodCall occurrences="2">
+      <code>fetchAssociative</code>
+      <code>fetchOne</code>
+    </PossiblyInvalidMethodCall>
   </file>
 </files>

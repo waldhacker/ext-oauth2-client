@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" date="2021-03-25T18:20:51Z" product-name="oauth2_client_test">
+        <header />
+        <body>
+            <trans-unit id="login.link" resname="login.link">
+                <source>OAuth2 providers test</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

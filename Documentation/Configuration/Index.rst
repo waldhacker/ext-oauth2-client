@@ -11,14 +11,15 @@ Prerequisites
 
 As the extension allows 3rd party login providers to authenticate users, the first thing you need is to change the cookie security setting for the backend from `sameSite` to `lax` (if you are using providers hosted on another domain, for example Github or Google).
 
-File: :file:`AdditionalConfiguration.php` (or adjust :file:`Localconfiguration.php`):
+File: :file:`AdditionalConfiguration.php` (or adjust :file:`LocalConfiguration.php`):
 
 .. code-block:: php
 
    $GLOBALS['TYPO3_CONF_VARS']['BE']['cookieSameSite'] = 'lax';
+   $GLOBALS['TYPO3_CONF_VARS']['FE']['cookieSameSite'] = 'lax';
 
-Access Rights
-=============
+Access Rights in Backend Context
+================================
 
 To allow non-admin users to add OAuth2 Login Providers, please allow them to modify the table :sql:`tx_oauth2_client_configs`.
 
@@ -47,6 +48,10 @@ Gitlab minimal example::
        'providers' => [
            'gitlab' => [
                'label' => 'Gitlab',
+               'scopes' => [
+                  \Waldhacker\Oauth2Client\Service\Oauth2ProviderManager::SCOPE_BACKEND,
+                  \Waldhacker\Oauth2Client\Service\Oauth2ProviderManager::SCOPE_FRONTEND,
+               ],
                'options' => [
                    'clientId' => '<your-gitlab-client-id>',
                    'clientSecret' => '<your-gitlab-client-secret',
@@ -99,6 +104,22 @@ implementationClassName
    The provider class name - the default is `\League\OAuth2\Client\Provider\GenericProvider::class` - can be
    replaced for more specific providers, for example `\League\OAuth2\Client\Provider\Github::class` if the github
    provider has been installed.
+
+scopes
+   :sep:`|` :aspect:`Condition:` optional
+   :sep:`|` :aspect:`Type:` array
+   :sep:`|` :aspect:`Default:` both backend and frontend are enabled
+   :sep:`|`
+
+   The scopes where this provider can be used. Can be an array with either `\Waldhacker\Oauth2Client\Service\Oauth2ProviderManager::SCOPE_BACKEND` for backend only or `\Waldhacker\Oauth2Client\Service\Oauth2ProviderManager::SCOPE_FRONTEND` for frontend only or both.
+
+   Example::
+
+      'scopes' => [
+         \Waldhacker\Oauth2Client\Service\Oauth2ProviderManager::SCOPE_BACKEND,
+         \Waldhacker\Oauth2Client\Service\Oauth2ProviderManager::SCOPE_FRONTEND,
+      ],
+
 
 options.[...]
    :sep:`|` :aspect:`Condition:` required
@@ -184,6 +205,10 @@ Full example:
             'iconIdentifier' => 'oauth2-gitlab',
             'description' => 'Login with Gitlab',
             'implementationClassName' => \League\OAuth2\Client\Provider\GenericProvider::class,
+            'scopes' => [
+                \Waldhacker\Oauth2Client\Service\Oauth2ProviderManager::SCOPE_BACKEND,
+                \Waldhacker\Oauth2Client\Service\Oauth2ProviderManager::SCOPE_FRONTEND,
+            ],
             'options' => [
                 'clientId' => '<client-id>',
                 'clientSecret' => '<client-secret>',
@@ -209,3 +234,4 @@ Specific Providers (Examples)
    Github
    Google
    Keycloak
+   Hydra

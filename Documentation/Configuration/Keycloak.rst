@@ -1,6 +1,6 @@
 .. include:: ../Includes.txt
 
-.. _configuration_gitlab:
+.. _configuration_keycloak:
 
 ===========================
 Configuration with Keycloak
@@ -56,7 +56,8 @@ Add the following configuration to your `AdditionalConfiguration.php`:
                 'clientSecret' => '<your-client-secret>',
                 'urlAuthorize' => 'https://<keycloak-domain>/auth/realms/<your-realm>/protocol/openid-connect/auth',
                 'urlAccessToken' => 'https://<keycloak-domain>/auth/realms/<your-realm>/protocol/openid-connect/token',
-                'urlResourceOwnerDetails' => 'https://<keycloak-domain>/auth/realms/<your-realm>/protocol/openid-connect/userinfo'
+                'urlResourceOwnerDetails' => 'https://<keycloak-domain>/auth/realms/<your-realm>/protocol/openid-connect/userinfo',
+                'responseResourceOwnerId' => 'sub',
             ],
         ],
       ],
@@ -65,18 +66,16 @@ Add the following configuration to your `AdditionalConfiguration.php`:
 Registering the icon (optional)
 ===============================
 
-If you want to use a custom icon, in your site package `ext_localconf.php` register the icon like this:
+If you want to use a custom icon, in your site package `Configuration/Icons.php` register the icon like this:
 
 .. code-block:: php
 
-   $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-       \TYPO3\CMS\Core\Imaging\IconRegistry::class
-   );
-
-   $iconRegistry->registerIcon(
-       'oauth2-keycloak',
-       \TYPO3\CMS\Core\Imaging\IconProvider\FontawesomeIconProvider::class,
-       ['name' => 'key']
-   );
+   <?php
+      return [
+          'oauth2-keycloak' => [
+              'provider' => \TYPO3\CMS\Core\Imaging\IconProvider\FontawesomeIconProvider::class,
+              'name' => 'key',
+          ],
+      ];
 
 If you want to use the default icon instead, remove the `iconIdentifier` from the configuration.

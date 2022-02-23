@@ -1,0 +1,21 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Waldhacker\Oauth2ClientTest\:
+    resource: '../Classes/*'
+
+  Waldhacker\Oauth2ClientTest\Backend\LoginProvider\Oauth2LoginProvider:
+    public: true
+
+  Waldhacker\Oauth2ClientTest\Backend\UserSettingsModule\ManageProvidersButtonRenderer:
+    public: true
+
+  Waldhacker\Oauth2ClientTest\Controller\Backend\ManageProvidersController:
+    public: true
+
+  GuzzleHttp\Client:
+    factory: ['Waldhacker\Oauth2ClientTest\Http\Client\GuzzleClientFactory', 'getClient']
+    public: true

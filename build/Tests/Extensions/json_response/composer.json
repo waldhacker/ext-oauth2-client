@@ -1,0 +1,22 @@
+{
+    "name": "typo3/json-response",
+    "type": "typo3-cms-extension",
+    "autoload": {
+        "psr-4": {
+            "TYPO3\\JsonResponse\\": "Classes/",
+            "TYPO3\\CMS\\Backend\\Controller\\": "Resources/Private/PHP/Mocks/Backend/Controller/",
+            "TYPO3\\CMS\\Core\\Authentication\\": "Resources/Private/PHP/Mocks/Core/Authentication/",
+            "TYPO3\\CMS\\Core\\Http\\": "Resources/Private/PHP/Mocks/Core/Http/",
+            "TYPO3\\CMS\\Core\\Utility\\": "Resources/Private/PHP/Mocks/Core/Utility/",
+            "TYPO3\\CMS\\Extbase\\Core\\": "Resources/Private/PHP/Mocks/Extbase/Core/",
+            "TYPO3\\CMS\\Extbase\\Mvc\\": "Resources/Private/PHP/Mocks/Extbase/Mvc/",
+            "TYPO3\\CMS\\Install\\Service\\": "Resources/Private/PHP/Mocks/Install/Service/",
+            "Waldhacker\\Oauth2Client\\Session\\": "Resources/Private/PHP/Mocks/Oauth2Client/Session/"
+        }
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "json_response"
+        }
+    }
+}

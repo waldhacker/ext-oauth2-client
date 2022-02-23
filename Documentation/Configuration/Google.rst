@@ -15,7 +15,12 @@ Adding the OAuth2 App in Google
 
    -  Choose "Application type" > "Web Application"
    -  Enter a name for your application
-   -  Add the redirect URIs: `https://<your-TYPO3-installation>/typo3/login` and `https://<your-TYPO3-installation>/typo3/oauth2/callback/handle`
+   -  Add the redirect URIs (for backend logins):
+      -  `https://<your-TYPO3-installation>/typo3/login?loginProvider=1616569531&oauth2-provider=google&login_status=login&commandLI=attempt`
+      - `https://<your-TYPO3-installation>/typo3/oauth2/callback/handle?oauth2-provider=google&action=callback`
+   -  Add the redirect URIs (for frontend):
+      - `https://<your-TYPO3-installation>/_oauth2?oauth2-provider=google&tx_oauth2client%5Baction%5D=verify`
+      - `https://<your-TYPO3-installation>/_oauth2?oauth2-provider=google&logintype=login`
 - Save the application
 - Copy the client secret and client id
 
@@ -55,18 +60,16 @@ Add the following configuration to your `AdditionalConfiguration.php`:
 Registering the icon (optional)
 ===============================
 
-If you want to use the Github icon, in your site package `ext_localconf.php` register the icon like this:
+If you want to use a custom icon, in your site package `Configuration/Icons.php` register the icon like this:
 
 .. code-block:: php
 
-   $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-       \TYPO3\CMS\Core\Imaging\IconRegistry::class
-   );
-
-   $iconRegistry->registerIcon(
-       'oauth2-google',
-       \TYPO3\CMS\Core\Imaging\IconProvider\FontawesomeIconProvider::class,
-       ['name' => 'google']
-   );
+   <?php
+      return [
+          'oauth2-google' => [
+              'provider' => \TYPO3\CMS\Core\Imaging\IconProvider\FontawesomeIconProvider::class,
+              'name' => 'google',
+          ],
+      ];
 
 If you want to use the default icon instead, remove the `iconIdentifier` from the configuration.

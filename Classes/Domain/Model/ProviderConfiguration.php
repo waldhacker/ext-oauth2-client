@@ -27,7 +27,9 @@ class ProviderConfiguration
     private string $iconIdentifier;
     private string $identifier;
     private string $implementationClassName;
+    private array $scopes;
     private array $options;
+    private array $collaborators;
 
     public function __construct(
         string $identifier,
@@ -35,64 +37,65 @@ class ProviderConfiguration
         string $description,
         string $iconIdentifier,
         string $implementationClassName,
-        array $options
+        array $scopes,
+        array $options,
+        array $collaborators
     ) {
         $this->label = $label;
         $this->description = $description;
         $this->iconIdentifier = $iconIdentifier;
         $this->identifier = $identifier;
         if (!class_exists($implementationClassName) || !is_a($implementationClassName, AbstractProvider::class, true)) {
-            throw new \InvalidArgumentException('Registered class ' . $implementationClassName . ' does not exist or is not an implementation of ' . AbstractProvider::class);
+            throw new \InvalidArgumentException('Registered class ' . $implementationClassName . ' does not exist or is not an implementation of ' . AbstractProvider::class, 1642867945);
         }
         $this->implementationClassName = $implementationClassName;
+        $this->scopes = $scopes;
         $this->options = $options;
+        $this->collaborators = $collaborators;
     }
 
-    /**
-     * @return string
-     */
     public function getLabel(): string
     {
         return $this->label;
     }
 
-    /**
-     * @return string
-     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * @return string
-     */
     public function getIconIdentifier(): string
     {
         return $this->iconIdentifier;
     }
 
-    /**
-     * @return string
-     */
     public function getIdentifier(): string
     {
         return $this->identifier;
     }
 
-    /**
-     * @return string
-     */
     public function getImplementationClassName(): string
     {
         return $this->implementationClassName;
     }
 
-    /**
-     * @return array
-     */
+    public function getScopes(): array
+    {
+        return $this->scopes;
+    }
+
+    public function hasScope(string $scope): bool
+    {
+        return in_array($scope, $this->scopes, true);
+    }
+
     public function getOptions(): array
     {
         return $this->options;
+    }
+
+    public function getCollaborators(): array
+    {
+        return $this->collaborators;
     }
 }
