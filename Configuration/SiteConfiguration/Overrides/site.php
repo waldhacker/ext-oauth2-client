@@ -6,7 +6,7 @@ defined('TYPO3') or die();
     $languageFile = 'LLL:EXT:oauth2_client/Resources/Private/Language/locallang_be.xlf:';
 
     $GLOBALS['SiteConfiguration']['site']['columns']['enabled_oauth2_providers'] = [
-        'label' => $languageFile . 'site.enabled_oauth2_providers',
+        'label' => $languageFile . 'site.enabled_oauth2_providers.title',
         'config' => [
             'type' => 'select',
             'renderType' => 'selectMultipleSideBySide',
@@ -17,8 +17,18 @@ defined('TYPO3') or die();
         ],
     ];
 
+    $GLOBALS['SiteConfiguration']['site']['columns']['oauth2_callback_slug'] = [
+        'label' => $languageFile . 'site.oauth2_callback_slug.title',
+        'description' => $languageFile . 'site.oauth2_callback_slug.description',
+        'config' => [
+            'type' => 'input',
+            'default' => '',
+        ],
+    ];
+
     $GLOBALS['SiteConfiguration']['site']['types']['0']['showitem'] .= '
         ,--div--;' . $languageFile . 'site.tab,
             enabled_oauth2_providers,
+            oauth2_callback_slug,
     ';
 })();

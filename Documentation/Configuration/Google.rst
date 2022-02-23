@@ -27,7 +27,7 @@ Adding the OAuth2 App in Google
 
 .. figure:: ../Images/configuration_Google.png
    :class: with-shadow float-left
-   :alt: TYPO3 Oauth2 Google App Configuration
+   :alt: TYPO3 OAuth2 Google App Configuration
 
 Adding the OAuth2 Google App in TYPO3
 =====================================

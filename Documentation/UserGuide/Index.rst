@@ -17,7 +17,7 @@ Register with an OAuth2 Provider
 
    .. figure:: ../Images/userSettings_setup.png
       :class: with-shadow
-      :alt: TYPO3 Oauth2 Configured Providers
+      :alt: TYPO3 OAuth2 Configured Providers
       :width: 600px
 
       Setup provider configuration
@@ -26,9 +26,9 @@ Register with an OAuth2 Provider
 
    On the next page, click on activate for the provider you want to configure.
 
-   .. figure:: ../Images/configuredProviders.png
+   .. figure:: ../Images/Backend/configuredProviders.png
       :class: with-shadow
-      :alt: TYPO3 Oauth2 Configured Providers
+      :alt: TYPO3 OAuth2 Configured Providers
       :width: 600px
 
       Manage provider configuration
@@ -63,7 +63,7 @@ Login with an OAuth2 Provider
    Choose the provider you want to use for logging in. Remember: you can only
    use a provider that you registered for your user in the previous step.
 
-   .. figure:: ../Images/loginScreen.png
+   .. figure:: ../Images/Backend/loginScreen.png
       :class: with-shadow
       :alt: TYPO3 Login
       :width: 600px

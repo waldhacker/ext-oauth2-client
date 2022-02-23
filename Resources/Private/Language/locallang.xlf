@@ -4,7 +4,10 @@
         <header />
         <body>
             <trans-unit id="manage_providers.title" resname="manage_providers.title">
-                <source>OAuth2 providers</source>
+                <source>Social login manager</source>
+            </trans-unit>
+            <trans-unit id="manage_providers.description" resname="manage_providers.description">
+                <source>Choose which of your favorite social platforms you want to log in with</source>
             </trans-unit>
             <trans-unit id="manage_providers.deactivateLinkLabel" resname="overview.deactivateLinkLabel">
                 <source>Deactivate</source>

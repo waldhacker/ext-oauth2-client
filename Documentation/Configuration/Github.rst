@@ -21,7 +21,7 @@ Adding the OAuth2 App in Github
 
 .. figure:: ../Images/configuration_Github.png
    :class: with-shadow float-left
-   :alt: TYPO3 Oauth2 Github App Configuration
+   :alt: TYPO3 OAuth2 Github App Configuration
 
 Adding the OAuth2 Github App in TYPO3
 =====================================

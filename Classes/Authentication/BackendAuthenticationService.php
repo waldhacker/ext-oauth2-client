@@ -173,7 +173,13 @@ class BackendAuthenticationService extends AbstractService
         $typo3User = $legacyUserLookupEvent->getUserRecord();
 
         /** @var BackendUserLookupEvent $userLookupEvent */
-        $userLookupEvent = $eventDispatcher->dispatch(new BackendUserLookupEvent($providerId, $provider, $accessToken, $this->remoteUser, $typo3User));
+        $userLookupEvent = $eventDispatcher->dispatch(new BackendUserLookupEvent(
+            $providerId,
+            $provider,
+            $accessToken,
+            $this->remoteUser,
+            $typo3User
+        ));
         $typo3User = $userLookupEvent->getTypo3User();
 
         if ($typo3User === null) {

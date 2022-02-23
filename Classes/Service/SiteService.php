@@ -20,6 +20,7 @@ namespace Waldhacker\Oauth2Client\Service;
 
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\ServerRequestFactory;
+use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Site\Entity\SiteInterface;
 use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
@@ -53,7 +54,7 @@ class SiteService
         return sprintf(
             '%s/%s?%s',
             $this->getBaseUri($request),
-            self::CALLBACK_SLUG,
+            $this->buildCallbackSlug($request),
             \http_build_query($queryParameters)
         );
     }
@@ -66,7 +67,7 @@ class SiteService
         $uriParts = explode('/', trim($uri, '/'));
         $lastPart = array_pop($uriParts);
 
-        return $lastPart === self::CALLBACK_SLUG;
+        return $lastPart === $this->buildCallbackSlug($request);
     }
 
     public function getBaseUri(ServerRequestInterface $request = null): string
@@ -80,6 +81,25 @@ class SiteService
             $base = sprintf('%s://%s', $request->getUri()->getScheme(), $request->getUri()->getAuthority());
         }
         return rtrim($base, '/');
+    }
+
+    private function buildCallbackSlug(ServerRequestInterface $request = null): string
+    {
+        /** @var Site|null $site */
+        $site = $this->getSite($request);
+        $language = $this->getLanguage($request);
+        if ($site === null || $language === null) {
+            return self::CALLBACK_SLUG;
+        }
+
+        $siteConfiguration = $site->getConfiguration();
+        $languageConfiguration = $language->toArray();
+        $callbackSlug = empty($languageConfiguration['oauth2_callback_slug'])
+                              ? ($siteConfiguration['oauth2_callback_slug'] ?? '')
+                              : ($languageConfiguration['oauth2_callback_slug']);
+        $callbackSlug = trim($callbackSlug, '/');
+
+        return empty($callbackSlug) ? self::CALLBACK_SLUG : $callbackSlug;
     }
 
     private function getTypoScriptFrontendController(): ?TypoScriptFrontendController

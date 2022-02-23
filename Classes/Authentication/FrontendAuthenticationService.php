@@ -157,7 +157,15 @@ class FrontendAuthenticationService extends AbstractService
         $eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
 
         /** @var FrontendUserLookupEvent $userLookupEvent */
-        $userLookupEvent = $eventDispatcher->dispatch(new FrontendUserLookupEvent($providerId, $provider, $accessToken, $this->remoteUser, $typo3User));
+        $userLookupEvent = $eventDispatcher->dispatch(new FrontendUserLookupEvent(
+            $providerId,
+            $provider,
+            $accessToken,
+            $this->remoteUser,
+            $typo3User,
+            $this->siteService->getSite(),
+            $this->siteService->getLanguage()
+        ));
         $typo3User = $userLookupEvent->getTypo3User();
 
         if ($typo3User === null) {

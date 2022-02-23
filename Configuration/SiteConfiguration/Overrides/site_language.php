@@ -18,8 +18,18 @@ defined('TYPO3') or die();
         ],
     ];
 
+    $GLOBALS['SiteConfiguration']['site_language']['columns']['oauth2_callback_slug'] = [
+        'label' => $languageFile . 'site.oauth2_callback_slug.title',
+        'description' => $languageFile . 'site.oauth2_callback_slug.override_description',
+        'config' => [
+            'type' => 'input',
+            'default' => '',
+        ],
+    ];
+
     $GLOBALS['SiteConfiguration']['site_language']['types']['1']['showitem'] .= '
         ,--div--;' . $languageFile . 'site.tab,
             enabled_oauth2_providers,
+            oauth2_callback_slug,
     ';
 })();

@@ -137,16 +137,24 @@ class Oauth2ProviderManager
 
         $siteConfiguration = $site->getConfiguration();
         $languageConfiguration = $language->toArray();
-        $enabledProviderIds = empty(($languageConfiguration['enabled_oauth2_providers'] ?? null))
+        $enabledProviderIds = empty($languageConfiguration['enabled_oauth2_providers'])
                               ? GeneralUtility::trimExplode(',', $siteConfiguration['enabled_oauth2_providers'] ?? '')
                               : GeneralUtility::trimExplode(',', $languageConfiguration['enabled_oauth2_providers']);
 
-        $providers = array_filter(
+        $configuredEnabledProviders = array_filter(
             $this->getConfiguredFrontendProviders() ?? [],
             static fn (ProviderConfiguration $provider): bool => in_array($provider->getIdentifier(), $enabledProviderIds)
         );
 
-        if (count($providers) > 0) {
+        if (count($configuredEnabledProviders) > 0) {
+            // sort
+            $providers = [];
+            foreach ($enabledProviderIds as $enabledProviderId) {
+                if (!array_key_exists($enabledProviderId, $configuredEnabledProviders)) {
+                    continue;
+                }
+                $providers[$enabledProviderId] = $configuredEnabledProviders[$enabledProviderId];
+            }
             return $providers;
         }
         return null;

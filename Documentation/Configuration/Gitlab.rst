@@ -21,11 +21,11 @@ Adding the OAuth2 App in Gitlab
 
 .. figure:: ../Images/configuration_GitlabOauth2App.png
    :class: with-shadow float-left
-   :alt: TYPO3 Oauth2 Gitlab App Configuration
+   :alt: TYPO3 OAuth2 Gitlab App Configuration
 
 .. figure:: ../Images/configuration_GitlabOauth2AppOverview.png
    :class: with-shadow float-left
-   :alt: TYPO3 Oauth2 Gitlab App Overview
+   :alt: TYPO3 OAuth2 Gitlab App Overview
 
 
 Adding the OAuth2 Gitlab App in TYPO3

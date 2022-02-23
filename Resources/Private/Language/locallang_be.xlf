@@ -85,7 +85,16 @@
                 <source>Enabled OAuth2 providers</source>
             </trans-unit>
             <trans-unit id="site.enabled_oauth2_providers.override_description" resname="site.enabled_oauth2_providers.override_description">
-                <source>Overwrites the configured provider at the site</source>
+                <source>Overwrites the configured provider within the site</source>
+            </trans-unit>
+            <trans-unit id="site.oauth2_callback_slug.title" resname="site.oauth2_callback_slug.title">
+                <source>The slugOAuth2 callback slug</source>
+            </trans-unit>
+            <trans-unit id="site.oauth2_callback_slug.description" resname="site.oauth2_callback_slug.description">
+                <source>The slug which is used for the OAuth2 callback URLs. If empty, then the default "_oauth2/" is used.</source>
+            </trans-unit>
+            <trans-unit id="site.oauth2_callback_slug.override_description" resname="site.oauth2_callback_slug.override_description">
+                <source>Overwrites the configured slug within the site.</source>
             </trans-unit>
             <trans-unit id="plugin.manage_providers" resname="plugin.manage_providers">
                 <source>Manage OAuth2 providers</source>

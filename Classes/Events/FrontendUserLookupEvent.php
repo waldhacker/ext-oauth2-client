@@ -21,6 +21,8 @@ namespace Waldhacker\Oauth2Client\Events;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use League\OAuth2\Client\Token\AccessTokenInterface;
+use TYPO3\CMS\Core\Site\Entity\SiteInterface;
+use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 
 final class FrontendUserLookupEvent
 {
@@ -29,19 +31,25 @@ final class FrontendUserLookupEvent
     private AccessTokenInterface $accessToken;
     private ResourceOwnerInterface $remoteUser;
     private ?array $typo3User;
+    private ?SiteInterface $site;
+    private ?SiteLanguage $language;
 
     public function __construct(
         string $providerId,
         AbstractProvider $provider,
         AccessTokenInterface $accessToken,
         ResourceOwnerInterface $remoteUser,
-        ?array $typo3User
+        ?array $typo3User,
+        ?SiteInterface $site,
+        ?SiteLanguage $language
     ) {
         $this->providerId = $providerId;
         $this->provider = $provider;
         $this->accessToken = $accessToken;
         $this->remoteUser = $remoteUser;
         $this->typo3User = $typo3User;
+        $this->site = $site;
+        $this->language = $language;
     }
 
     public function getProviderId(): string
@@ -72,5 +80,15 @@ final class FrontendUserLookupEvent
     public function setTypo3User(array $typo3User): void
     {
         $this->typo3User = $typo3User;
+    }
+
+    public function getSite(): ?SiteInterface
+    {
+        return $this->site;
+    }
+
+    public function getLanguage(): ?SiteLanguage
+    {
+        return $this->language;
     }
 }
