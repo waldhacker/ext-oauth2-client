@@ -162,8 +162,11 @@ class FrontendAuthenticationService extends AbstractService
         }
         $siteConfiguration = $site->getConfiguration();
         $languageConfiguration = $language->toArray();
-        $storagePid = $languageConfiguration['oauth2_storage_pid'] ?? $siteConfiguration['oauth2_storage_pid'] ?? false;
-        if ($storagePid === false) {
+        $storagePid = empty($languageConfiguration['oauth2_storage_pid'])
+                      ? ($siteConfiguration['oauth2_storage_pid'] ?? null)
+                      : $languageConfiguration['oauth2_storage_pid'];
+
+        if (empty($storagePid)) {
             throw new MissingConfigurationException('Missing storage pid configuration for frontend users. Please set a storage folder in your site configuration.', 1646040939);
         }
 

@@ -62,12 +62,7 @@ class SiteService
     public function doesTheRemoteInstanceCallUsBack(ServerRequestInterface $request = null): bool
     {
         $request = $this->getRequest($request);
-
-        [$uri,] = explode('?', (string)$request->getUri(), 2);
-        $uriParts = explode('/', trim($uri, '/'));
-        $lastPart = array_pop($uriParts);
-
-        return $lastPart === $this->buildCallbackSlug($request);
+        return trim($request->getUri()->getPath(), '/') === $this->buildCallbackSlug($request);
     }
 
     public function getBaseUri(ServerRequestInterface $request = null): string
