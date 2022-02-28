@@ -1,7 +1,7 @@
 <?php
 
 $EM_CONF[$_EXTKEY] = [
-    'title'            => 'Oauth2 Client',
+    'title'            => 'OAuth2 Client',
     'description'      => 'TYPO3 OAuth2 Login Client (backend and frontend)',
     'category'         => 'auth',
     'author'           => 'waldhacker',

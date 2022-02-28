@@ -37,7 +37,7 @@ TYPO3 OAuth2 Login Client (backend and frontend)
 
 .. figure:: Images/Backend/loginScreen.png
    :class: with-shadow float-left
-   :alt: TYPO3 Oauth2 Configured Providers
+   :alt: TYPO3 OAuth2 Configured Providers
    :width: 300px
 
 .. rst-class::  float-left

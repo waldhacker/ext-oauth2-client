@@ -1,7 +1,7 @@
 <?php
 
 $EM_CONF[$_EXTKEY] = [
-    'title'            => 'Oauth2 Client Test Extension',
+    'title'            => 'OAuth2 Client Test Extension',
     'description'      => '',
     'category'         => 'auth',
     'author'           => 'waldhacker',
