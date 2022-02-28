@@ -38,7 +38,7 @@ class FrontendUserRepository
         $this->connectionPool = $connectionPool;
     }
 
-    public function getUserByIdentity(string $provider, string $identifier): ?array
+    public function getUserByIdentity(string $provider, string $identifier, int $storagePid): ?array
     {
         if ($provider === DataHandlerHook::INVALID_TOKEN || $identifier === DataHandlerHook::INVALID_TOKEN) {
             return null;
@@ -55,7 +55,8 @@ class FrontendUserRepository
                     $qb->expr()->eq('identifier', $qb->createNamedParameter($identifier, \PDO::PARAM_STR)),
                     $qb->expr()->eq('provider', $qb->createNamedParameter($provider, \PDO::PARAM_STR)),
                     $qb->expr()->neq('identifier', $qb->createNamedParameter(DataHandlerHook::INVALID_TOKEN, \PDO::PARAM_STR)),
-                    $qb->expr()->neq('provider', $qb->createNamedParameter(DataHandlerHook::INVALID_TOKEN, \PDO::PARAM_STR))
+                    $qb->expr()->neq('provider', $qb->createNamedParameter(DataHandlerHook::INVALID_TOKEN, \PDO::PARAM_STR)),
+                    $qb->expr()->eq('fe_users.pid', $qb->createNamedParameter($storagePid, \PDO::PARAM_INT))
                 )
             )
             ->execute()
@@ -138,7 +139,7 @@ class FrontendUserRepository
         return (array)array_combine($keys, $result);
     }
 
-    public function deactiveProviderByUid(int $providerUid): void
+    public function deactivateProviderByUid(int $providerUid): void
     {
         $activeProviders = $this->getActiveProviders();
         if (!in_array($providerUid, array_map('intval', array_column($activeProviders, 'uid')), true)) {

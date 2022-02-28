@@ -26,9 +26,21 @@ defined('TYPO3') or die();
         ],
     ];
 
+    $GLOBALS['SiteConfiguration']['site']['columns']['oauth2_storage_pid'] = [
+        'label' => $languageFile . 'site.oauth2_storage_pid.title',
+        'description' => $languageFile . 'site.oauth2_storage_pid.description',
+        'config' => [
+            'type' => 'select',
+            'renderType' => 'selectSingle',
+            'foreign_table' => 'pages',
+            'foreign_table_where' => ' AND {#module}="fe_users" AND {#l10n_parent} = 0 ORDER BY pid, sorting',
+        ],
+    ];
+
     $GLOBALS['SiteConfiguration']['site']['types']['0']['showitem'] .= '
         ,--div--;' . $languageFile . 'site.tab,
             enabled_oauth2_providers,
             oauth2_callback_slug,
+            oauth2_storage_pid
     ';
 })();

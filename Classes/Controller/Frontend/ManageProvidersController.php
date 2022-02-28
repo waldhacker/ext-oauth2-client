@@ -82,7 +82,7 @@ class ManageProvidersController extends ActionController
     public function deactivateAction(int $providerId): void
     {
         if ($this->context->getAspect('frontend.user')->isLoggedIn()) {
-            $this->frontendUserRepository->deactiveProviderByUid($providerId);
+            $this->frontendUserRepository->deactivateProviderByUid($providerId);
         }
 
         $this->redirect('list');

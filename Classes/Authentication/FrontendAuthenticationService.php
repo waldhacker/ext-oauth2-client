@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of the OAuth2 Client extension for TYPO3
@@ -27,6 +27,7 @@ use TYPO3\CMS\Core\Http\ServerRequestFactory;
 use TYPO3\CMS\Core\Service\AbstractService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Waldhacker\Oauth2Client\Events\FrontendUserLookupEvent;
+use Waldhacker\Oauth2Client\Exception\MissingConfigurationException;
 use Waldhacker\Oauth2Client\Frontend\RequestStates;
 use Waldhacker\Oauth2Client\Repository\FrontendUserRepository;
 use Waldhacker\Oauth2Client\Service\Oauth2ProviderManager;
@@ -152,20 +153,38 @@ class FrontendAuthenticationService extends AbstractService
             return null;
         }
 
-        $typo3User = $this->frontendUserRepository->getUserByIdentity($providerId, (string)$this->remoteUser->getId());
+        $site = $this->siteService->getSite();
+        $language = $this->siteService->getLanguage();
+        if ($site === null || $language === null) {
+            return null;
+        }
+        $siteConfiguration = $site->getConfiguration();
+        $languageConfiguration = $language->toArray();
+        $storagePid = $languageConfiguration['oauth2_storage_pid'] ?? $siteConfiguration['oauth2_storage_pid'] ?? false;
+        if ($storagePid === false) {
+            throw new MissingConfigurationException('Missing storage pid configuration for frontend users. Please set a storage folder in your site configuration.', 1646040939);
+        }
+
+        $typo3User = $this->frontendUserRepository->getUserByIdentity(
+            $providerId,
+            (string)$this->remoteUser->getId(),
+            (int)$storagePid
+        );
         /** @var EventDispatcherInterface $eventDispatcher */
         $eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
 
         /** @var FrontendUserLookupEvent $userLookupEvent */
-        $userLookupEvent = $eventDispatcher->dispatch(new FrontendUserLookupEvent(
-            $providerId,
-            $provider,
-            $accessToken,
-            $this->remoteUser,
-            $typo3User,
-            $this->siteService->getSite(),
-            $this->siteService->getLanguage()
-        ));
+        $userLookupEvent = $eventDispatcher->dispatch(
+            new FrontendUserLookupEvent(
+                $providerId,
+                $provider,
+                $accessToken,
+                $this->remoteUser,
+                $typo3User,
+                $site,
+                $language
+            )
+        );
         $typo3User = $userLookupEvent->getTypo3User();
 
         if ($typo3User === null) {

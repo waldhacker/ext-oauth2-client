@@ -87,8 +87,14 @@
             <trans-unit id="site.enabled_oauth2_providers.override_description" resname="site.enabled_oauth2_providers.override_description">
                 <source>Overwrites the configured provider within the site</source>
             </trans-unit>
+            <trans-unit id="site.oauth2_storage_pid.title" resname="site.oauth2_callback_slug.title">
+                <source>Storage Folder for Frontend Users</source>
+            </trans-unit>
+            <trans-unit id="site.oauth2_storage_pid.description" resname="site.oauth2_callback_slug.title">
+                <source>The storage folder for frontend users. Set "Behaviour -> Contains Plugin" to "Website Users" to make a folder selectable here.</source>
+            </trans-unit>
             <trans-unit id="site.oauth2_callback_slug.title" resname="site.oauth2_callback_slug.title">
-                <source>The slugOAuth2 callback slug</source>
+                <source>The OAuth2 callback slug</source>
             </trans-unit>
             <trans-unit id="site.oauth2_callback_slug.description" resname="site.oauth2_callback_slug.description">
                 <source>The slug which is used for the OAuth2 callback URLs. If empty, then the default "_oauth2/" is used.</source>

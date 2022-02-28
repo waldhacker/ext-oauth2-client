@@ -109,11 +109,11 @@ abstract class FunctionalTestCase extends \TYPO3\TestingFramework\Core\Functiona
             [
                 array_replace_recursive(
                     $this->buildDefaultLanguageConfiguration('EN', '/en/'),
-                    ['enabled_oauth2_providers' => 'gitlab1-fe, gitlab3-both']
+                    ['enabled_oauth2_providers' => 'gitlab1-fe, gitlab3-both', 'oauth2_storage_pid' => 1000]
                 ),
                 array_replace_recursive(
                     $this->buildLanguageConfiguration('DE', '/de/'),
-                    ['enabled_oauth2_providers' => 'gitlab1-fe, gitlab4-fe, gitlab8-fe']
+                    ['enabled_oauth2_providers' => 'gitlab1-fe, gitlab4-fe, gitlab8-fe', 'oauth2_storage_pid' => 1000]
                 )
             ],
             [
