@@ -109,11 +109,19 @@ abstract class FunctionalTestCase extends \TYPO3\TestingFramework\Core\Functiona
             [
                 array_replace_recursive(
                     $this->buildDefaultLanguageConfiguration('EN', '/en/'),
-                    ['enabled_oauth2_providers' => 'gitlab1-fe, gitlab3-both', 'oauth2_storage_pid' => 1000]
+                    [
+                        'enabled_oauth2_providers' => 'gitlab1-fe, gitlab3-both',
+                        'oauth2_callback_slug' => '',
+                        'oauth2_storage_pid' => 1000,
+                    ]
                 ),
                 array_replace_recursive(
                     $this->buildLanguageConfiguration('DE', '/de/'),
-                    ['enabled_oauth2_providers' => 'gitlab1-fe, gitlab4-fe, gitlab8-fe', 'oauth2_storage_pid' => 1000]
+                    [
+                        'enabled_oauth2_providers' => 'gitlab1-fe, gitlab4-fe, gitlab8-fe',
+                        'oauth2_callback_slug' => '',
+                        'oauth2_storage_pid' => 1000,
+                    ]
                 )
             ],
             [
@@ -127,11 +135,19 @@ abstract class FunctionalTestCase extends \TYPO3\TestingFramework\Core\Functiona
             [
                 array_replace_recursive(
                     $this->buildDefaultLanguageConfiguration('EN', '/en/'),
-                    ['enabled_oauth2_providers' => 'gitlab4-fe, gitlab6-both']
+                    [
+                        'enabled_oauth2_providers' => 'gitlab4-fe, gitlab6-both',
+                        'oauth2_callback_slug' => '',
+                        'oauth2_storage_pid' => 1000,
+                    ]
                 ),
                 array_replace_recursive(
                     $this->buildLanguageConfiguration('DE', '/de/'),
-                    ['enabled_oauth2_providers' => 'gitlab1-fe, gitlab7-fe']
+                    [
+                        'enabled_oauth2_providers' => 'gitlab1-fe, gitlab7-fe',
+                        'oauth2_callback_slug' => '',
+                        'oauth2_storage_pid' => 1000,
+                    ]
                 )
             ],
             [

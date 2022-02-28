@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * This file is part of the OAuth2 Client extension for TYPO3
@@ -25,6 +25,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\ImmediateResponseException;
 use TYPO3\CMS\Core\Http\ServerRequestFactory;
 use TYPO3\CMS\Core\Service\AbstractService;
+use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Waldhacker\Oauth2Client\Events\FrontendUserLookupEvent;
 use Waldhacker\Oauth2Client\Exception\MissingConfigurationException;
@@ -153,6 +154,7 @@ class FrontendAuthenticationService extends AbstractService
             return null;
         }
 
+        /** @var Site|null $site */
         $site = $this->siteService->getSite();
         $language = $this->siteService->getLanguage();
         if ($site === null || $language === null) {
