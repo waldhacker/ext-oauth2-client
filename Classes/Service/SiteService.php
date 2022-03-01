@@ -20,6 +20,7 @@ namespace Waldhacker\Oauth2Client\Service;
 
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\ServerRequestFactory;
+use TYPO3\CMS\Core\Http\Uri;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Site\Entity\SiteInterface;
 use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
@@ -52,9 +53,8 @@ class SiteService
     public function buildCallbackUri(array $queryParameters, ServerRequestInterface $request = null): string
     {
         return sprintf(
-            '%s/%s?%s',
-            $this->getBaseUri($request),
-            $this->buildCallbackSlug($request),
+            '%s?%s',
+            $this->buildCallbackBaseUri($request),
             \http_build_query($queryParameters)
         );
     }
@@ -62,7 +62,8 @@ class SiteService
     public function doesTheRemoteInstanceCallUsBack(ServerRequestInterface $request = null): bool
     {
         $request = $this->getRequest($request);
-        return trim($request->getUri()->getPath(), '/') === $this->buildCallbackSlug($request);
+        $callbackUri = new Uri($this->buildCallbackBaseUri($request));
+        return trim($request->getUri()->getPath(), '/') === trim($callbackUri->getPath(), '/');
     }
 
     public function getBaseUri(ServerRequestInterface $request = null): string
@@ -76,6 +77,15 @@ class SiteService
             $base = sprintf('%s://%s', $request->getUri()->getScheme(), $request->getUri()->getAuthority());
         }
         return rtrim($base, '/');
+    }
+
+    private function buildCallbackBaseUri(ServerRequestInterface $request = null): string
+    {
+        return sprintf(
+            '%s/%s',
+            $this->getBaseUri($request),
+            $this->buildCallbackSlug($request)
+        );
     }
 
     private function buildCallbackSlug(ServerRequestInterface $request = null): string

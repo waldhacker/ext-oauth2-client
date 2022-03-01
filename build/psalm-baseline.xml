@@ -95,11 +95,14 @@
     </PossiblyInvalidMethodCall>
   </file>
   <file src="Classes/Service/SiteService.php">
-    <InternalClass occurrences="1">
+    <InternalClass occurrences="2">
       <code>ServerRequestFactory::fromGlobals()</code>
+      <code>new Uri($this-&gt;buildCallbackBaseUri($request))</code>
     </InternalClass>
-    <InternalMethod occurrences="1">
+    <InternalMethod occurrences="3">
       <code>ServerRequestFactory::fromGlobals()</code>
+      <code>getPath</code>
+      <code>new Uri($this-&gt;buildCallbackBaseUri($request))</code>
     </InternalMethod>
   </file>
   <file src="Classes/Session/SessionManager.php">
