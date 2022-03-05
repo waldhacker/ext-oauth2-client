@@ -22,7 +22,7 @@
         "league/oauth2-client": "^2.6.0",
         "psr/log": "*",
         "typo3/cms-backend": "^10.4@dev || ^11.5@dev",
-        "typo3/cms-core": "^10.4 || ^11.5@dev",
+        "typo3/cms-core": "^10.4@dev || ^11.5@dev",
         "typo3/cms-fluid": "^10.4@dev || ^11.5@dev",
         "typo3/cms-setup": "^10.4@dev || ^11.5@dev"
     },
