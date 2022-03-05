@@ -34,15 +34,15 @@ class ExtendedInternalRequest extends InternalRequest
         return $request;
     }
 
-    public function getParsedBody()
+    public function getParsedBody(): ?array
     {
         return $this->parsedBody;
     }
 
-    public function withParsedBody($data)
+    public function withParsedBody(?array $parsedBody = null): InternalRequest
     {
         $clonedObject = clone $this;
-        $clonedObject->parsedBody = $data;
+        $clonedObject->parsedBody = $parsedBody;
         return $clonedObject;
     }
 
