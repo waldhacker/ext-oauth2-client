@@ -22,6 +22,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Waldhacker\Oauth2Client\Frontend\RedirectRequestService;
 use Waldhacker\Oauth2Client\Frontend\RequestStates;
 use Waldhacker\Oauth2Client\Service\SiteService;
 use Waldhacker\Oauth2Client\Session\SessionManager;
@@ -31,15 +32,18 @@ class BeforeAuthenticationHandler implements MiddlewareInterface
     private SessionManager $sessionManager;
     private SiteService $siteService;
     private RequestStates $requestStates;
+    private RedirectRequestService $redirectRequestService;
 
     public function __construct(
         SessionManager $sessionManager,
         SiteService $siteService,
-        RequestStates $requestStates
+        RequestStates $requestStates,
+        RedirectRequestService $redirectRequestService
     ) {
         $this->sessionManager = $sessionManager;
         $this->siteService = $siteService;
         $this->requestStates = $requestStates;
+        $this->redirectRequestService = $redirectRequestService;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -78,14 +82,7 @@ class BeforeAuthenticationHandler implements MiddlewareInterface
                 ->withAttribute('oauth2.requestedProvider', $mergedRequestedParameters['oauth2-provider']);
             $GLOBALS['TYPO3_REQUEST'] = $request;
 
-            $originalRequestData = [
-                'protocolVersion' => $request->getProtocolVersion(),
-                'method' => $request->getMethod(),
-                'uri' => (string)$request->getUri(),
-                'headers' => $request->getHeaders(),
-                'parsedBody' => is_array($request->getParsedBody()) ? $request->getParsedBody() : [],
-            ];
-
+            $originalRequestData = $this->redirectRequestService->buildOriginalRequestData($request, true);
             $this->sessionManager->setAndSaveSessionData(SessionManager::SESSION_NAME_ORIGINAL_REQUEST, $originalRequestData, $request);
         } elseif ($registrationControllerIsRequested && !$loginControllerIsRequested) {
             $request = $this->requestStates->setCurrentController(RequestStates::CONTROLLER_REGISTRATION, $request);

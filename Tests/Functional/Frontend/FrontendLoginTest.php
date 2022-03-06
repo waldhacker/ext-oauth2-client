@@ -181,12 +181,17 @@ class FrontendLoginTest extends FunctionalTestCase
         $oauth2FrontendSessionData = $this->getOauth2FrontendSessionData();
         $redirectUri = new Uri($responseData['response']->getHeaderLine('location'));
 
+        $expectedRedirectUri = new Uri($siteBaseUri . $oauth2RegistrationUri);
+        parse_str($expectedRedirectUri->getQuery(), $queryParameters);
+        unset($queryParameters['oauth2-provider'], $queryParameters['after-oauth2-redirect-uri'], $queryParameters['logintype']);
+        $expectedRedirectUri = $expectedRedirectUri->withQuery(http_build_query($queryParameters));
+
         self::assertArrayNotHasKey('fe_typo_user_oauth2', $responseData['cookieData'], 'assert: the frontend oauth2 cookies is deleted');
         self::assertArrayNotHasKey('be_typo_user_oauth2', $responseData['cookieData'], 'assert: no oauth2 backend cookie is sent to the client');
         self::assertArrayHasKey('fe_typo_user', $responseData['cookieData'], 'assert: the frontend user cookie exists');
         self::assertCount(0, $oauth2FrontendSessionData, 'assert: no oauth2 frontend session exists');
         self::assertCount(0, $oauth2BackendSessionData, 'assert: no backend backend session exists');
-        self::assertEquals($siteBaseUri . $oauth2RegistrationUri, (string)$redirectUri, 'assert: we are redirected to the TYPO3 frontend');
+        self::assertEquals($expectedRedirectUri, (string)$redirectUri, 'assert: we are redirected to the TYPO3 frontend');
         self::assertEquals(
             'OAuth2: Done. Redirection to original requested location',
             $responseData['response']->getReasonPhrase(),
@@ -533,12 +538,17 @@ class FrontendLoginTest extends FunctionalTestCase
         $oauth2FrontendSessionData = $this->getOauth2FrontendSessionData();
         $redirectUri = new Uri($responseData['response']->getHeaderLine('location'));
 
+        $expectedRedirectUri = new Uri($siteBaseUri . $oauth2RegistrationUri);
+        parse_str($expectedRedirectUri->getQuery(), $queryParameters);
+        unset($queryParameters['oauth2-provider'], $queryParameters['after-oauth2-redirect-uri'], $queryParameters['logintype']);
+        $expectedRedirectUri = $expectedRedirectUri->withQuery(http_build_query($queryParameters));
+
         self::assertArrayNotHasKey('fe_typo_user_oauth2', $responseData['cookieData'], 'assert: the frontend oauth2 cookies is deleted');
         self::assertArrayNotHasKey('be_typo_user_oauth2', $responseData['cookieData'], 'assert: no oauth2 backend cookie is sent to the client');
         self::assertArrayNotHasKey('fe_typo_user', $responseData['cookieData'], 'assert: no frontend user cookie exists');
         self::assertCount(0, $oauth2FrontendSessionData, 'assert: no oauth2 frontend session exists');
         self::assertCount(0, $oauth2BackendSessionData, 'assert: no backend backend session exists');
-        self::assertEquals($siteBaseUri . $oauth2RegistrationUri, (string)$redirectUri, 'assert: we are redirected to the TYPO3 frontend');
+        self::assertEquals($expectedRedirectUri, (string)$redirectUri, 'assert: we are redirected to the TYPO3 frontend');
         self::assertEquals(
             'OAuth2: Done. Redirection to original requested location',
             $responseData['response']->getReasonPhrase(),
@@ -648,12 +658,17 @@ class FrontendLoginTest extends FunctionalTestCase
         $oauth2FrontendSessionData = $this->getOauth2FrontendSessionData();
         $redirectUri = new Uri($responseData['response']->getHeaderLine('location'));
 
+        $expectedRedirectUri = new Uri($siteBaseUri . $oauth2RegistrationUri);
+        parse_str($expectedRedirectUri->getQuery(), $queryParameters);
+        unset($queryParameters['oauth2-provider'], $queryParameters['after-oauth2-redirect-uri'], $queryParameters['logintype']);
+        $expectedRedirectUri = $expectedRedirectUri->withQuery(http_build_query($queryParameters));
+
         self::assertArrayNotHasKey('fe_typo_user_oauth2', $responseData['cookieData'], 'assert: the frontend oauth2 cookies is deleted');
         self::assertArrayNotHasKey('be_typo_user_oauth2', $responseData['cookieData'], 'assert: no oauth2 backend cookie is sent to the client');
         self::assertArrayNotHasKey('fe_typo_user', $responseData['cookieData'], 'assert: no frontend user cookie exists');
         self::assertCount(0, $oauth2FrontendSessionData, 'assert: no oauth2 frontend session exists');
         self::assertCount(0, $oauth2BackendSessionData, 'assert: no backend backend session exists');
-        self::assertEquals($siteBaseUri . $oauth2RegistrationUri, (string)$redirectUri, 'assert: we are redirected to the TYPO3 frontend');
+        self::assertEquals($expectedRedirectUri, (string)$redirectUri, 'assert: we are redirected to the TYPO3 frontend');
         self::assertEquals(
             'OAuth2: Done. Redirection to original requested location',
             $responseData['response']->getReasonPhrase(),
@@ -763,12 +778,17 @@ class FrontendLoginTest extends FunctionalTestCase
         $oauth2FrontendSessionData = $this->getOauth2FrontendSessionData();
         $redirectUri = new Uri($responseData['response']->getHeaderLine('location'));
 
+        $expectedRedirectUri = new Uri($siteBaseUri . $oauth2RegistrationUri);
+        parse_str($expectedRedirectUri->getQuery(), $queryParameters);
+        unset($queryParameters['oauth2-provider'], $queryParameters['after-oauth2-redirect-uri'], $queryParameters['logintype']);
+        $expectedRedirectUri = $expectedRedirectUri->withQuery(http_build_query($queryParameters));
+
         self::assertArrayNotHasKey('fe_typo_user_oauth2', $responseData['cookieData'], 'assert: the frontend oauth2 cookies is deleted');
         self::assertArrayNotHasKey('be_typo_user_oauth2', $responseData['cookieData'], 'assert: no oauth2 backend cookie is sent to the client');
         self::assertArrayNotHasKey('fe_typo_user', $responseData['cookieData'], 'assert: no frontend user cookie exists');
         self::assertCount(0, $oauth2FrontendSessionData, 'assert: no oauth2 frontend session exists');
         self::assertCount(0, $oauth2BackendSessionData, 'assert: no backend backend session exists');
-        self::assertEquals($siteBaseUri . $oauth2RegistrationUri, (string)$redirectUri, 'assert: we are redirected to the TYPO3 frontend');
+        self::assertEquals($expectedRedirectUri, (string)$redirectUri, 'assert: we are redirected to the TYPO3 frontend');
         self::assertEquals(
             'OAuth2: Done. Redirection to original requested location',
             $responseData['response']->getReasonPhrase(),
@@ -937,12 +957,17 @@ class FrontendLoginTest extends FunctionalTestCase
         $oauth2FrontendSessionData = $this->getOauth2FrontendSessionData();
         $redirectUri = new Uri($responseData['response']->getHeaderLine('location'));
 
+        $expectedRedirectUri = new Uri($siteBaseUri . $oauth2RegistrationUri);
+        parse_str($expectedRedirectUri->getQuery(), $queryParameters);
+        unset($queryParameters['oauth2-provider'], $queryParameters['after-oauth2-redirect-uri'], $queryParameters['logintype']);
+        $expectedRedirectUri = $expectedRedirectUri->withQuery(http_build_query($queryParameters));
+
         self::assertArrayNotHasKey('fe_typo_user_oauth2', $responseData['cookieData'], 'assert: the frontend oauth2 cookies is deleted');
         self::assertArrayNotHasKey('be_typo_user_oauth2', $responseData['cookieData'], 'assert: no oauth2 backend cookie is sent to the client');
         self::assertArrayNotHasKey('fe_typo_user', $responseData['cookieData'], 'assert: no frontend user cookie exists');
         self::assertCount(0, $oauth2FrontendSessionData, 'assert: no oauth2 frontend session exists');
         self::assertCount(0, $oauth2BackendSessionData, 'assert: no backend backend session exists');
-        self::assertEquals($siteBaseUri . $oauth2RegistrationUri, (string)$redirectUri, 'assert: we are redirected to the TYPO3 frontend');
+        self::assertEquals($expectedRedirectUri, (string)$redirectUri, 'assert: we are redirected to the TYPO3 frontend');
         self::assertEquals(
             'OAuth2: Done. Redirection to original requested location',
             $responseData['response']->getReasonPhrase(),
@@ -1121,6 +1146,11 @@ class FrontendLoginTest extends FunctionalTestCase
         $oauth2FrontendSessionData = $this->getOauth2FrontendSessionData();
         $redirectUri = new Uri($responseData['response']->getHeaderLine('location'));
 
+        $expectedRedirectUri = new Uri($siteBaseUri . $oauth2RegistrationUri);
+        parse_str($expectedRedirectUri->getQuery(), $queryParameters);
+        unset($queryParameters['oauth2-provider'], $queryParameters['after-oauth2-redirect-uri'], $queryParameters['logintype']);
+        $expectedRedirectUri = $expectedRedirectUri->withQuery(http_build_query($queryParameters));
+
         self::assertArrayNotHasKey('fe_typo_user_oauth2', $responseData['cookieData'], 'assert: the frontend oauth2 cookies is deleted');
         self::assertArrayNotHasKey('be_typo_user_oauth2', $responseData['cookieData'], 'assert: no oauth2 backend cookie is sent to the client');
         self::assertArrayNotHasKey('fe_typo_user', $responseData['cookieData'], 'assert: no frontend user cookie exists');
@@ -1135,7 +1165,7 @@ class FrontendLoginTest extends FunctionalTestCase
                 'assert: response redirect reason is set'
             );
         } else {
-            self::assertEquals($siteBaseUri . $oauth2RegistrationUri, (string)$redirectUri, 'assert: we are redirected to the TYPO3 frontend');
+            self::assertEquals($expectedRedirectUri, (string)$redirectUri, 'assert: we are redirected to the TYPO3 frontend');
             self::assertEquals(
                 'OAuth2: Done. Redirection to original requested location',
                 $responseData['response']->getReasonPhrase(),

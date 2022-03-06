@@ -24,6 +24,7 @@ use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Http\ServerRequestFactory;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use Waldhacker\Oauth2Client\Frontend\RedirectRequestService;
 use Waldhacker\Oauth2Client\Repository\FrontendUserRepository;
 use Waldhacker\Oauth2Client\Service\Oauth2ProviderManager;
 use Waldhacker\Oauth2Client\Session\SessionManager;
@@ -33,17 +34,20 @@ class ManageProvidersController extends ActionController
     private Oauth2ProviderManager $oauth2ProviderManager;
     private FrontendUserRepository $frontendUserRepository;
     private SessionManager $sessionManager;
+    private RedirectRequestService $redirectRequestService;
     private Context $context;
 
     public function __construct(
         Oauth2ProviderManager $oauth2ProviderManager,
         FrontendUserRepository $frontendUserRepository,
         SessionManager $sessionManager,
+        RedirectRequestService $redirectRequestService,
         Context $context
     ) {
         $this->oauth2ProviderManager = $oauth2ProviderManager;
         $this->frontendUserRepository = $frontendUserRepository;
         $this->sessionManager = $sessionManager;
+        $this->redirectRequestService = $redirectRequestService;
         $this->context = $context;
     }
 
@@ -58,13 +62,7 @@ class ManageProvidersController extends ActionController
 
         /** @var ServerRequestInterface $serverRequest */
         $serverRequest = $isV10Branch ? $this->getServerRequest() : $this->request;
-        $originalRequestData = [
-            'protocolVersion' => $serverRequest->getProtocolVersion(),
-            'method' => $serverRequest->getMethod(),
-            'uri' => (string)$serverRequest->getUri(),
-            'headers' => $serverRequest->getHeaders(),
-            'parsedBody' => is_array($serverRequest->getParsedBody()) ? $serverRequest->getParsedBody() : [],
-        ];
+        $originalRequestData = $this->redirectRequestService->buildOriginalRequestData($serverRequest);
 
         $psrResponse = $isV10Branch ? null : $this->htmlResponse();
         if ($this->context->getAspect('frontend.user')->isLoggedIn()) {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.21.0@d8bec4c7aaee111a532daec32fb09de5687053d1">
+<files psalm-version="4.22.0@fc2c6ab4d5fa5d644d8617089f012f3bb84b8703">
   <file src="Classes/Authentication/BackendAuthenticationService.php">
     <InternalClass occurrences="2">
       <code>ServerRequestFactory::fromGlobals()</code>
@@ -51,6 +51,23 @@
     <UndefinedInterfaceMethod occurrences="1">
       <code>isLoggedIn</code>
     </UndefinedInterfaceMethod>
+  </file>
+  <file src="Classes/Frontend/RedirectRequestService.php">
+    <InternalClass occurrences="2">
+      <code>new Uri($originalUri)</code>
+      <code>new Uri(urldecode($mergedRequestedParameters[self::REDIRECT_URI_QUERY_NAME]))</code>
+    </InternalClass>
+    <InternalMethod occurrences="6">
+      <code>getAuthority</code>
+      <code>getQuery</code>
+      <code>getScheme</code>
+      <code>new Uri($originalUri)</code>
+      <code>new Uri(urldecode($mergedRequestedParameters[self::REDIRECT_URI_QUERY_NAME]))</code>
+      <code>withQuery</code>
+    </InternalMethod>
+    <PossiblyInvalidArgument occurrences="1">
+      <code>is_array($request-&gt;getParsedBody()) ? $request-&gt;getParsedBody() : []</code>
+    </PossiblyInvalidArgument>
   </file>
   <file src="Classes/Middleware/Frontend/AfterAuthenticationHandler.php">
     <InternalClass occurrences="2"/>

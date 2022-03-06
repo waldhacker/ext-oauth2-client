@@ -55,6 +55,23 @@
       <code>isLoggedIn</code>
     </UndefinedInterfaceMethod>
   </file>
+  <file src="Classes/Frontend/RedirectRequestService.php">
+    <InternalClass occurrences="2">
+      <code>new Uri($originalUri)</code>
+      <code>new Uri(urldecode($mergedRequestedParameters[self::REDIRECT_URI_QUERY_NAME]))</code>
+    </InternalClass>
+    <InternalMethod occurrences="6">
+      <code>getAuthority</code>
+      <code>getQuery</code>
+      <code>getScheme</code>
+      <code>new Uri($originalUri)</code>
+      <code>new Uri(urldecode($mergedRequestedParameters[self::REDIRECT_URI_QUERY_NAME]))</code>
+      <code>withQuery</code>
+    </InternalMethod>
+    <PossiblyInvalidArgument occurrences="1">
+      <code>is_array($request-&gt;getParsedBody()) ? $request-&gt;getParsedBody() : []</code>
+    </PossiblyInvalidArgument>
+  </file>
   <file src="Classes/Middleware/Frontend/AfterAuthenticationHandler.php">
     <InternalClass occurrences="2"/>
     <InternalMethod occurrences="8">

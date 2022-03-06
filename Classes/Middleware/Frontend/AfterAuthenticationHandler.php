@@ -33,6 +33,7 @@ use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 use TYPO3\CMS\Frontend\Http\Application;
 use TYPO3\CMS\Frontend\Http\RequestHandler;
 use Waldhacker\Oauth2Client\Controller\Frontend\RegistrationController;
+use Waldhacker\Oauth2Client\Frontend\RedirectRequestService;
 use Waldhacker\Oauth2Client\Frontend\RequestStates;
 use Waldhacker\Oauth2Client\Service\SiteService;
 use Waldhacker\Oauth2Client\Session\SessionManager;
@@ -43,6 +44,7 @@ class AfterAuthenticationHandler implements MiddlewareInterface
     private SessionManager $sessionManager;
     private SiteService $siteService;
     private RequestStates $requestStates;
+    private RedirectRequestService $redirectRequestService;
     private Context $context;
     private ResponseFactoryInterface $responseFactory;
     private Application $application;
@@ -52,6 +54,7 @@ class AfterAuthenticationHandler implements MiddlewareInterface
         SessionManager $sessionManager,
         SiteService $siteService,
         RequestStates $requestStates,
+        RedirectRequestService $redirectRequestService,
         Context $context,
         ResponseFactoryInterface $responseFactory
     ) {
@@ -59,6 +62,7 @@ class AfterAuthenticationHandler implements MiddlewareInterface
         $this->sessionManager = $sessionManager;
         $this->siteService = $siteService;
         $this->requestStates = $requestStates;
+        $this->redirectRequestService = $redirectRequestService;
         $this->context = $context;
         $this->responseFactory = $responseFactory;
         $this->application = GeneralUtility::getContainer()->get(Application::class);
@@ -125,18 +129,19 @@ class AfterAuthenticationHandler implements MiddlewareInterface
                 // response code was not changed by legacy code (eg. extbase redirect)
                 // make a (GET) redirect to the post url after the post subrequest.
                 if ((http_response_code() === 200) && $response->getStatusCode() >= 200 && $response->getStatusCode() <= 299) {
-                    // @todo: maybe flash message if not logged in
+                    $redirectUri = $this->redirectRequestService->removeOauth2ParametersFromUri($originalRequestData['uri']);
                     $response = $this->responseFactory
                         ->createResponse(302, 'OAuth2: Done. Redirection via GET to original requested POST location')
-                        ->withHeader('location', $originalRequestData['uri']);
+                        ->withHeader('location', $redirectUri);
                 }
 
                 return $this->sessionManager->appendRemoveOAuth2CookieToResponse($response, $request);
             }
 
+            $redirectUri = $this->redirectRequestService->removeOauth2ParametersFromUri($originalRequestData['uri']);
             $response = $this->responseFactory
                 ->createResponse(302, 'OAuth2: Done. Redirection to original requested location')
-                ->withHeader('location', $originalRequestData['uri']);
+                ->withHeader('location', $redirectUri);
 
             $userIsLoggedIn = $request->getAttribute('frontend.user') instanceof FrontendUserAuthentication && $this->context->getAspect('frontend.user')->isLoggedIn();
             if ($userIsLoggedIn && !$isV10Branch) {
