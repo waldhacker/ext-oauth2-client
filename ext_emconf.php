@@ -37,5 +37,5 @@ $EM_CONF[$_EXTKEY] = [
     'author' => 'Susanne Moog, Ralf Zimmermann',
     'author_email' => 'look+typo3@susi.dev, hello@waldhacker.dev',
     'author_company' => 'Waldhacker UG (haftungsbeschränkt)',
-    'version' => '1.0.0',
+    'version' => '1.0.1',
 ];

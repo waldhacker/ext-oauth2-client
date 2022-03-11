@@ -6,7 +6,7 @@ parameters:
 			path: ../Classes/LoginProvider/Oauth2LoginProvider.php
 
 		-
-			message: "#^Cannot call method fetchAllAssociative\\(\\) on Doctrine\\\\DBAL\\\\Driver\\\\Statement\\|int\\.$#"
+			message: "#^Cannot call method fetchAllAssociative\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
 			count: 2
 			path: ../Classes/Repository/BackendUserRepository.php
 
@@ -19,4 +19,9 @@ parameters:
 			message: "#^Call to an undefined method object\\:\\:getUserRecord\\(\\)\\.$#"
 			count: 1
 			path: ../Classes/Service/LoginService.php
+
+		-
+			message: "#^Result of \\|\\| is always false\\.$#"
+			count: 2
+			path: ../Classes/Service/Oauth2Service.php
 
