@@ -1,6 +1,33 @@
 # Changelog
 
 
+## 1.0.1 (2022-03-11)
+
+### Bugfixes
+
+* PasteUpdate not always string. move ce in backend. [Fabian Auer]
+
+### Tasks
+
+* Change phpstan baseline. [waldhacker1]
+
+* Remove deprecated psalm config. [Ralf Zimmermann]
+
+* Check if SESSION exists. [Fabian Auer]
+
+### Other
+
+* Merge pull request #4 from huersch/main. [Ralf Zimmermann]
+
+  [BUGFIX] Avoid PHP warnings and enable moving CEs in backend
+
+* Merge pull request #2 from huersch/patch-1. [Ralf Zimmermann]
+
+  typo in event FQCN. remove leading backslash
+
+* Typo in event FQCN. remove leading backslash. [Fabian Auer]
+
+
 ## 1.0.0 (2021-07-11)
 
 ### Features
@@ -20,6 +47,10 @@
 * [SECURITY] Restrict read/write access to tx_oauth2_client_configs. [Ralf Zimmermann]
 
 ### Tasks
+
+* Fix ext_emconf. [Susanne Moog]
+
+* Prepare Release. [Susanne Moog]
 
 * Add TER release capabilities. [Susanne Moog]
 
