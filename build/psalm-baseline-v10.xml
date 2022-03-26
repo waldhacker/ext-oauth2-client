@@ -42,7 +42,11 @@
     <InternalMethod occurrences="1">
       <code>ServerRequestFactory::fromGlobals()</code>
     </InternalMethod>
-    <UndefinedInterfaceMethod occurrences="2">
+    <InternalProperty occurrences="1">
+      <code>$typo3User-&gt;user</code>
+    </InternalProperty>
+    <UndefinedInterfaceMethod occurrences="3">
+      <code>isLoggedIn</code>
       <code>isLoggedIn</code>
       <code>isLoggedIn</code>
     </UndefinedInterfaceMethod>
@@ -51,6 +55,9 @@
     </UndefinedMethod>
   </file>
   <file src="Classes/Controller/Frontend/RegistrationController.php">
+    <InternalProperty occurrences="1">
+      <code>$typo3User-&gt;user</code>
+    </InternalProperty>
     <UndefinedInterfaceMethod occurrences="1">
       <code>isLoggedIn</code>
     </UndefinedInterfaceMethod>

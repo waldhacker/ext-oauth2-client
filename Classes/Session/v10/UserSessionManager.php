@@ -94,7 +94,8 @@ class UserSessionManager implements LoggerAwareInterface
 
     public function fixateAnonymousSession(UserSession $session, bool $isPermanent = false): UserSession
     {
-        $sessionIpLock = $this->ipLocker->getSessionIpLock((string)GeneralUtility::getIndpEnv('REMOTE_ADDR'));
+        $remoteAddress = GeneralUtility::getIndpEnv('REMOTE_ADDR');
+        $sessionIpLock = $this->ipLocker->getSessionIpLock((is_string($remoteAddress) ? $remoteAddress : ''));
         $sessionRecord = $session->toArray();
         $sessionRecord['ses_iplock'] = $sessionIpLock;
         $sessionRecord['ses_userid'] = 0;
@@ -112,7 +113,8 @@ class UserSessionManager implements LoggerAwareInterface
             $this->logger->debug('Create session ses_id = {session}', ['session' => sha1($sessionId)]);
         }
         $this->sessionBackend->remove($sessionId);
-        $sessionIpLock = $this->ipLocker->getSessionIpLock((string)GeneralUtility::getIndpEnv('REMOTE_ADDR'));
+        $remoteAddress = GeneralUtility::getIndpEnv('REMOTE_ADDR');
+        $sessionIpLock = $this->ipLocker->getSessionIpLock((is_string($remoteAddress) ? $remoteAddress : ''));
         $sessionRecord = [
             'ses_iplock' => $sessionIpLock,
             'ses_userid' => $userId,
@@ -194,8 +196,10 @@ class UserSessionManager implements LoggerAwareInterface
             if ($sessionRecord === []) {
                 return null;
             }
+
+            $remoteAddress = GeneralUtility::getIndpEnv('REMOTE_ADDR');
             if ($this->ipLocker->validateRemoteAddressAgainstSessionIpLock(
-                (string)GeneralUtility::getIndpEnv('REMOTE_ADDR'),
+                (is_string($remoteAddress) ? $remoteAddress : ''),
                 $sessionRecord['ses_iplock']
             )) {
                 return UserSession::createFromRecord($id, $sessionRecord);

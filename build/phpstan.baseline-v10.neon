@@ -81,6 +81,11 @@ parameters:
 			path: ../Classes/Session/SessionManager.php
 
 		-
+			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
+			count: 3
+			path: ../Classes/Session/SessionManager.php
+
+		-
 			message: "#^Return typehint of method Waldhacker\\\\Oauth2Client\\\\Session\\\\SessionManager\\:\\:createUserSession\\(\\) has invalid type TYPO3\\\\CMS\\\\Core\\\\Session\\\\UserSession\\.$#"
 			count: 1
 			path: ../Classes/Session/SessionManager.php
@@ -103,6 +108,11 @@ parameters:
 		-
 			message: "#^Comparison operation \"\\>\" between int\\<2, max\\> and 0 is always true\\.$#"
 			count: 1
+			path: ../Classes/Session/v10/UserSessionManager.php
+
+		-
+			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
+			count: 3
 			path: ../Classes/Session/v10/UserSessionManager.php
 
 		-

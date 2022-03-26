@@ -253,7 +253,19 @@ abstract class FunctionalTestCase extends \TYPO3\TestingFramework\Core\Functiona
         $qb->delete('fe_sessions')->where($qb->expr()->in('ses_id', $qb->createNamedParameter(array_column($this->getOauth2FrontendSessionData(), 'ses_id'), Connection::PARAM_STR_ARRAY)))->execute();
     }
 
-    protected function createBackendUserOauth2ProviderConfiguration(int $uid, int $userid, string $providerId, string $remoteIdentifier): void
+    protected function deleteFrontendUser(int $userId): void
+    {
+        $qb = $this->getConnectionPool()->getQueryBuilderForTable('fe_users');
+        $qb->update('fe_users')->set('deleted', 1)->where($qb->expr()->eq('uid', $qb->createNamedParameter($userId, \PDO::PARAM_INT)))->execute();
+    }
+
+    protected function deleteBackendUser(int $userId): void
+    {
+        $qb = $this->getConnectionPool()->getQueryBuilderForTable('be_users');
+        $qb->update('be_users')->set('deleted', 1)->where($qb->expr()->eq('uid', $qb->createNamedParameter($userId, \PDO::PARAM_INT)))->execute();
+    }
+
+    protected function createBackendUserOauth2ProviderConfiguration(int $uid, int $userId, string $providerId, string $remoteIdentifier): void
     {
         $now = new \DateTime();
         $qb = $this->getConnectionPool()->getQueryBuilderForTable('tx_oauth2_beuser_provider_configuration');
@@ -262,14 +274,14 @@ abstract class FunctionalTestCase extends \TYPO3\TestingFramework\Core\Functiona
             ->setValue('pid', 0)
             ->setValue('crdate', $now->format('U'))
             ->setValue('tstamp', $now->format('U'))
-            ->setValue('cruser_id', $userid)
-            ->setValue('parentid', $userid)
+            ->setValue('cruser_id', $userId)
+            ->setValue('parentid', $userId)
             ->setValue('provider', $providerId)
             ->setValue('identifier', $remoteIdentifier)
             ->execute();
     }
 
-    protected function createFrontendUserOauth2ProviderConfiguration(int $uid, int $userid, string $providerId, string $remoteIdentifier): void
+    protected function createFrontendUserOauth2ProviderConfiguration(int $uid, int $userId, string $providerId, string $remoteIdentifier): void
     {
         $now = new \DateTime();
         $qb = $this->getConnectionPool()->getQueryBuilderForTable('tx_oauth2_feuser_provider_configuration');
@@ -278,8 +290,8 @@ abstract class FunctionalTestCase extends \TYPO3\TestingFramework\Core\Functiona
             ->setValue('pid', 0)
             ->setValue('crdate', $now->format('U'))
             ->setValue('tstamp', $now->format('U'))
-            ->setValue('cruser_id', $userid)
-            ->setValue('parentid', $userid)
+            ->setValue('cruser_id', $userId)
+            ->setValue('parentid', $userId)
             ->setValue('provider', $providerId)
             ->setValue('identifier', $remoteIdentifier)
             ->execute();

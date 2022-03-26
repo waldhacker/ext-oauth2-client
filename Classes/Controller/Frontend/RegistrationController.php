@@ -25,6 +25,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Site\Entity\Site;
+use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 use Waldhacker\Oauth2Client\Repository\FrontendUserRepository;
 use Waldhacker\Oauth2Client\Service\Oauth2ProviderManager;
 use Waldhacker\Oauth2Client\Service\Oauth2Service;
@@ -113,6 +115,10 @@ class RegistrationController implements LoggerAwareInterface
             return $this->redirectWithWarning($warningRedirectUri, $request);
         }
 
+        if (!$this->typo3UserIsWithinConfiguredStorage($request)) {
+            return $this->redirectWithWarning($warningRedirectUri, $request);
+        }
+
         $provider = $this->oauth2Service->buildGetResourceOwnerProvider(
             $state,
             $providerId,
@@ -177,5 +183,33 @@ class RegistrationController implements LoggerAwareInterface
             ->withHeader('location', $redirectUri);
 
         return $this->sessionManager->appendRemoveOAuth2CookieToResponse($response, $request);
+    }
+
+    private function typo3UserIsWithinConfiguredStorage(ServerRequestInterface $request): bool
+    {
+        $typo3User = $request->getAttribute('frontend.user');
+        if (!($typo3User instanceof FrontendUserAuthentication)) {
+            return false;
+        }
+
+        /** @var Site|null $site */
+        $site = $this->siteService->getSite();
+        $language = $this->siteService->getLanguage();
+        if ($site === null || $language === null) {
+            return false;
+        }
+
+        $siteConfiguration = $site->getConfiguration();
+        $languageConfiguration = $language->toArray();
+        $configuredStoragePid = empty($languageConfiguration['oauth2_storage_pid'])
+                      ? ($siteConfiguration['oauth2_storage_pid'] ?? null)
+                      : $languageConfiguration['oauth2_storage_pid'];
+
+        $typo3UserStoragePid = $typo3User->user['pid'] ?? null;
+        if ($typo3UserStoragePid === null) {
+            return false;
+        }
+
+        return (int)$typo3UserStoragePid === (int)$configuredStoragePid;
     }
 }

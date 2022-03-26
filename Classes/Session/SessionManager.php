@@ -117,7 +117,8 @@ class SessionManager
         $sessionId = '';
         $cookieExpire = -1;
         $cookieDomain = $this->getCookieDomain($requestType);
-        $cookiePath = $cookieDomain ? '/' : GeneralUtility::getIndpEnv('TYPO3_SITE_PATH');
+        $sitePath = GeneralUtility::getIndpEnv('TYPO3_SITE_PATH');
+        $cookiePath = $cookieDomain ? '/' : (is_string($sitePath) ? $sitePath : '/');
 
         $cookie = new Cookie(
             $cookieName,
@@ -186,11 +187,12 @@ class SessionManager
         $sessionId = $this->getUserSession($requestType, $request)->getIdentifier();
         $cookieExpire = 0;
         $cookieDomain = $this->getCookieDomain($requestType);
-        $cookiePath = $cookieDomain ? '/' : GeneralUtility::getIndpEnv('TYPO3_SITE_PATH');
+        $sitePath = GeneralUtility::getIndpEnv('TYPO3_SITE_PATH');
+        $cookiePath = $cookieDomain ? '/' : (is_string($sitePath) ? $sitePath : '/');
         $cookieSameSite = $this->sanitizeSameSiteCookieValue(
             strtolower($GLOBALS['TYPO3_CONF_VARS'][$requestType]['cookieSameSite'] ?? Cookie::SAMESITE_STRICT)
         );
-        $isSecure = $cookieSameSite === Cookie::SAMESITE_NONE || GeneralUtility::getIndpEnv('TYPO3_SSL');
+        $isSecure = $cookieSameSite === Cookie::SAMESITE_NONE || (bool)GeneralUtility::getIndpEnv('TYPO3_SSL');
         $httpOnly = true;
         $raw = false;
 
@@ -218,7 +220,8 @@ class SessionManager
         }
 
         $match = [];
-        $found = @preg_match($cookieDomain, GeneralUtility::getIndpEnv('TYPO3_HOST_ONLY'), $match);
+        $host = GeneralUtility::getIndpEnv('TYPO3_HOST_ONLY');
+        $found = @preg_match($cookieDomain, (is_string($host) ? $host : ''), $match);
         return $found ? $match[0] : '';
     }
 

@@ -609,6 +609,103 @@ class BackendLoginTest extends FunctionalTestCase
         self::assertStringNotContainsString('toolbar-item-avatar', $responseData['pageMarkup'], 'assert: we are logged in');
     }
 
+    public function assertThatABackendUserIsUnableToLoginWithAOAuth2ProviderWhichIsConfiguredToBeUsedWithinTheBackendAndActivatedButTheTYPO3UserIsInactiveDataProvider(): \Generator
+    {
+        yield 'inactive user' => [
+            'userUid' => 7,
+        ];
+
+        yield 'deleted user' => [
+            'userUid' => 8,
+            'deleteUser' => true
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider assertThatABackendUserIsUnableToLoginWithAOAuth2ProviderWhichIsConfiguredToBeUsedWithinTheBackendAndActivatedButTheTYPO3UserIsInactiveDataProvider
+     */
+    public function assertThatABackendUserIsUnableToLoginWithAOAuth2ProviderWhichIsConfiguredToBeUsedWithinTheBackendAndActivatedButTheTYPO3UserIsInactive(int $userUid, bool $deleteUser = false): void
+    {
+        $this->resetSessionData();
+        $this->resetOauth2ProviderConfigurations();
+        $this->createBackendUserOauth2ProviderConfiguration(100, $userUid, 'gitlab3-both', 'user1-gitlab3-both-remote-identity');
+        if ($deleteUser) {
+            $this->deleteBackendUser($userUid);
+        }
+
+        // Click "login with gitlab3-both"
+        $responseData = $this->loginIntoBackendWithOAuth2Provider(self::SITE1_BASE_URI, 'gitlab3-both');
+
+        // This is the Waldhacker\Oauth2Client\Service\Oauth2Service::getAuthorizationUrl() part
+        $authorizationRedirectUri = new Uri($responseData['response']->getHeaderLine('location'));
+        parse_str($authorizationRedirectUri->getQuery(), $authorizationQuery);
+        $requestedState = $authorizationQuery['state'] ?? null;
+        $callbackUri = $authorizationQuery['redirect_uri'];
+        $oauth2BackendSessionData = $this->getOauth2BackendSessionData();
+        $oauth2FrontendSessionData = $this->getOauth2FrontendSessionData();
+
+        self::assertArrayHasKey('be_typo_user_oauth2', $responseData['cookieData'], 'assert: the oauth2 backend cookie is sent to the client');
+        self::assertArrayNotHasKey('fe_typo_user_oauth2', $responseData['cookieData'], 'assert: no oauth2 frontend cookie is sent to the client');
+        self::assertEquals('gitlab3', $authorizationRedirectUri->getHost(), 'assert: the correct remote instance is called');
+        self::assertEquals('code', $authorizationQuery['response_type'] ?? null, 'assert: the correct response type is requested');
+        self::assertEquals('cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc', $authorizationQuery['client_id'] ?? null, 'assert: the correct client id is requested');
+        self::assertEquals(
+            $this->isV10Branch()
+                ? 'http://localhost/typo3/index.php?route=%2Flogin&loginProvider=1616569531&oauth2-provider=gitlab3-both&login_status=login&commandLI=attempt'
+                : 'http://localhost/typo3/login?loginProvider=1616569531&oauth2-provider=gitlab3-both&login_status=login&commandLI=attempt',
+            $authorizationQuery['redirect_uri'] ?? null,
+            'assert: the correct callback uri is sent'
+        );
+        self::assertNotEmpty($requestedState, 'assert: an oauth2 state was created and set in the authorization request uri');
+        self::assertCount(0, $oauth2FrontendSessionData, 'assert: no oauth2 frontend session exists');
+        self::assertCount(1, $oauth2BackendSessionData, 'assert: 1 oauth2 backend session was created');
+        self::assertEquals(0, (int)$oauth2BackendSessionData[0]['ses_userid'], 'assert: the backend session is not connected to a user');
+        self::assertEquals(['oauth2-state' => $requestedState], $oauth2BackendSessionData[0]['ses_data'], 'assert: the backend session contains the oauth2 state, which is also contained in the authorization request uri');
+
+        // Simulate the redirect from the remote instance back to the TYPO3
+        $requestedCallbackUri = new Uri(urldecode($authorizationQuery['redirect_uri']));
+        parse_str($requestedCallbackUri->getQuery(), $respondedCallbackQuery);
+        $respondedCallbackQuery['state'] = $requestedState;
+        $respondedCallbackQuery['code'] = 'some-remote-api-access-code';
+        $respondedCallbackUri = (string)$requestedCallbackUri->withQuery(http_build_query($respondedCallbackQuery));
+
+        // At this point we were redirected back from the remote instance to the TYPO3
+        // This is the Waldhacker\Oauth2Client\Service\Oauth2Service::getUser() part
+        $responseData = $this->fetchBackendPageContens(
+            $this->buildGetRequest($respondedCallbackUri, $responseData['cookieData']),
+            true,
+            $this->buildRequestContext(['X_TYPO3_TESTING_FRAMEWORK' => ['HTTP' => ['mocks' => [
+                // successful Oauth2Service::getUser() request
+                'className' => SuccessfulGetUserFromGitLabHttpMock::class,
+                'options' => [
+                    'remoteUser' => [
+                        'id' => 'user1-gitlab3-both-remote-identity',
+                        'username' => 'user1-gitlab3-both',
+                        'name' => 'user1 gitlab3-both',
+                        'email' => 'user1-gitlab3-both@waldhacker.dev',
+                    ],
+                ],
+            ]]]])
+        );
+
+        $oauth2BackendSessionData = $this->getOauth2BackendSessionData();
+        $oauth2FrontendSessionData = $this->getOauth2FrontendSessionData();
+
+        // @todo: should not be present
+        self::assertArrayHasKey('be_typo_user_oauth2', $responseData['cookieData'], 'assert: the backend oauth2 cookie exists');
+        self::assertArrayNotHasKey('fe_typo_user_oauth2', $responseData['cookieData'], 'assert: no oauth2 frontend cookie is sent to the client');
+        if ($this->isV10Branch()) {
+            self::assertArrayHasKey('be_typo_user', $responseData['cookieData'], 'assert: a backend user cookie exists');
+        } else {
+            self::assertArrayNotHasKey('be_typo_user', $responseData['cookieData'], 'assert: no backend user cookie exists');
+        }
+        self::assertCount(0, $oauth2FrontendSessionData, 'assert: no oauth2 frontend session exists');
+        // @todo: session data is empty but the record should be removed completely
+        self::assertCount(0, $oauth2BackendSessionData, 'assert: no backend backend session exists');
+        self::assertStringNotContainsString('toolbar-item-avatar', $responseData['pageMarkup'], 'assert: we are logged in');
+    }
+
     private function loginIntoBackendWithOAuth2Provider(string $siteBaseUri, string $providerId): array
     {
         $uri = $this->isV10Branch()

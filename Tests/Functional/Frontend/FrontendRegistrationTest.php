@@ -736,7 +736,6 @@ class FrontendRegistrationTest extends FunctionalTestCase
             'name' => 'user1 gitlab3-both',
             'email' => 'user1-gitlab3-both@waldhacker.dev',
         ];
-        $frontendUserUid = 1000;
 
         // Login into frontend
         $responseData = $this->loginIntoFrontendWithUsernameAndPassword($siteBaseUri, $languageSlug, 'user1', 'password');
@@ -817,7 +816,6 @@ class FrontendRegistrationTest extends FunctionalTestCase
             'name' => 'user1 gitlab3-both',
             'email' => 'user1-gitlab3-both@waldhacker.dev',
         ];
-        $frontendUserUid = 1000;
 
         // Login into frontend
         $responseData = $this->loginIntoFrontendWithUsernameAndPassword($siteBaseUri, $languageSlug, 'user1', 'password');
@@ -912,6 +910,115 @@ class FrontendRegistrationTest extends FunctionalTestCase
         }
 
         self::assertEquals(401, $responseData['response']->getStatusCode(), 'assert: response redirect code is set');
+        self::assertCount(0, $oauth2FrontendSessionData, 'assert: the oauth2 frontend session still exists');
+        self::assertCount(0, $oauth2BackendSessionData, 'assert: no oauth2 backend session exists');
+        self::assertCount(0, $frontendUserOauth2ProviderConfigurations, 'assert: no oauth2 provider configuration exists for frontend users');
+        self::assertCount(0, $backendUserOauth2ProviderConfigurations, 'assert: no oauth2 provider configuration exists for backend users');
+    }
+
+    /**
+     * @test
+     */
+    public function assertThatAFrontendUserIsUnableToActivateAOAuth2ProviderWhichIsConfiguredToBeUsedWithinTheFrontendIfTheTYPO3UserIsWithinANotAllowedStorage(): void
+    {
+        $this->resetSessionData();
+        $this->resetOauth2ProviderConfigurations();
+
+        $oauth2RegistrationUriId = 'oauth2test-register-gitlab3-both';
+        $siteHost = self::SITE1_HOST;
+        $siteBaseUri = self::SITE1_BASE_URI;
+        $languageSlug = '/en';
+        $expectedProvider = 'gitlab3-both';
+        $expectedRemoteInstanceHost = 'gitlab3';
+        $expectedRemoteClientId = 'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc';
+        $remoteUserData = [
+            'id' => 'user1-gitlab3-both-remote-identity',
+            'username' => 'user1-gitlab3-both',
+            'name' => 'user1 gitlab3-both',
+            'email' => 'user1-gitlab3-both@waldhacker.dev',
+        ];
+
+        // Login into frontend
+        $responseData = $this->loginIntoFrontendWithUsernameAndPassword($siteBaseUri, $languageSlug, 'user7', 'password');
+        self::assertArrayNotHasKey('be_typo_user_oauth2', $responseData['cookieData'], 'assert: no oauth2 be cookie is sent to the client');
+        self::assertArrayNotHasKey('fe_typo_user_oauth2', $responseData['cookieData'], 'assert: no oauth2 fe cookie is sent to the client');
+
+        $responseData = $this->goToOauth2ProvidersFrontendPage($siteBaseUri, $languageSlug, $responseData);
+        self::assertArrayNotHasKey('be_typo_user_oauth2', $responseData['cookieData'], 'assert: no oauth2 backend cookie is sent to the client');
+        self::assertArrayNotHasKey('fe_typo_user_oauth2', $responseData['cookieData'], 'assert: the oauth2 frontend cookie is sent to the client');
+
+        $frontendUserCookieData = $responseData['cookieData']['fe_typo_user'];
+
+        // This is the Waldhacker\Oauth2Client\Service\Oauth2Service::getAuthorizationUrl() part
+        // Click register link
+        $responseData = $this->goToOauth2ProvidersTestFrontendPage($siteBaseUri, $languageSlug, $responseData);
+        $oauth2RegistrationUri = $this->extractLinkHrefFromResponseData($oauth2RegistrationUriId, $responseData);
+        $responseData = $this->fetchFrontendPageContens($this->buildGetRequest($siteBaseUri . $oauth2RegistrationUri, $responseData['cookieData']), false);
+        $authorizationRedirectUri = new Uri($responseData['response']->getHeaderLine('location'));
+        parse_str($authorizationRedirectUri->getQuery(), $authorizationQuery);
+        $requestedState = $authorizationQuery['state'] ?? null;
+        $oauth2BackendSessionData = $this->getOauth2BackendSessionData();
+        $oauth2FrontendSessionData = $this->getOauth2FrontendSessionData();
+
+        self::assertArrayHasKey('fe_typo_user_oauth2', $responseData['cookieData'], 'assert: the oauth2 frontend cookie is sent to the client');
+        self::assertArrayNotHasKey('be_typo_user_oauth2', $responseData['cookieData'], 'assert: no oauth2 backend cookie is sent to the client');
+        self::assertEquals($expectedRemoteInstanceHost, $authorizationRedirectUri->getHost(), 'assert: the correct remote instance is called');
+        self::assertEquals('code', $authorizationQuery['response_type'] ?? null, 'assert: the correct response type is requested');
+        self::assertEquals($expectedRemoteClientId, $authorizationQuery['client_id'] ?? null, 'assert: the correct client id is requested');
+        self::assertEquals($siteBaseUri . $languageSlug . '/_oauth2?oauth2-provider=' . $expectedProvider . '&tx_oauth2client%5Baction%5D=verify', $authorizationQuery['redirect_uri'] ?? null, 'assert: the correct callback uri is sent');
+        self::assertNotEmpty($requestedState, 'assert: an oauth2 state was created and set in the authorization request uri');
+        self::assertCount(1, $oauth2FrontendSessionData, 'assert: 1 oauth2 frontend session was created');
+        self::assertCount(0, $oauth2BackendSessionData, 'assert: no oauth2 backend session exists');
+        self::assertEquals(0, (int)$oauth2FrontendSessionData[0]['ses_userid'], 'assert: the frontend session is not connected to a user');
+        self::assertEquals(
+            [
+                'oauth2-state' => $requestedState
+            ],
+            $oauth2FrontendSessionData[0]['ses_data'],
+            'assert: the frontend session contains the oauth2 state'
+        );
+
+        // Simulate the redirect from the remote instance back to the TYPO3
+        $requestedCallbackUri = new Uri(urldecode($authorizationQuery['redirect_uri']));
+        parse_str($requestedCallbackUri->getQuery(), $respondedCallbackQuery);
+        $respondedCallbackQuery['state'] = $requestedState;
+        $respondedCallbackQuery['code'] = 'some-remote-api-access-code';
+        $respondedCallbackUri = (string)$requestedCallbackUri->withQuery(http_build_query($respondedCallbackQuery));
+
+        // At this point we were redirected back from the remote instance to the TYPO3
+        // This is the Waldhacker\Oauth2Client\Service\Oauth2Service::getUser() part
+        $responseData = $this->fetchFrontendPageContens(
+            $this->buildGetRequest($respondedCallbackUri, $responseData['cookieData']),
+            false,
+            $this->buildRequestContext(['X_TYPO3_TESTING_FRAMEWORK' => ['HTTP' => ['mocks' => [
+                // successful Oauth2Service::getUser() request
+                'className' => SuccessfulGetUserFromGitLabHttpMock::class,
+                'options' => [
+                    'remoteUser' => $remoteUserData,
+                ],
+            ]]]])
+        );
+
+        $oauth2BackendSessionData = $this->getOauth2BackendSessionData();
+        $oauth2FrontendSessionData = $this->getOauth2FrontendSessionData();
+        $backendUserOauth2ProviderConfigurations = $this->getBackendUserOauth2ProviderConfigurations();
+        $frontendUserOauth2ProviderConfigurations = $this->getFrontendUserOauth2ProviderConfigurations();
+        $redirectUri = new Uri($responseData['response']->getHeaderLine('location'));
+
+        self::assertArrayNotHasKey('fe_typo_user_oauth2', $responseData['cookieData'], 'assert: no oauth2 frontend cookie is sent to the client');
+        self::assertArrayNotHasKey('be_typo_user_oauth2', $responseData['cookieData'], 'assert: no oauth2 backend cookie is sent to the client');
+        self::assertArrayHasKey('fe_typo_user', $responseData['cookieData'], 'assert: the frontend user cookie is sent to the client');
+        self::assertEquals($frontendUserCookieData, $responseData['cookieData']['fe_typo_user'], 'assert: no new frontend user cookie is created');
+
+        self::assertEquals(302, $responseData['response']->getStatusCode(), 'assert: response redirect code is set');
+        self::assertEquals($siteBaseUri . $languageSlug, (string)$redirectUri, 'assert: we are redirected to the base uri');
+        self::assertEquals(
+            'OAuth2: Not logged in or invalid data',
+            $responseData['response']->getReasonPhrase(),
+            'assert: response redirect reason is set'
+        );
+
+        self::assertCount(0, $oauth2FrontendSessionData, 'assert: no oauth2 frontend session exists');
         self::assertCount(0, $oauth2BackendSessionData, 'assert: no oauth2 backend session exists');
         self::assertCount(0, $frontendUserOauth2ProviderConfigurations, 'assert: no oauth2 provider configuration exists for frontend users');
         self::assertCount(0, $backendUserOauth2ProviderConfigurations, 'assert: no oauth2 provider configuration exists for backend users');
