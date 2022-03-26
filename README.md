@@ -1,3 +1,5 @@
+[![ci](https://github.com/waldhacker/ext-oauth2-client/actions/workflows/ci.yml/badge.svg)](https://github.com/waldhacker/ext-oauth2-client/actions/workflows/ci.yml)
+
 # OAuth2 Backend Login Client
 
 Allow your frontend and backend users to add login possibilities via any OAuth2 provider. Popular examples are Github or Gitlab, Google, Facebook or LinkedIn or classically self-hosted solutions like Keycloak.
@@ -8,6 +10,14 @@ This extension is especially powerful in combination with the Multi-Factor Capab
 to TYPO3.
 
 For more info, please refer to the documentation.
+
+## Backend login
+
+![Image of Dashboards](Documentation/Images/Backend/loginScreen.png)
+
+## Frontend login
+
+![Image of Dashboards](Documentation/Images/Frontend/loginScreen.png)
 
 ## Quick Install
 
