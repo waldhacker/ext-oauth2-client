@@ -6,7 +6,7 @@
 Configuration with Github
 =========================
 
-Adding the OAuth2 App in Github
+Adding the OAuth2 app in Github
 ===============================
 
 -  Login to Github
@@ -14,16 +14,23 @@ Adding the OAuth2 App in Github
 -  Click "new Oauth App"
 
    -  Enter your TYPO3 installation domain as Homepage URL
-   -  Add the callback URI: `https://<your-TYPO3-installation>/typo3/`
-- Save the application
-- Copy the client secret and client id
+   -  Add the redirect URIs (backend):
+
+      -  `https://<your-TYPO3-installation>/typo3/`
+
+   -  Add the redirect URIs (frontend):
+
+      -  `https://<your-TYPO3-installation>/<callback-slug>`
+
+-  Save the application
+-  Copy the client secret and client id
 
 
 .. figure:: ../Images/configuration_Github.png
    :class: with-shadow float-left
-   :alt: TYPO3 Oauth2 Github App Configuration
+   :alt: TYPO3 OAuth2 Github App Configuration
 
-Adding the OAuth2 Github App in TYPO3
+Adding the OAuth2 Github app in TYPO3
 =====================================
 
 .. warning::
@@ -43,6 +50,9 @@ Add the following configuration to your `AdditionalConfiguration.php`:
                'description' => 'Login with your github.com user.',
                'iconIdentifier' => 'oauth2-github',
                'implementationClassName' => \League\OAuth2\Client\Provider\Github::class,
+               'scopes' => [
+                   \Waldhacker\Oauth2Client\Service\Oauth2ProviderManager::SCOPE_BACKEND,
+               ],
                'options' => [
                    'clientId' => '<your-client-id>',
                    'clientSecret' => '<your-client-secret>',
@@ -54,18 +64,16 @@ Add the following configuration to your `AdditionalConfiguration.php`:
 Registering the icon (optional)
 ===============================
 
-If you want to use the Github icon, in your site package `ext_localconf.php` register the icon like this:
+If you want to use a custom icon, in your site package `Configuration/Icons.php` register the icon like this:
 
 .. code-block:: php
 
-   $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-       \TYPO3\CMS\Core\Imaging\IconRegistry::class
-   );
-
-   $iconRegistry->registerIcon(
-       'oauth2-github',
-       \TYPO3\CMS\Core\Imaging\IconProvider\FontawesomeIconProvider::class,
-       ['name' => 'github']
-   );
+   <?php
+      return [
+          'oauth2-github' => [
+              'provider' => \TYPO3\CMS\Core\Imaging\IconProvider\FontawesomeIconProvider::class,
+              'name' => 'github',
+          ],
+      ];
 
 If you want to use the default icon instead, remove the `iconIdentifier` from the configuration.

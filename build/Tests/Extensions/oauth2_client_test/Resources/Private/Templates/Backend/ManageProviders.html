@@ -1,0 +1,122 @@
+<html
+        xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+        xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers"
+        data-namespace-typo3-fluid="true">
+
+<a id="oauth2test-register-keycloak" href="{f:be.uri(route:'oauth2_registration_authorize', parameters:'{action: \'authorize\', oauth2-provider: \'keycloak\'}', referenceType: 'url')}">register with keycloak</a>
+<br />
+<a id="oauth2test-register-google" href="{f:be.uri(route:'oauth2_registration_authorize', parameters:'{action: \'authorize\', oauth2-provider: \'google\'}', referenceType: 'url')}">register with google</a>
+<br />
+<a id="oauth2test-register-github" href="{f:be.uri(route:'oauth2_registration_authorize', parameters:'{action: \'authorize\', oauth2-provider: \'github\'}', referenceType: 'url')}">register with github</a>
+<br />
+<a id="oauth2test-register-gitlab" href="{f:be.uri(route:'oauth2_registration_authorize', parameters:'{action: \'authorize\', oauth2-provider: \'gitlab\'}', referenceType: 'url')}">register with gitlab</a>
+<br />
+<a id="oauth2test-register-gitlab1-fe" href="{f:be.uri(route:'oauth2_registration_authorize', parameters:'{action: \'authorize\', oauth2-provider: \'gitlab1-fe\'}', referenceType: 'url')}">register with gitlab1-fe</a>
+<br />
+<a id="oauth2test-register-gitlab2-be" href="{f:be.uri(route:'oauth2_registration_authorize', parameters:'{action: \'authorize\', oauth2-provider: \'gitlab2-be\'}', referenceType: 'url')}">register with gitlab2-be</a>
+<br />
+<a id="oauth2test-register-gitlab3-both" href="{f:be.uri(route:'oauth2_registration_authorize', parameters:'{action: \'authorize\', oauth2-provider: \'gitlab3-both\'}', referenceType: 'url')}">register with gitlab3-both</a>
+<br />
+<a id="oauth2test-register-gitlab4-fe" href="{f:be.uri(route:'oauth2_registration_authorize', parameters:'{action: \'authorize\', oauth2-provider: \'gitlab4-fe\'}', referenceType: 'url')}">register with gitlab4-fe</a>
+<br />
+<a id="oauth2test-register-gitlab5-be" href="{f:be.uri(route:'oauth2_registration_authorize', parameters:'{action: \'authorize\', oauth2-provider: \'gitlab5-be\'}', referenceType: 'url')}">register with gitlab5-be</a>
+<br />
+<a id="oauth2test-register-gitlab6-both" href="{f:be.uri(route:'oauth2_registration_authorize', parameters:'{action: \'authorize\', oauth2-provider: \'gitlab6-both\'}', referenceType: 'url')}">register with gitlab6-both</a>
+<br />
+<a id="oauth2test-register-gitlab7-fe" href="{f:be.uri(route:'oauth2_registration_authorize', parameters:'{action: \'authorize\', oauth2-provider: \'gitlab7-fe\'}', referenceType: 'url')}">register with gitlab7-fe</a>
+<br />
+<a id="oauth2test-register-gitlab8-fe" href="{f:be.uri(route:'oauth2_registration_authorize', parameters:'{action: \'authorize\', oauth2-provider: \'gitlab8-fe\'}', referenceType: 'url')}">register with gitlab8-fe</a>
+<br />
+<a id="oauth2test-register-notconfigured" href="{f:be.uri(route:'oauth2_registration_authorize', parameters:'{action: \'authorize\', oauth2-provider: \'notconfigured\'}', referenceType: 'url')}">register with notconfigured</a>
+<br />
+<a id="oauth2test-register-_invalid_" href="{f:be.uri(route:'oauth2_registration_authorize', parameters:'{action: \'authorize\', oauth2-provider: \'_invalid_\'}', referenceType: 'url')}">register with _invalid_</a>
+<br />
+
+<a id="oauth2test-create-be-1" href="{be:moduleLink(route:'tce_db', query: 'data[tx_oauth2_beuser_provider_configuration][NEW54321][parentid]=1', currentUrlParameterName: 'redirect')}">create be_config with parentid=1</a>
+<br />
+<a id="oauth2test-create-be-2" href="{be:moduleLink(route:'tce_db', query: 'data[tx_oauth2_beuser_provider_configuration][NEW54321][provider]=gitlab&data[tx_oauth2_beuser_provider_configuration][NEW54321][identifier]=new1', currentUrlParameterName: 'redirect')}">create be_config with provider=gitlab, identifier=new1</a>
+<br />
+<a id="oauth2test-create-be-3" href="{be:moduleLink(route:'tce_db', query: 'data[tx_oauth2_beuser_provider_configuration][NEW54321][provider]=gitlab&data[tx_oauth2_beuser_provider_configuration][NEW54321][identifier]=new2&data[tx_oauth2_beuser_provider_configuration][NEW54321][parentid]=1', currentUrlParameterName: 'redirect')}">create be_config with provider=gitlab, identifier=new2, parentid=1</a>
+<br />
+<a id="oauth2test-create-be-4" href="{be:moduleLink(route:'tce_db', query: 'data[tx_oauth2_beuser_provider_configuration][NEW54321][provider]=gitlab&data[tx_oauth2_beuser_provider_configuration][NEW54321][identifier]=new3&data[tx_oauth2_beuser_provider_configuration][NEW54321][parentid]=1&data[be_users][1][tx_oauth2_client_configs]=NEW54321', currentUrlParameterName: 'redirect')}">create be_config with provider=gitlab, identifier=new3, parentid=1 for be_user=1</a>
+<br />
+
+<a id="oauth2test-create-be-5" href="{be:moduleLink(route:'tce_db', query: 'data[tx_oauth2_beuser_provider_configuration][NEW54321][parentid]=3', currentUrlParameterName: 'redirect')}">create be_config with parentid=3</a>
+<br />
+<a id="oauth2test-create-be-6" href="{be:moduleLink(route:'tce_db', query: 'data[tx_oauth2_beuser_provider_configuration][NEW54321][provider]=gitlab&data[tx_oauth2_beuser_provider_configuration][NEW54321][identifier]=new4&data[tx_oauth2_beuser_provider_configuration][NEW54321][parentid]=3', currentUrlParameterName: 'redirect')}">create be_config with provider=gitlab, identifier=new4, parentid=3</a>
+<br />
+<a id="oauth2test-create-be-7" href="{be:moduleLink(route:'tce_db', query: 'data[tx_oauth2_beuser_provider_configuration][NEW54321][provider]=gitlab&data[tx_oauth2_beuser_provider_configuration][NEW54321][identifier]=new5&data[tx_oauth2_beuser_provider_configuration][NEW54321][parentid]=3&data[be_users][3][tx_oauth2_client_configs]=NEW54321', currentUrlParameterName: 'redirect')}">create be_config with provider=gitlab, identifier=new5, parentid=3 for be_user=3</a>
+<br />
+
+<a id="oauth2test-deactivate-be-1" href="{be:moduleLink(route:'tce_db', query: 'cmd[tx_oauth2_beuser_provider_configuration][1][delete]=1', currentUrlParameterName: 'redirect')}">deactivate be_config=1</a>
+<br />
+<a id="oauth2test-deactivate-be-2" href="{be:moduleLink(route:'tce_db', query: 'cmd[tx_oauth2_beuser_provider_configuration][2][delete]=1', currentUrlParameterName: 'redirect')}">deactivate be_config=2</a>
+<br />
+<a id="oauth2test-deactivate-be-3" href="{be:moduleLink(route:'tce_db', query: 'cmd[tx_oauth2_beuser_provider_configuration][3][delete]=1', currentUrlParameterName: 'redirect')}">deactivate be_config=3</a>
+<br />
+<a id="oauth2test-deactivate-be-4" href="{be:moduleLink(route:'tce_db', query: 'cmd[tx_oauth2_beuser_provider_configuration][4][delete]=1', currentUrlParameterName: 'redirect')}">deactivate be_config=4</a>
+<br />
+<a id="oauth2test-deactivate-be-5" href="{be:moduleLink(route:'tce_db', query: 'cmd[tx_oauth2_beuser_provider_configuration][5][delete]=1', currentUrlParameterName: 'redirect')}">deactivate be_config=5</a>
+<br />
+
+<a id="oauth2test-override-be-1" href="{be:moduleLink(route:'tce_db', query: 'data[tx_oauth2_beuser_provider_configuration][1][parentid]=1', currentUrlParameterName: 'redirect')}">override parentid=1 for be_config=1</a>
+<br />
+<a id="oauth2test-override-be-2"href="{be:moduleLink(route:'tce_db', query: 'data[tx_oauth2_beuser_provider_configuration][1][provider]=gitlab&data[tx_oauth2_beuser_provider_configuration][1][identifier]=existing1', currentUrlParameterName: 'redirect')}">override provider=gitlab, identifier=existing1 for be_config=1</a>
+<br />
+<a id="oauth2test-override-be-3"href="{be:moduleLink(route:'tce_db', query: 'data[tx_oauth2_beuser_provider_configuration][1][provider]=gitlab&data[tx_oauth2_beuser_provider_configuration][1][identifier]=existing2&data[tx_oauth2_beuser_provider_configuration][1][parentid]=1', currentUrlParameterName: 'redirect')}">override provider=gitlab, identifier=existing2, parentid=1 for be_config=1</a>
+<br />
+<a id="oauth2test-override-be-4"href="{be:moduleLink(route:'tce_db', query: 'data[tx_oauth2_beuser_provider_configuration][1][provider]=gitlab&data[tx_oauth2_beuser_provider_configuration][1][identifier]=existing3&data[tx_oauth2_beuser_provider_configuration][1][parentid]=1&data[be_users][1][tx_oauth2_client_configs]=1', currentUrlParameterName: 'redirect')}">override provider=gitlab, identifier=existing4, parentid=1 for be_config=1 and be_user=1</a>
+<br />
+
+<a id="oauth2test-override-be-5" href="{be:moduleLink(route:'tce_db', query: 'data[tx_oauth2_beuser_provider_configuration][2][parentid]=3', currentUrlParameterName: 'redirect')}">override parentid=3 for be_config=2</a>
+<br />
+<a id="oauth2test-override-be-6"href="{be:moduleLink(route:'tce_db', query: 'data[tx_oauth2_beuser_provider_configuration][2][provider]=gitlab&data[tx_oauth2_beuser_provider_configuration][2][identifier]=existing4', currentUrlParameterName: 'redirect')}">override provider=gitlab, identifier=existing4 for be_config=2</a>
+<br />
+<a id="oauth2test-override-be-7"href="{be:moduleLink(route:'tce_db', query: 'data[tx_oauth2_beuser_provider_configuration][2][provider]=gitlab&data[tx_oauth2_beuser_provider_configuration][2][identifier]=existing5&data[tx_oauth2_beuser_provider_configuration][2][parentid]=3', currentUrlParameterName: 'redirect')}">override provider=gitlab, identifier=existing5, parentid=3 for be_config=2</a>
+<br />
+<a id="oauth2test-override-be-8"href="{be:moduleLink(route:'tce_db', query: 'data[tx_oauth2_beuser_provider_configuration][2][provider]=gitlab&data[tx_oauth2_beuser_provider_configuration][2][identifier]=existing5&data[tx_oauth2_beuser_provider_configuration][2][parentid]=3&data[be_users][3][tx_oauth2_client_configs]=2', currentUrlParameterName: 'redirect')}">override provider=gitlab, identifier=existing5, parentid=3 for be_config=2 and be_user=3</a>
+<br />
+
+<a id="oauth2test-create-fe-1" href="{be:moduleLink(route:'tce_db', query: 'data[tx_oauth2_feuser_provider_configuration][NEW54321][parentid]=1', currentUrlParameterName: 'redirect')}">create fe_config with parentid=1</a>
+<br />
+<a id="oauth2test-create-fe-2" href="{be:moduleLink(route:'tce_db', query: 'data[tx_oauth2_feuser_provider_configuration][NEW54321][provider]=gitlab&data[tx_oauth2_feuser_provider_configuration][NEW54321][identifier]=new1', currentUrlParameterName: 'redirect')}">create fe_config with provider=gitlab, identifier=new1</a>
+<br />
+<a id="oauth2test-create-fe-3" href="{be:moduleLink(route:'tce_db', query: 'data[tx_oauth2_feuser_provider_configuration][NEW54321][provider]=gitlab&data[tx_oauth2_feuser_provider_configuration][NEW54321][identifier]=new2&data[tx_oauth2_feuser_provider_configuration][NEW54321][parentid]=1', currentUrlParameterName: 'redirect')}">create fe_config with provider=gitlab, identifier=new2, parentid=1</a>
+<br />
+<a id="oauth2test-create-fe-4" href="{be:moduleLink(route:'tce_db', query: 'data[tx_oauth2_feuser_provider_configuration][NEW54321][provider]=gitlab&data[tx_oauth2_feuser_provider_configuration][NEW54321][identifier]=new3&data[fe_users][1][tx_oauth2_client_configs]=NEW54321', currentUrlParameterName: 'redirect')}">create fe_config with provider=gitlab, identifier=new3, parentid=1 for fe_user=1</a>
+<br />
+
+<a id="oauth2test-deactivate-fe-1" href="{be:moduleLink(route:'tce_db', query: 'cmd[tx_oauth2_feuser_provider_configuration][1][delete]=1', currentUrlParameterName: 'redirect')}">deactivate fe_config=1</a>
+<br />
+<a id="oauth2test-deactivate-fe-2" href="{be:moduleLink(route:'tce_db', query: 'cmd[tx_oauth2_feuser_provider_configuration][2][delete]=1', currentUrlParameterName: 'redirect')}">deactivate fe_config=2</a>
+<br />
+<a id="oauth2test-deactivate-fe-3" href="{be:moduleLink(route:'tce_db', query: 'cmd[tx_oauth2_feuser_provider_configuration][3][delete]=1', currentUrlParameterName: 'redirect')}">deactivate fe_config=3</a>
+<br />
+<a id="oauth2test-deactivate-fe-4" href="{be:moduleLink(route:'tce_db', query: 'cmd[tx_oauth2_feuser_provider_configuration][4][delete]=1', currentUrlParameterName: 'redirect')}">deactivate fe_config=4</a>
+<br />
+<a id="oauth2test-deactivate-fe-5" href="{be:moduleLink(route:'tce_db', query: 'cmd[tx_oauth2_feuser_provider_configuration][5][delete]=1', currentUrlParameterName: 'redirect')}">deactivate fe_config=5</a>
+<br />
+
+<a id="oauth2test-override-fe-1" href="{be:moduleLink(route:'tce_db', query: 'data[tx_oauth2_feuser_provider_configuration][1][parentid]=1', currentUrlParameterName: 'redirect')}">override parentid=1 for fe_config=1</a>
+<br />
+<a id="oauth2test-override-fe-2" href="{be:moduleLink(route:'tce_db', query: 'data[tx_oauth2_feuser_provider_configuration][1][provider]=gitlab&data[tx_oauth2_feuser_provider_configuration][1][identifier]=existing1', currentUrlParameterName: 'redirect')}">override provider=gitlab, identifier=existing1 for fe_config=1</a>
+<br />
+<a id="oauth2test-override-fe-3" href="{be:moduleLink(route:'tce_db', query: 'data[tx_oauth2_feuser_provider_configuration][1][provider]=gitlab&data[tx_oauth2_feuser_provider_configuration][1][identifier]=existing2&data[tx_oauth2_feuser_provider_configuration][1][parentid]=1', currentUrlParameterName: 'redirect')}">override provider=gitlab, identifier=existing2, parentid=1 for fe_config=1</a>
+<br />
+<a id="oauth2test-override-fe-4" href="{be:moduleLink(route:'tce_db', query: 'data[tx_oauth2_feuser_provider_configuration][1][provider]=gitlab&data[tx_oauth2_feuser_provider_configuration][1][identifier]=existing3&data[tx_oauth2_feuser_provider_configuration][1][parentid]=1&data[fe_users][1][tx_oauth2_client_configs]=1', currentUrlParameterName: 'redirect')}">override provider=gitlab, identifier=existing3, parentid=1 for fe_config=1 and fe_user=1</a>
+<br />
+
+<form
+    action="{f:be.uri(route:'oauth2_registration_verify', parameters:'{action: \'save\'}')}"
+    method="post"
+    enctype="multipart/form-data"
+    name="edit"
+    id="oauth2test-register-verify-form"
+>
+    <input type="text" name="oauth2-state" value="" />
+    <input type="text" name="oauth2-code" value="" />
+    <input type="text" name="oauth2-provider" value="" />
+    <button type="submit">submit</button>
+</form>
+
+</html>

@@ -8,9 +8,9 @@
 
 .. _start:
 
-=============================================================
-TYPO3 OAuth2 (Backend) Login Client
-=============================================================
+================================================
+TYPO3 OAuth2 login client (backend and frontend)
+================================================
 
 :Version:
    |release|
@@ -19,7 +19,7 @@ TYPO3 OAuth2 (Backend) Login Client
    en
 
 :Authors:
-   Waldhacker UG
+   waldhacker UG (haftungsbeschränkt)
 
 :Email:
    hello@waldhacker.dev
@@ -32,15 +32,25 @@ TYPO3 OAuth2 (Backend) Login Client
    `CC BY-NC-SA 4.0 <https://creativecommons.org/licenses/by-nc-sa/4.0/>`__ (Creative Commons)
    license
 
-OAuth2 Login Providers for the TYPO3 Backend
-============================================
+Screenshots
+===========
 
-.. figure:: Images/loginScreen.png
-   :class: with-shadow float-left
-   :alt: TYPO3 Oauth2 Configured Providers
+.. figure:: Images/Backend/loginScreen.png
+   :class: with-shadow
+   :alt: TYPO3 backend login screen with configured OAuth2 providers
    :width: 300px
 
-.. rst-class::  float-left
+   TYPO3 backend login screen with configured OAuth2 providers
+
+.. figure:: Images/Frontend/loginScreen.png
+   :class: with-shadow
+   :alt: TYPO3 frontend login screen with configured OAuth2 providers
+   :width: 300px
+
+   TYPO3 frontend login screen with configured OAuth2 providers
+
+Overview
+========
 
 .. toctree::
    :maxdepth: 3

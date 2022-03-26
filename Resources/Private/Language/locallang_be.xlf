@@ -4,22 +4,22 @@
         <header />
         <body>
             <trans-unit id="oauth2Providers.enabled" resname="oauth2Providers.enabled">
-                <source>Enabled OAuth2 Providers</source>
+                <source>Enabled OAuth2 providers</source>
             </trans-unit>
             <trans-unit id="oauth2Providers.description" resname="oauth2Providers.description">
-                <source>OAuth2 Providers allow you to log in with external services such as Google or Github depending on the configuration.</source>
+                <source>OAuth2 providers allow you to log in with external services such as Google or Github depending on the configuration.</source>
             </trans-unit>
             <trans-unit id="oauth2Providers.notAvailable" resname="oauth2Providers.notAvailable">
-                <source>No OAuth2 Providers are currently available. A system administrator can add providers via system configuration (LocalConfiguration).</source>
+                <source>No OAuth2 providers are currently available. A system administrator can add providers via system configuration (LocalConfiguration).</source>
             </trans-unit>
             <trans-unit id="oauth2Providers.manageLinkTitle" resname="oauth2Providers.manageLinkTitle">
-                <source>Manage OAuth2 Providers</source>
+                <source>Manage OAuth2 providers</source>
             </trans-unit>
             <trans-unit id="oauth2Providers.setupLinkTitle" resname="oauth2Providers.setupLinkTitle">
-                <source>Setup OAuth2 Providers</source>
+                <source>Setup OAuth2 providers</source>
             </trans-unit>
             <trans-unit id="overview.title" resname="overview.title">
-                <source>OAuth2 Providers</source>
+                <source>OAuth2 providers</source>
             </trans-unit>
             <trans-unit id="overview.badge.inactive" resname="overview.badge.inactive">
                 <source>Inactive</source>
@@ -58,16 +58,52 @@
                 <source>Remove %s?</source>
             </trans-unit>
             <trans-unit id="labels.oauth2.enabled" resname="labels.oauth2.enabled">
-                <source>OAuth2 Enabled</source>
+                <source>OAuth2 enabled</source>
             </trans-unit>
             <trans-unit id="labels.oauth2.disabled" resname="labels.oauth2.disabled">
                 <source>No OAuth2 configured</source>
             </trans-unit>
             <trans-unit id="login.link" resname="login.link">
-                <source>OAuth2 Login (Social Login)</source>
+                <source>Login with OAuth2 providers (Social login)</source>
             </trans-unit>
             <trans-unit id="userSettings.label" resname="userSettings.label">
-                <source>OAuth2 Authentication Providers (Social Login)</source>
+                <source>OAuth2 authentication providers (Social login)</source>
+            </trans-unit>
+            <trans-unit id="tx_oauth2_client_config" resname="tx_oauth2_client_config">
+                <source>OAuth2 Client Configuration</source>
+            </trans-unit>
+            <trans-unit id="tx_oauth2_beuser_provider_configuration" resname="tx_oauth2_beuser_provider_configuration">
+                <source>OAuth2 backend user client configuration</source>
+            </trans-unit>
+            <trans-unit id="tx_oauth2_feuser_provider_configuration" resname="tx_oauth2_feuser_provider_configuration">
+                <source>OAuth2 frontend user client configuration</source>
+            </trans-unit>
+            <trans-unit id="site.tab" resname="site.tab">
+                <source>Manage OAuth2 providers</source>
+            </trans-unit>
+            <trans-unit id="site.enabled_oauth2_providers.title" resname="site.enabled_oauth2_providers.title">
+                <source>Enabled OAuth2 providers</source>
+            </trans-unit>
+            <trans-unit id="site.enabled_oauth2_providers.override_description" resname="site.enabled_oauth2_providers.override_description">
+                <source>Overwrites the configured provider within the site</source>
+            </trans-unit>
+            <trans-unit id="site.oauth2_storage_pid.title" resname="site.oauth2_callback_slug.title">
+                <source>Storage Folder for Frontend Users</source>
+            </trans-unit>
+            <trans-unit id="site.oauth2_storage_pid.description" resname="site.oauth2_callback_slug.title">
+                <source>The storage folder for frontend users. Set "Behaviour -> Contains Plugin" to "Website Users" to make a folder selectable here.</source>
+            </trans-unit>
+            <trans-unit id="site.oauth2_callback_slug.title" resname="site.oauth2_callback_slug.title">
+                <source>The OAuth2 callback slug</source>
+            </trans-unit>
+            <trans-unit id="site.oauth2_callback_slug.description" resname="site.oauth2_callback_slug.description">
+                <source>The slug which is used for the OAuth2 callback URLs. If empty, then the default "_oauth2/" is used.</source>
+            </trans-unit>
+            <trans-unit id="site.oauth2_callback_slug.override_description" resname="site.oauth2_callback_slug.override_description">
+                <source>Overwrites the configured slug within the site.</source>
+            </trans-unit>
+            <trans-unit id="plugin.manage_providers" resname="plugin.manage_providers">
+                <source>Manage OAuth2 providers</source>
             </trans-unit>
         </body>
     </file>

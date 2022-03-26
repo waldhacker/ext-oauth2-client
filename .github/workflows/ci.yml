@@ -2,16 +2,21 @@ name: ci
 on: [ push, pull_request ]
 jobs:
   ci:
-    name: Tests with PHP${{ matrix.php }}
+    name: Tests with PHP ${{ matrix.php }} / TYPO3 ${{ matrix.typo3 }}
     runs-on: ubuntu-20.04
     strategy:
+      fail-fast: false
       matrix:
-        php: [ 7.4, 8.0 ]
+        typo3: [ '^10.4', '^11.5' ]
+        php: [ '7.4', '8.0' ]
+        exclude:
+          - typo3: '^10.4'
+            php: '8.0'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Setup PHP
+      - name: Setup PHP version ${{ matrix.php }}
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
@@ -28,12 +33,48 @@ jobs:
           key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: ${{ runner.os }}-php-${{ matrix.php }}-composer-
 
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest --optimize-autoloader
+      - name: Environment Check
+        run: |
+          php --version
+          composer --version
 
-      - name: Run CI
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Install dependencies with typo3/cms-core:${{ matrix.typo3 }}
+        run: |
+          composer require typo3/cms-core:${{ matrix.typo3 }} --prefer-dist --no-progress --no-suggest --optimize-autoloader
+
+      - name: Info
+        run: composer info
+
+      - name: Lint
         run: |
           composer run ci:lint:php
           composer run ci:lint:yaml
-          composer run ci:psalm
-          composer run ci:stan
+          composer run ci:normalize:check
+
+      - name: CGL
+        run: composer run ci:cgl:check
+
+      - name: Psalm
+        run: composer run ci:psalm
+        if: matrix.typo3 != '^10.4'
+
+      - name: Psalm
+        run: composer run ci:psalm:v10
+        if: matrix.typo3 == '^10.4'
+
+      - name: PHPStan
+        run: composer run ci:stan
+        if: matrix.typo3 != '^10.4'
+
+      - name: PHPStan
+        run: composer run ci:stan:v10
+        if: matrix.typo3 == '^10.4'
+
+      #- name: Unit tests
+      #  run: composer run ci:tests:unit:cover
+
+      - name: Functional tests
+        run: composer run ci:tests:functional

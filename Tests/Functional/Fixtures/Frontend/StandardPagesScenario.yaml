@@ -1,0 +1,158 @@
+entitySettings:
+  '*':
+    nodeColumnName: pid
+    columnNames:
+      id: uid
+    defaultValues:
+      pid: 0
+  page:
+    isNode: true
+    tableName: pages
+    parentColumnName: pid
+    languageColumnNames:
+      - l10n_parent
+      - l10n_source
+    defaultValues:
+      hidden: 0
+      perms_groupid: 0
+      perms_user: 31
+      perms_group: 31
+      perms_everybody: 31
+  content:
+    tableName: tt_content
+    languageColumnNames:
+      - l18n_parent
+      - l10n_source
+    defaultValues:
+      hidden: 0
+  frontendUser:
+    tableName: fe_users
+  frontendGroup:
+    tableName: fe_groups
+  backendUser:
+    tableName: be_users
+    defaultValues:
+      hidden: 0
+      disable: 0
+  backendGroup:
+    tableName: be_groups
+  frontendUserOauth2ClientConfiguration:
+    tableName: tx_oauth2_feuser_provider_configuration
+  backendUserOauth2ClientConfiguration:
+    tableName: tx_oauth2_beuser_provider_configuration
+  template:
+    tableName: sys_template
+entities:
+  backendGroup:
+    - self: {id: 1, title: 'no fe user and no OAuth2 fe config rights', db_mountpoints: '1000,2000,3000', tables_select: 'pages,tt_content', groupMods: 'web_layout,web_list,user_setup', workspace_perms: 1}
+    - self: {id: 2, title: 'fe user and no OAuth2 fe config rights', db_mountpoints: '1000,2000,3000', tables_select: 'pages,tt_content', tables_modify: fe_users, non_exclude_fields: 'fe_users:tx_oauth2_client_configs', groupMods: 'web_layout,web_list,user_setup', workspace_perms: 1}
+    - self: {id: 3, title: 'no fe user but OAuth2 fe config rights', db_mountpoints: '1000,2000,3000', tables_select: 'pages,tt_content', tables_modify: tx_oauth2_feuser_provider_configuration, groupMods: 'web_layout,web_list,user_setup', workspace_perms: 1}
+    - self: {id: 4, title: 'fe user and OAuth2 fe config rights', db_mountpoints: '1000,2000,3000', tables_select: 'pages,tt_content', tables_modify: 'fe_users,tx_oauth2_feuser_provider_configuration', non_exclude_fields: 'fe_users:tx_oauth2_client_configs', groupMods: 'web_layout,web_list,user_setup', workspace_perms: 1}
+    - self: {id: 5, title: 'no user_setup module access', db_mountpoints: '1000,2000,3000', tables_select: 'pages,tt_content', groupMods: 'web_layout,web_list', workspace_perms: 1}
+  backendUser:
+    - self: {id: 2, username: user2, usergroup: 1, options: 2, db_mountpoints: '1000,2000,3000', tx_oauth2_client_configs: 0, password: '$argon2i$v=19$m=65536,t=16,p=1$MFB2d2ppalN4emtaMi91RQ$rNO+1DOnD5G+PYxG0pYUQphM771Qisi050V+PZD28/M'}
+    - self: {id: 3, username: user3, usergroup: 2, options: 2, db_mountpoints: '1000,2000,3000', tx_oauth2_client_configs: 0, password: '$argon2i$v=19$m=65536,t=16,p=1$MFB2d2ppalN4emtaMi91RQ$rNO+1DOnD5G+PYxG0pYUQphM771Qisi050V+PZD28/M'}
+    - self: {id: 4, username: user4, usergroup: 3, options: 2, db_mountpoints: '1000,2000,3000', tx_oauth2_client_configs: 0, password: '$argon2i$v=19$m=65536,t=16,p=1$MFB2d2ppalN4emtaMi91RQ$rNO+1DOnD5G+PYxG0pYUQphM771Qisi050V+PZD28/M'}
+    - self: {id: 5, username: user5, usergroup: 4, options: 2, db_mountpoints: '1000,2000,3000', tx_oauth2_client_configs: 0, password: '$argon2i$v=19$m=65536,t=16,p=1$MFB2d2ppalN4emtaMi91RQ$rNO+1DOnD5G+PYxG0pYUQphM771Qisi050V+PZD28/M'}
+    - self: {id: 6, username: user6, usergroup: 5, options: 2, db_mountpoints: '1000,2000,3000', tx_oauth2_client_configs: 0, password: '$argon2i$v=19$m=65536,t=16,p=1$MFB2d2ppalN4emtaMi91RQ$rNO+1DOnD5G+PYxG0pYUQphM771Qisi050V+PZD28/M'}
+    - self: {id: 7, username: user7, usergroup: 4, options: 2, db_mountpoints: '1000,2000,3000', tx_oauth2_client_configs: 0, password: '$argon2i$v=19$m=65536,t=16,p=1$MFB2d2ppalN4emtaMi91RQ$rNO+1DOnD5G+PYxG0pYUQphM771Qisi050V+PZD28/M', disable: 1}
+    - self: {id: 8, username: user8, usergroup: 4, options: 2, db_mountpoints: '1000,2000,3000', tx_oauth2_client_configs: 0, password: '$argon2i$v=19$m=65536,t=16,p=1$MFB2d2ppalN4emtaMi91RQ$rNO+1DOnD5G+PYxG0pYUQphM771Qisi050V+PZD28/M', deleted: 1}
+  page:
+    - self: {id: 1000, title: 'Users', slug: /users, doktype: 254, module: 'fe_users'}
+      entities:
+        frontendGroup:
+          - self: {id: 1000, title: 'OAuth2 users'}
+        frontendUser:
+          - self: {id: 1000, username: user1, usergroup: 1000, tx_oauth2_client_configs: 0, password: '$argon2i$v=19$m=65536,t=16,p=1$MFB2d2ppalN4emtaMi91RQ$rNO+1DOnD5G+PYxG0pYUQphM771Qisi050V+PZD28/M'}
+          - self: {id: 1001, username: user2, usergroup: 1000, tx_oauth2_client_configs: 0, password: '$argon2i$v=19$m=65536,t=16,p=1$MFB2d2ppalN4emtaMi91RQ$rNO+1DOnD5G+PYxG0pYUQphM771Qisi050V+PZD28/M'}
+          - self: {id: 1002, username: user3, usergroup: 1000, tx_oauth2_client_configs: 0, password: '$argon2i$v=19$m=65536,t=16,p=1$MFB2d2ppalN4emtaMi91RQ$rNO+1DOnD5G+PYxG0pYUQphM771Qisi050V+PZD28/M'}
+          - self: {id: 1004, username: user4, usergroup: 1000, tx_oauth2_client_configs: 0, password: '$argon2i$v=19$m=65536,t=16,p=1$MFB2d2ppalN4emtaMi91RQ$rNO+1DOnD5G+PYxG0pYUQphM771Qisi050V+PZD28/M'}
+          - self: {id: 1005, username: user5, usergroup: 1000, tx_oauth2_client_configs: 0, password: '$argon2i$v=19$m=65536,t=16,p=1$MFB2d2ppalN4emtaMi91RQ$rNO+1DOnD5G+PYxG0pYUQphM771Qisi050V+PZD28/M', disable: 1}
+          - self: {id: 1006, username: user6, usergroup: 1000, tx_oauth2_client_configs: 0, password: '$argon2i$v=19$m=65536,t=16,p=1$MFB2d2ppalN4emtaMi91RQ$rNO+1DOnD5G+PYxG0pYUQphM771Qisi050V+PZD28/M', deleted: 1}
+    - self: {id: 1001, title: 'Users other storage', slug: /users-other-storage, doktype: 254, module: 'fe_users'}
+      entities:
+        frontendGroup:
+          - self: {id: 1001, title: 'OAuth2 users from other storage'}
+        frontendUser:
+          - self: {id: 1007, username: user7, usergroup: 1001, tx_oauth2_client_configs: 0, password: '$argon2i$v=19$m=65536,t=16,p=1$MFB2d2ppalN4emtaMi91RQ$rNO+1DOnD5G+PYxG0pYUQphM771Qisi050V+PZD28/M'}
+
+    - self: {id: 2000, title: 'waldhacker.dev site1', slug: /, doktype: 1, is_siteroot: 1}
+      languageVariants:
+        - self: {id: 2001, title: 'DE: waldhacker.dev site1', sys_language_uid: 1}
+      entities:
+        template:
+          - self: {id: 2000, title: main, root: 1, clear: 3, include_static_file: 'EXT:fluid_styled_content/Configuration/TypoScript/,EXT:oauth2_client/Tests/Functional/Fixtures/Frontend/TypoScript/', static_file_mode: 3, config: '@import "EXT:oauth2_client/Tests/Functional/Fixtures/Frontend/ContentRenderer.typoscript"'}
+      children:
+        - self: {id: 2002, title: 'Login site1', slug: /login, doktype: 1}
+          languageVariants:
+            - self: {id: 2003, title: 'DE: Login site1', slug: /login, sys_language_uid: 1}
+          entities:
+            content:
+              - self: {id: 2000, header: 'Login CE', CType: felogin_login, pi_flexform: "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\" ?>\n<T3FlexForms>\n    <data>\n        <sheet index=\"sDEF\">\n            <language index=\"lDEF\">\n                <field index=\"settings.showForgotPassword\">\n                    <value index=\"vDEF\">0</value>\n                </field>\n                <field index=\"settings.showPermaLogin\">\n                    <value index=\"vDEF\">1</value>\n                </field>\n                <field index=\"settings.showLogoutFormAfterLogin\">\n                    <value index=\"vDEF\">0</value>\n                </field>\n                <field index=\"settings.pages\">\n                    <value index=\"vDEF\">1000,1001</value>\n                </field>\n                <field index=\"settings.recursive\">\n                    <value index=\"vDEF\"></value>\n                </field>\n            </language>\n        </sheet>\n        <sheet index=\"s_redirect\">\n            <language index=\"lDEF\">\n                <field index=\"settings.redirectMode\">\n                    <value index=\"vDEF\">login</value>\n                </field>\n                <field index=\"settings.redirectFirstMethod\">\n                    <value index=\"vDEF\">0</value>\n                </field>\n                <field index=\"settings.redirectPageLogin\">\n                    <value index=\"vDEF\">2004</value>\n                </field>\n                <field index=\"settings.redirectPageLoginError\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.redirectPageLogout\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.redirectDisable\">\n                    <value index=\"vDEF\">0</value>\n                </field>\n            </language>\n        </sheet>\n        <sheet index=\"s_messages\">\n            <language index=\"lDEF\">\n                <field index=\"settings.welcome_header\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.welcome_message\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.success_header\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.success_message\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.error_header\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.error_message\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.status_header\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.status_message\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.logout_header\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.logout_message\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.forgot_header\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.forgot_reset_message\">\n                    <value index=\"vDEF\"></value>\n                </field>\n            </language>\n        </sheet>\n    </data>\n</T3FlexForms>"}
+                languageVariants:
+                  - self: {id: 2001, header: 'DE: Login CE', CType: felogin_login, sys_language_uid: 1}
+        - self: {id: 2004, title: 'Redirect after login site1', slug: /redirect-after-login, doktype: 1}
+          languageVariants:
+            - self: {id: 2005, title: 'DE: Redirect after login site1', slug: /redirect-after-login, sys_language_uid: 1}
+          entities:
+            content:
+              - self: {id: 2002, header: 'Redirect content', CType: text, bodytext: '<p>Redirect page content</p>'}
+                languageVariants:
+                  - self: {id: 2003, header: 'DE: Redirect content', bodytext: '<p>DE: Redirect page content</p>', sys_language_uid: 1}
+        - self: {id: 2006, title: 'Manage providers site1', slug: /manage-providers, doktype: 1}
+          languageVariants:
+            - self: {id: 2007, title: 'DE: Manage providers site1', slug: /manage-providers, sys_language_uid: 1}
+          entities:
+            content:
+              - self: {id: 2004, header: 'Manage providers CE', CType: list, list_type: oauth2client_manageproviders}
+                languageVariants:
+                  - self: {id: 2005, header: 'DE: Manage providers CE', CType: list, list_type: oauth2client_manageproviders, sys_language_uid: 1}
+        - self: {id: 2008, title: 'Manage providers test site1', slug: /manage-providers-test, doktype: 1}
+          languageVariants:
+            - self: {id: 2009, title: 'DE: Manage provider test site1', slug: /manage-providers-test, sys_language_uid: 1}
+          entities:
+            content:
+              - self: {id: 2006, header: 'Manage providers test CE', CType: list, list_type: oauth2clienttest_manageproviders, pi_flexform: "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\" ?>\n<T3FlexForms>\n    <data>\n        <sheet index=\"sDEF\">\n            <language index=\"lDEF\">\n                <field index=\"settings.targetPid\">\n                    <value index=\"vDEF\">2006</value>\n                </field>\n            </language>\n        </sheet>\n    </data>\n</T3FlexForms>"}
+                languageVariants:
+                  - self: {id: 2007, header: 'DE: Manage providers test CE', CType: list, list_type: oauth2clienttest_manageproviders, sys_language_uid: 1, pi_flexform: "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\" ?>\n<T3FlexForms>\n    <data>\n        <sheet index=\"sDEF\">\n            <language index=\"lDEF\">\n                <field index=\"settings.targetPid\">\n                    <value index=\"vDEF\">2007</value>\n                </field>\n            </language>\n        </sheet>\n    </data>\n</T3FlexForms>"}
+
+
+    - self: {id: 3000, title: 'waldhacker.dev site2', slug: /, doktype: 1, is_siteroot: 1}
+      languageVariants:
+        - self: {id: 3001, title: 'DE: waldhacker.dev site2', sys_language_uid: 1}
+      entities:
+        template:
+          - self: {id: 3000, title: main, root: 1, clear: 3, include_static_file: 'EXT:fluid_styled_content/Configuration/TypoScript/,EXT:oauth2_client/Tests/Functional/Fixtures/Frontend/TypoScript/', static_file_mode: 3, config: '@import "EXT:oauth2_client/Tests/Functional/Fixtures/Frontend/ContentRenderer.typoscript"'}
+      children:
+        - self: {id: 3002, title: 'Login site2', slug: /login, doktype: 1}
+          languageVariants:
+            - self: {id: 3003, title: 'DE: Login site2', slug: /login, sys_language_uid: 1}
+          entities:
+            content:
+              - self: {id: 3000, header: 'Login CE', CType: felogin_login, pi_flexform: "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\" ?>\n<T3FlexForms>\n    <data>\n        <sheet index=\"sDEF\">\n            <language index=\"lDEF\">\n                <field index=\"settings.showForgotPassword\">\n                    <value index=\"vDEF\">0</value>\n                </field>\n                <field index=\"settings.showPermaLogin\">\n                    <value index=\"vDEF\">1</value>\n                </field>\n                <field index=\"settings.showLogoutFormAfterLogin\">\n                    <value index=\"vDEF\">0</value>\n                </field>\n                <field index=\"settings.pages\">\n                    <value index=\"vDEF\">1000,1001</value>\n                </field>\n                <field index=\"settings.recursive\">\n                    <value index=\"vDEF\"></value>\n                </field>\n            </language>\n        </sheet>\n        <sheet index=\"s_redirect\">\n            <language index=\"lDEF\">\n                <field index=\"settings.redirectMode\">\n                    <value index=\"vDEF\">login</value>\n                </field>\n                <field index=\"settings.redirectFirstMethod\">\n                    <value index=\"vDEF\">0</value>\n                </field>\n                <field index=\"settings.redirectPageLogin\">\n                    <value index=\"vDEF\">3004</value>\n                </field>\n                <field index=\"settings.redirectPageLoginError\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.redirectPageLogout\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.redirectDisable\">\n                    <value index=\"vDEF\">0</value>\n                </field>\n            </language>\n        </sheet>\n        <sheet index=\"s_messages\">\n            <language index=\"lDEF\">\n                <field index=\"settings.welcome_header\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.welcome_message\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.success_header\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.success_message\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.error_header\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.error_message\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.status_header\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.status_message\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.logout_header\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.logout_message\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.forgot_header\">\n                    <value index=\"vDEF\"></value>\n                </field>\n                <field index=\"settings.forgot_reset_message\">\n                    <value index=\"vDEF\"></value>\n                </field>\n            </language>\n        </sheet>\n    </data>\n</T3FlexForms>"}
+                languageVariants:
+                  - self: {id: 3001, header: 'DE: Login CE', CType: felogin_login, sys_language_uid: 1}
+        - self: {id: 3004, title: 'Redirect after login site2', slug: /redirect-after-login, doktype: 1}
+          languageVariants:
+            - self: {id: 3005, title: 'DE: Redirect after login site2', slug: /redirect-after-login, sys_language_uid: 1}
+          entities:
+            content:
+              - self: {id: 3002, header: 'Redirect content', CType: text, bodytext: '<p>Redirect page content</p>'}
+                languageVariants:
+                  - self: {id: 3003, header: 'DE: Redirect content', bodytext: '<p>DE: Redirect page content</p>', sys_language_uid: 1}
+        - self: {id: 3006, title: 'Manage providers site2', slug: /manage-providers, doktype: 1}
+          languageVariants:
+            - self: {id: 3007, title: 'DE: Manage providers site2', slug: /manage-providers, sys_language_uid: 1}
+          entities:
+            content:
+              - self: {id: 3004, header: 'Manage providers CE', CType: list, list_type: oauth2client_manageproviders}
+                languageVariants:
+                  - self: {id: 3005, header: 'DE: Manage providers CE', CType: list, list_type: oauth2client_manageproviders, sys_language_uid: 1}
+        - self: {id: 3008, title: 'Manage providers test site2', slug: /manage-providers-test, doktype: 1}
+          languageVariants:
+            - self: {id: 3009, title: 'DE: Manage provider test site2', slug: /manage-providers-test, sys_language_uid: 1}
+          entities:
+            content:
+              - self: {id: 3006, header: 'Manage providers test CE', CType: list, list_type: oauth2clienttest_manageproviders, pi_flexform: "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\" ?>\n<T3FlexForms>\n    <data>\n        <sheet index=\"sDEF\">\n            <language index=\"lDEF\">\n                <field index=\"settings.targetPid\">\n                    <value index=\"vDEF\">3006</value>\n                </field>\n            </language>\n        </sheet>\n    </data>\n</T3FlexForms>"}
+                languageVariants:
+                  - self: {id: 3007, header: 'DE: Manage providers test CE', CType: list, list_type: oauth2clienttest_manageproviders, sys_language_uid: 1, pi_flexform: "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\" ?>\n<T3FlexForms>\n    <data>\n        <sheet index=\"sDEF\">\n            <language index=\"lDEF\">\n                <field index=\"settings.targetPid\">\n                    <value index=\"vDEF\">3007</value>\n                </field>\n            </language>\n        </sheet>\n    </data>\n</T3FlexForms>"}

@@ -1,27 +1,52 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method Waldhacker\\\\Oauth2Client\\\\LoginProvider\\\\Oauth2LoginProvider\\:\\:render\\(\\) has no return typehint specified\\.$#"
+			message: "#^Method Waldhacker\\\\Oauth2Client\\\\Backend\\\\LoginProvider\\\\Oauth2LoginProvider\\:\\:render\\(\\) has no return typehint specified\\.$#"
 			count: 1
-			path: ../Classes/LoginProvider/Oauth2LoginProvider.php
+			path: ../Classes/Backend/LoginProvider/Oauth2LoginProvider.php
 
 		-
 			message: "#^Cannot call method fetchAllAssociative\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
-			count: 2
+			count: 3
 			path: ../Classes/Repository/BackendUserRepository.php
 
 		-
-			message: "#^Offset 'admin' does not exist on array\\|null\\.$#"
-			count: 1
-			path: ../Classes/Repository/BackendUserRepository.php
+			message: "#^Cannot call method fetchAllAssociative\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
+			count: 3
+			path: ../Classes/Repository/FrontendUserRepository.php
 
 		-
-			message: "#^Call to an undefined method object\\:\\:getUserRecord\\(\\)\\.$#"
+			message: "#^Parameter \\#1 \\$session of method TYPO3\\\\CMS\\\\Core\\\\Session\\\\UserSessionManager\\:\\:fixateAnonymousSession\\(\\) expects TYPO3\\\\CMS\\\\Core\\\\Session\\\\UserSession, TYPO3\\\\CMS\\\\Core\\\\Session\\\\UserSession\\|Waldhacker\\\\Oauth2Client\\\\Session\\\\v10\\\\UserSession given\\.$#"
 			count: 1
-			path: ../Classes/Service/LoginService.php
+			path: ../Classes/Session/SessionManager.php
 
 		-
-			message: "#^Result of \\|\\| is always false\\.$#"
+			message: "#^Parameter \\#1 \\$session of method TYPO3\\\\CMS\\\\Core\\\\Session\\\\UserSessionManager\\:\\:isSessionPersisted\\(\\) expects TYPO3\\\\CMS\\\\Core\\\\Session\\\\UserSession, TYPO3\\\\CMS\\\\Core\\\\Session\\\\UserSession\\|Waldhacker\\\\Oauth2Client\\\\Session\\\\v10\\\\UserSession given\\.$#"
 			count: 2
-			path: ../Classes/Service/Oauth2Service.php
+			path: ../Classes/Session/SessionManager.php
+
+		-
+			message: "#^Parameter \\#1 \\$session of method TYPO3\\\\CMS\\\\Core\\\\Session\\\\UserSessionManager\\:\\:removeSession\\(\\) expects TYPO3\\\\CMS\\\\Core\\\\Session\\\\UserSession, TYPO3\\\\CMS\\\\Core\\\\Session\\\\UserSession\\|Waldhacker\\\\Oauth2Client\\\\Session\\\\v10\\\\UserSession given\\.$#"
+			count: 1
+			path: ../Classes/Session/SessionManager.php
+
+		-
+			message: "#^Parameter \\#1 \\$session of method TYPO3\\\\CMS\\\\Core\\\\Session\\\\UserSessionManager\\:\\:updateSession\\(\\) expects TYPO3\\\\CMS\\\\Core\\\\Session\\\\UserSession, TYPO3\\\\CMS\\\\Core\\\\Session\\\\UserSession\\|Waldhacker\\\\Oauth2Client\\\\Session\\\\v10\\\\UserSession given\\.$#"
+			count: 1
+			path: ../Classes/Session/SessionManager.php
+
+		-
+			message: "#^Comparison operation \"\\>\" between int\\<2, max\\> and 0 is always true\\.$#"
+			count: 1
+			path: ../Classes/Session/v10/UserSessionManager.php
+
+		-
+			message: "#^Cannot call method fetchAssociative\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
+			count: 1
+			path: ../Classes/Updates/RenameClientConfigsTableUpdateWizard20220122130120.php
+
+		-
+			message: "#^Cannot call method fetchOne\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
+			count: 1
+			path: ../Classes/Updates/RenameClientConfigsTableUpdateWizard20220122130120.php
 

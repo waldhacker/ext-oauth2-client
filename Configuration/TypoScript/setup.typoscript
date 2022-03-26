@@ -1,0 +1,18 @@
+plugin.tx_oauth2client {
+    view {
+        templateRootPaths {
+            0 = EXT:oauth2_client/Resources/Private/Templates/
+            1 = {$plugin.tx_oauth2client.view.templateRootPath}
+        }
+
+        partialRootPaths {
+            0 = EXT:oauth2_client/Resources/Private/Partials/
+            1 = {$plugin.tx_oauth2client.view.partialRootPath}
+        }
+
+        layoutRootPaths {
+            0 = EXT:oauth2_client/Resources/Private/Layouts/
+            1 = {$plugin.tx_oauth2client.view.layoutRootPath}
+        }
+    }
+}

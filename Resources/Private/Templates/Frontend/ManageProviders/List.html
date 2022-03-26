@@ -1,0 +1,18 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+
+<f:layout name="ManageProviders" />
+
+<f:section name="Content">
+    <f:if condition="{providers}">
+        <h2><f:translate key="manage_providers.title" /></h2>
+        <p><small><f:translate key="manage_providers.description" /></small></p>
+
+        <ul class="list-group">
+            <f:for each="{providers}" as="provider" key="identifier">
+                <f:render partial="Frontend/ManageProviders/ProviderItem" arguments="{provider: provider, identifier: identifier, activeProviders: activeProviders}" />
+            </f:for>
+         </ul>
+    </f:if>
+</f:section>
+
+</html>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<psalm
+    errorLevel="3"
+    resolveFromConfigFile="false"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    hideExternalErrors="true"
+    errorBaseline="build/psalm-baseline-v10.xml"
+>
+    <projectFiles>
+        <directory name="Classes" />
+        <ignoreFiles>
+            <directory name=".build/vendor" />
+        </ignoreFiles>
+    </projectFiles>
+</psalm>
