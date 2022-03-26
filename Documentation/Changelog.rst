@@ -2,11 +2,36 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+Tasks
+~~~~~
+- Add functionals for fe userstorage configuration. [waldhacker1]
+- Fix functionals. [waldhacker1]
+- Fix composer constraints. [waldhacker1]
+- TYPO3 v10 compat. [waldhacker1]
+- Add storage constraints. [waldhacker1]
+- Add storage constraints. [waldhacker1]
+- Add storage constraints. [waldhacker1]
+
+Features
+~~~~~~~~
+- Add redirect from query. [waldhacker1]
+- Frontend integration. [Ralf Zimmermann]
+- Frontend integration. [Ralf Zimmermann]
+
+Bugfixes
+~~~~~~~~
+- Fix callback detection. [waldhacker1]
+
+
 1.0.1 (2022-03-11)
 ------------------
 
 Tasks
 ~~~~~
+- Prepare release 1.0.1. [waldhacker1]
 - Change phpstan baseline. [waldhacker1]
 - Remove deprecated psalm config. [Ralf Zimmermann]
 - Check if SESSION exists. [Fabian Auer]
@@ -17,6 +42,7 @@ Bugfixes
 
 Other
 ~~~~~
+- Merge branch 'release/1.0.1' into main. [waldhacker1]
 - Merge pull request #4 from huersch/main. [Ralf Zimmermann]
 
   [BUGFIX] Avoid PHP warnings and enable moving CEs in backend

@@ -12,7 +12,6 @@ defined('TYPO3') or die();
             'renderType' => 'selectMultipleSideBySide',
             'items' => [],
             'itemsProcFunc' => \Waldhacker\Oauth2Client\Backend\SiteConfig\ConfiguredFrontendProvidersItemsProcFunc::class . '->getItems',
-            'multiple' => true,
             'default' => '',
         ],
     ];
