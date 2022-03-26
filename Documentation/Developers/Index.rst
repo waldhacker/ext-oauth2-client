@@ -184,3 +184,11 @@ that can be used to create the frontend users.
 With the next release of this extension this documentation will explain
 how an implementation can look like. Furthermore, a reference implementation
 for frontend user registration via Gitlab will be published soon.
+
+Migration from version 1.x to 2.x
+=================================
+
+The table :sql:`tx_oauth2_client_configs` that used in version 1.x to contain the registered OAuth2 providers for backend users has been renamed to :sql:`tx_oauth2_beuser_provider_configuration` in version 2.x.
+To migrate the data there is an upgrade wizard named :guilabel:`Migrate OAuth2 table tx_oauth2_client_configs to tx_oauth2_beuser_provider_configuration`.
+Please run this wizard after you have updated to version 2.x.
+
