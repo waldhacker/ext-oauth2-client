@@ -2,11 +2,35 @@ Changelog
 =========
 
 
+2.0.0 (2022-04-02)
+------------------
+
+Features
+~~~~~~~~
+- Frontend integration (#5) [Ralf Zimmermann]
+
+  * [FEATURE] Frontend integration
+
+  * [TASK] TYPO3 v10 compat
+
+  * [FEATURE] Add redirect from query
+
+  * [DOCS] Add frontend integration docs
+
+Other
+~~~~~
+- [DOCS] Add more frontend integration docs. [waldhacker1]
+- Merge tag '1.0.1' into develop. [waldhacker1]
+
+  1.0.1
+
+
 1.0.1 (2022-03-11)
 ------------------
 
 Tasks
 ~~~~~
+- Prepare release 1.0.1. [waldhacker1]
 - Change phpstan baseline. [waldhacker1]
 - Remove deprecated psalm config. [Ralf Zimmermann]
 - Check if SESSION exists. [Fabian Auer]
@@ -17,6 +41,7 @@ Bugfixes
 
 Other
 ~~~~~
+- Merge branch 'release/1.0.1' into main. [waldhacker1]
 - Merge pull request #4 from huersch/main. [Ralf Zimmermann]
 
   [BUGFIX] Avoid PHP warnings and enable moving CEs in backend

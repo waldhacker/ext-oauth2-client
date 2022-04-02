@@ -1,0 +1,31 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers" data-namespace-typo3-fluid="true">
+
+<f:variable name="providerLabel" value="{f:translate(key: provider.label, default: provider.label)}" />
+<f:variable name="providerIsActive" value="{f:if(condition: '{activeProviders.{provider.identifier}.uid}', then: 1, else: 0)}" />
+<f:variable name="ariaPressed" value="{f:if(condition: '{providerIsActive}', then: 'true', else: 'false')}" />
+
+<li class="list-group-item d-flex justify-content-between align-items-center" id="{identifier}-provider">
+    <div class="flex-column">
+        <div class="p-2">{providerLabel}</div>
+        <f:if condition="{provider.description}">
+            <div class="p-2">
+                <small class="text-muted"><f:translate key="{provider.description}" default="{provider.description}" /></small>
+            </div>
+        </f:if>
+    </div>
+
+    <f:if condition="{providerIsActive}">
+        <f:then>
+            <f:link.action action="deactivate" arguments="{providerId: '{activeProviders.{provider.identifier}.uid}'}" title="{f:translate(key:'manage_providers.deactivateLinkTitle', arguments: {0: providerLabel})}" class="btn btn-danger active" additionalAttributes="{role: 'button'}" aria="{pressed: ariaPressed}">
+                <f:translate key="manage_providers.deactivateLinkLabel" />
+            </f:link.action>
+        </f:then>
+        <f:else>
+            <f:link.page additionalParams="{tx_oauth2client: {action: 'authorize'}, oauth2-provider: provider.identifier}" title="{f:translate(key:'manage_providers.activateLinkTitle', arguments: {0: providerLabel})}" class="btn btn-success" additionalAttributes="{role: 'button'}" aria="{pressed: ariaPressed}">
+                <f:translate key="manage_providers.activateLinkLabel" />
+            </f:link.page>
+        </f:else>
+    </f:if>
+</li>
+
+</html>

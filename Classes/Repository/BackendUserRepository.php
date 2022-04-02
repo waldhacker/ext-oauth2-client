@@ -22,10 +22,12 @@ use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
-use Waldhacker\Oauth2Client\Database\Query\Restriction\Oauth2ClientConfigBackendRestriction;
+use Waldhacker\Oauth2Client\Backend\DataHandling\DataHandlerHook;
+use Waldhacker\Oauth2Client\Database\Query\Restriction\Oauth2BeUserProviderConfigurationRestriction;
 
 class BackendUserRepository
 {
+    private const OAUTH2_BE_CONFIG_TABLE = 'tx_oauth2_beuser_provider_configuration';
     private DataHandler $dataHandler;
     private Context $context;
     private ConnectionPool $connectionPool;
@@ -42,66 +44,119 @@ class BackendUserRepository
 
     public function getUserByIdentity(string $provider, string $identifier): ?array
     {
-        $qb = $this->connectionPool->getQueryBuilderForTable('be_users');
-        $qb->getRestrictions()->removeByType(Oauth2ClientConfigBackendRestriction::class);
+        if ($provider === DataHandlerHook::INVALID_TOKEN || $identifier === DataHandlerHook::INVALID_TOKEN) {
+            return null;
+        }
+        $userWithEditRightsColumn = $GLOBALS['TCA'][self::OAUTH2_BE_CONFIG_TABLE]['ctrl']['enablecolumns']['be_user'] ?? 'parentid';
 
+        $qb = $this->connectionPool->getQueryBuilderForTable('be_users');
+        $qb->getRestrictions()->removeByType(Oauth2BeUserProviderConfigurationRestriction::class);
         $result = $qb->select('be_users.*')
-            ->from('tx_oauth2_client_configs', 'config')
-            ->join('config', 'be_users', 'be_users', 'config.parentid=be_users.uid')
-            ->where($qb->expr()->eq('identifier', $qb->createNamedParameter($identifier)))
-            ->andWhere($qb->expr()->eq('provider', $qb->createNamedParameter($provider)))
+            ->from(self::OAUTH2_BE_CONFIG_TABLE, 'config')
+            ->join('config', 'be_users', 'be_users', 'config.' . $userWithEditRightsColumn . '=be_users.uid')
+            ->where(
+                $qb->expr()->andX(
+                    $qb->expr()->eq('identifier', $qb->createNamedParameter($identifier, \PDO::PARAM_STR)),
+                    $qb->expr()->eq('provider', $qb->createNamedParameter($provider, \PDO::PARAM_STR)),
+                    $qb->expr()->neq('identifier', $qb->createNamedParameter(DataHandlerHook::INVALID_TOKEN, \PDO::PARAM_STR)),
+                    $qb->expr()->neq('provider', $qb->createNamedParameter(DataHandlerHook::INVALID_TOKEN, \PDO::PARAM_STR))
+                )
+            )
             ->execute()
             ->fetchAllAssociative();
 
-        return $result[0] ?? null;
+        // @todo: log warning if more than one user matches
+        // Do not login if more than one user matches!
+        return empty($result) || empty($result[0]) || count($result) > 1 ? null : $result[0];
     }
 
     public function persistIdentityForUser(string $provider, string $identifier): void
     {
+        if (empty($provider)) {
+            throw new \InvalidArgumentException('"provider" must not be empty', 1642867950);
+        }
+        if (empty($identifier)) {
+            throw new \InvalidArgumentException('"identifier" must not be empty', 1642867951);
+        }
+
+        $cmd = [];
+        foreach ($this->getConfigurationsByIdentity($provider, $identifier) as $configuration) {
+            $cmd[self::OAUTH2_BE_CONFIG_TABLE][(int)$configuration['uid']]['delete'] = 1;
+        }
+
         $userid = (int)$this->context->getPropertyFromAspect('backend.user', 'id');
-        $data =
-            [
-                'be_users' => [
-                    $userid => [
-                        'tx_oauth2_client_configs' => 'NEW12345',
-                    ],
+        $data = [
+            'be_users' => [
+                $userid => [
+                    'tx_oauth2_client_configs' => 'NEW12345',
                 ],
-                'tx_oauth2_client_configs' => [
-                    'NEW12345' => [
-                        'identifier' => $identifier,
-                        'provider' => $provider,
-                    ],
+            ],
+            self::OAUTH2_BE_CONFIG_TABLE => [
+                'NEW12345' => [
+                    'identifier' => $identifier,
+                    'provider' => $provider,
                 ],
-            ];
+            ],
+        ];
+
         // see SetupModuleController - fake admin to allow manipulating be_users as editor
         $backendUser = $this->getBackendUser();
-        $savedUserAdminState = $backendUser->user['admin'];
+        $savedUserAdminState = $backendUser->user['admin'] ?? false;
         $backendUser->user['admin'] = true;
-        $this->dataHandler->start($data, [], $backendUser);
+        $this->dataHandler->start($data, $cmd, $backendUser);
         $this->dataHandler->process_datamap();
+        $this->dataHandler->process_cmdmap();
         $backendUser->user['admin'] = $savedUserAdminState;
     }
 
     public function getActiveProviders(): array
     {
-        $qb = $this->connectionPool->getQueryBuilderForTable('be_users');
+        $userWithEditRightsColumn = $GLOBALS['TCA'][self::OAUTH2_BE_CONFIG_TABLE]['ctrl']['enablecolumns']['be_user'] ?? 'parentid';
         $userid = (int)$this->context->getPropertyFromAspect('backend.user', 'id');
+
+        $qb = $this->connectionPool->getQueryBuilderForTable('be_users');
         $result = $qb->select('config.*')
-            ->from('tx_oauth2_client_configs', 'config')
-            ->join('config', 'be_users', 'be_users', 'config.parentid=be_users.uid')
-            ->where($qb->expr()->eq('be_users.uid', $qb->createNamedParameter($userid, \PDO::PARAM_INT)))
+            ->from(self::OAUTH2_BE_CONFIG_TABLE, 'config')
+            ->join('config', 'be_users', 'be_users', 'config.' . $userWithEditRightsColumn . '=be_users.uid')
+            ->where(
+                $qb->expr()->andX(
+                    $qb->expr()->eq('be_users.uid', $qb->createNamedParameter($userid, \PDO::PARAM_INT)),
+                    $qb->expr()->neq('config.identifier', $qb->createNamedParameter(DataHandlerHook::INVALID_TOKEN, \PDO::PARAM_STR)),
+                    $qb->expr()->neq('config.provider', $qb->createNamedParameter(DataHandlerHook::INVALID_TOKEN, \PDO::PARAM_STR))
+                )
+            )
             ->execute()
             ->fetchAllAssociative();
+
         $keys = array_column($result, 'provider');
         return (array)array_combine($keys, $result);
     }
 
-    /**
-     * Returns the current BE user.
-     *
-     * @return BackendUserAuthentication
-     */
-    protected function getBackendUser()
+    private function getConfigurationsByIdentity(string $provider, string $identifier): array
+    {
+        $userWithEditRightsColumn = $GLOBALS['TCA'][self::OAUTH2_BE_CONFIG_TABLE]['ctrl']['enablecolumns']['be_user'] ?? 'parentid';
+        $userid = (int)$this->context->getPropertyFromAspect('backend.user', 'id');
+
+        $qb = $this->connectionPool->getQueryBuilderForTable(self::OAUTH2_BE_CONFIG_TABLE);
+        $qb->getRestrictions()->removeByType(Oauth2BeUserProviderConfigurationRestriction::class);
+        $result = $qb->select('*')
+            ->from(self::OAUTH2_BE_CONFIG_TABLE)
+            ->where(
+                $qb->expr()->andX(
+                    $qb->expr()->eq('identifier', $qb->createNamedParameter($identifier, \PDO::PARAM_STR)),
+                    $qb->expr()->eq('provider', $qb->createNamedParameter($provider, \PDO::PARAM_STR)),
+                    $qb->expr()->neq('identifier', $qb->createNamedParameter(DataHandlerHook::INVALID_TOKEN, \PDO::PARAM_STR)),
+                    $qb->expr()->neq('provider', $qb->createNamedParameter(DataHandlerHook::INVALID_TOKEN, \PDO::PARAM_STR)),
+                    $qb->expr()->eq($userWithEditRightsColumn, $qb->createNamedParameter($userid, \PDO::PARAM_INT))
+                )
+            )
+            ->execute()
+            ->fetchAllAssociative();
+
+        return $result;
+    }
+
+    private function getBackendUser(): BackendUserAuthentication
     {
         return $GLOBALS['BE_USER'];
     }

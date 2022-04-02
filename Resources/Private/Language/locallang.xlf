@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" date="2021-03-25T18:20:51Z" product-name="oauth2_client">
+        <header />
+        <body>
+            <trans-unit id="manage_providers.title" resname="manage_providers.title">
+                <source>Social login manager</source>
+            </trans-unit>
+            <trans-unit id="manage_providers.description" resname="manage_providers.description">
+                <source>Choose which of your favorite social platforms you want to log in with</source>
+            </trans-unit>
+            <trans-unit id="manage_providers.deactivateLinkLabel" resname="overview.deactivateLinkLabel">
+                <source>Deactivate</source>
+            </trans-unit>
+            <trans-unit id="manage_providers.deactivateLinkTitle" resname="overview.deactivateLinkTitle">
+                <source>Deactivate %s</source>
+            </trans-unit>
+            <trans-unit id="manage_providers.activateLinkTitle" resname="overview.activateLinkTitle">
+                <source>Activate %s</source>
+            </trans-unit>
+            <trans-unit id="manage_providers.activateLinkLabel" resname="overview.activateLinkLabel">
+                <source>Activate</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -1,19 +1,24 @@
 {
     "name": "waldhacker/typo3-oauth2-client",
+    "description": "TYPO3 OAuth2 Login Client (backend and frontend)",
+    "license": [
+        "GPL-2.0-or-later"
+    ],
     "type": "typo3-cms-extension",
-    "description": "",
-    "homepage": "https://waldhacker.dev",
-    "license": ["GPL-2.0-or-later"],
-    "keywords": ["TYPO3 CMS"],
-    "minimum-stability": "dev",
-    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "waldhacker",
+            "email": "hello@waldhacker.dev",
+            "homepage": "https://waldhacker.dev",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/waldhacker/ext-oauth2-client",
+    "support": {
+        "issues": "https://github.com/waldhacker/ext-oauth2-client/issues"
+    },
     "require": {
         "league/oauth2-client": "^2.6.0"
-    },
-    "extra": {
-        "typo3/cms": {
-            "extension-key": "oauth2_client"
-        }
     },
     "autoload": {
         "psr-4": {
@@ -21,10 +26,21 @@
         }
     },
     "config": {
-        "vendor-dir": "Resources/Private/PHP/",
+        "allow-plugins": {
+            "typo3/cms-composer-installers": true,
+            "typo3/class-alias-loader": true,
+            "composer/package-versions-deprecated": true,
+            "phpstan/extension-installer": true
+        },
         "platform": {
             "php": "7.4.15"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "vendor-dir": "Resources/Private/PHP/"
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "oauth2_client"
+        }
     }
 }

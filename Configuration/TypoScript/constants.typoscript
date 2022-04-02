@@ -1,0 +1,10 @@
+plugin.tx_oauth2client {
+    view {
+        # cat=plugin.tx_oauth2client/file; type=string; label=Path to template root (FE)
+        templateRootPath = EXT:oauth2_client/Resources/Private/Templates/
+        # cat=plugin.tx_oauth2client/file; type=string; label=Path to template partials (FE)
+        partialRootPath = EXT:oauth2_client/Resources/Private/Partials/
+        # cat=plugin.tx_oauth2client/file; type=string; label=Path to template layouts (FE)
+        layoutRootPath = EXT:oauth2_client/Resources/Private/Layouts/
+    }
+}

@@ -1,0 +1,72 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+
+<f:link.action pageUid="{settings.targetPid}" id="oauth2test-deactivate-fe-1" extensionName="oauth2client" pluginName="ManageProviders" action="deactivate" arguments="{providerId: 1}">deactivate config=1</f:link.action>
+<br />
+<f:link.action pageUid="{settings.targetPid}" id="oauth2test-deactivate-fe-2" extensionName="oauth2client" pluginName="ManageProviders" action="deactivate" arguments="{providerId: 2}">deactivate config=2</f:link.action>
+<br />
+<f:link.action pageUid="{settings.targetPid}" id="oauth2test-deactivate-fe-3" extensionName="oauth2client" pluginName="ManageProviders" action="deactivate" arguments="{providerId: 3}">deactivate config=3</f:link.action>
+<br />
+<f:link.action pageUid="{settings.targetPid}" id="oauth2test-deactivate-fe-4" extensionName="oauth2client" pluginName="ManageProviders" action="deactivate" arguments="{providerId: 4}">deactivate config=4</f:link.action>
+<br />
+<f:link.action pageUid="{settings.targetPid}" id="oauth2test-deactivate-fe-5" extensionName="oauth2client" pluginName="ManageProviders" action="deactivate" arguments="{providerId: 5}">deactivate config=5</f:link.action>
+<br />
+
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-register-keycloak" additionalParams="{tx_oauth2client: {action: 'authorize'}, oauth2-provider: 'keycloak'}">register with keycloak</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-register-google" additionalParams="{tx_oauth2client: {action: 'authorize'}, oauth2-provider: 'google'}">register with google</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-register-github" additionalParams="{tx_oauth2client: {action: 'authorize'}, oauth2-provider: 'github'}">register with github</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-register-gitlab" additionalParams="{tx_oauth2client: {action: 'authorize'}, oauth2-provider: 'gitlab'}">register with gitlab</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-register-gitlab1-fe" additionalParams="{tx_oauth2client: {action: 'authorize'}, oauth2-provider: 'gitlab1-fe'}">register with gitlab1-fe</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-register-gitlab2-be" additionalParams="{tx_oauth2client: {action: 'authorize'}, oauth2-provider: 'gitlab2-be'}">register with gitlab2-be</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-register-gitlab3-both" additionalParams="{tx_oauth2client: {action: 'authorize'}, oauth2-provider: 'gitlab3-both'}">register with gitlab3-both</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-register-gitlab4-fe" additionalParams="{tx_oauth2client: {action: 'authorize'}, oauth2-provider: 'gitlab4-fe'}">register with gitlab4-fe</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-register-gitlab5-be" additionalParams="{tx_oauth2client: {action: 'authorize'}, oauth2-provider: 'gitlab5-be'}">register with gitlab5-be</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-register-gitlab6-both" additionalParams="{tx_oauth2client: {action: 'authorize'}, oauth2-provider: 'gitlab6-both'}">register with gitlab6-both</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-register-gitlab7-fe" additionalParams="{tx_oauth2client: {action: 'authorize'}, oauth2-provider: 'gitlab7-fe'}">register with gitlab7-fe</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-register-gitlab8-fe" additionalParams="{tx_oauth2client: {action: 'authorize'}, oauth2-provider: 'gitlab8-fe'}">register with gitlab8-fe</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-register-notconfigured" additionalParams="{tx_oauth2client: {action: 'authorize'}, oauth2-provider: 'notconfigured'}">register with notconfigured</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-register-_invalid_" additionalParams="{tx_oauth2client: {action: 'authorize'}, oauth2-provider: '_invalid_'}">register with _invalid_</f:link.page>
+<br />
+
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-login-keycloak" additionalParams="{logintype: 'login', oauth2-provider: 'keycloak'}">login with keycloak</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-login-google" additionalParams="{logintype: 'login', oauth2-provider: 'google'}">login with google</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-login-github" additionalParams="{logintype: 'login', oauth2-provider: 'github'}">login with github</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-login-gitlab" additionalParams="{logintype: 'login', oauth2-provider: 'gitlab'}">login with gitlab</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-login-gitlab1-fe" additionalParams="{logintype: 'login', oauth2-provider: 'gitlab1-fe'}">login with gitlab1-fe</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-login-gitlab2-be" additionalParams="{logintype: 'login', oauth2-provider: 'gitlab2-be'}">login with gitlab2-be</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-login-gitlab3-both" additionalParams="{logintype: 'login', oauth2-provider: 'gitlab3-both'}">login with gitlab3-both</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-login-gitlab4-fe" additionalParams="{logintype: 'login', oauth2-provider: 'gitlab4-fe'}">login with gitlab4-fe</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-login-gitlab5-be" additionalParams="{logintype: 'login', oauth2-provider: 'gitlab5-be'}">login with gitlab5-be</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-login-gitlab6-both" additionalParams="{logintype: 'login', oauth2-provider: 'gitlab6-both'}">login with gitlab6-both</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-login-gitlab7-fe" additionalParams="{logintype: 'login', oauth2-provider: 'gitlab7-fe'}">login with gitlab7-fe</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-login-gitlab8-fe" additionalParams="{logintype: 'login', oauth2-provider: 'gitlab8-fe'}">login with gitlab8-fe</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-login-notconfigured" additionalParams="{logintype: 'login', oauth2-provider: 'notconfigured'}">login with notconfigured</f:link.page>
+<br />
+<f:link.page pageUid="{settings.targetPid}" id="oauth2test-login-_invalid_" additionalParams="{logintype: 'login', oauth2-provider: '_invalid_'}">login with _invalid_</f:link.page>
+<br />
+
+</html>
