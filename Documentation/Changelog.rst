@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+2.0.0 (2022-04-02)
+------------------
 
 Features
 ~~~~~~~~
@@ -19,6 +19,7 @@ Features
 
 Other
 ~~~~~
+- [DOCS] Add more frontend integration docs. [waldhacker1]
 - Merge tag '1.0.1' into develop. [waldhacker1]
 
   1.0.1
