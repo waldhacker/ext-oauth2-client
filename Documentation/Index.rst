@@ -60,7 +60,7 @@ Overview
    Configuration/Index
    UserGuide/Index
    Developers/Index
-   Changelog/Index
+   Changelog
    Sitemap
 
 

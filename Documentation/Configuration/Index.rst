@@ -276,12 +276,16 @@ For each context (frontend / backend) 2 callback URL's are needed which have to 
    The OAuth2 providers behave differently in the way they validate the callback URLs.
    Some compare only the URL without query parameters and the query paramaters are not relevant and for some you have to configure the complete url including the query parameters.
 
+   In addition, the callback urls to be used for backend logins differ between TYPO3 v10 and TYPO3 v11!
+
 Backend
 ~~~~~~~
 
 To make OAuth2 backend login authorizations work, the following callback URL must be configured in the OAuth2 provider
 
-:html:`https://your-typo3-site.example.com/typo3/login?loginProvider=1616569531&oauth2-provider=<provider-identifier>&login_status=login&commandLI=attempt`
+TYPO3 v11: :html:`https://your-typo3-site.example.com/typo3/login?loginProvider=1616569531&oauth2-provider=<provider-identifier>&login_status=login&commandLI=attempt`
+
+TYPO3 v10: :html:`https://your-typo3-site.example.com/typo3/index.php?route=%2Flogin&loginProvider=1616569531&oauth2-provider=<provider-identifier>&login_status=login&commandLI=attempt`
 
 .. note::
 
@@ -289,7 +293,9 @@ To make OAuth2 backend login authorizations work, the following callback URL mus
 
 For the registration of OAuth2 providers for backend users the following callback URL must be configured in the OAuth2 provider
 
-:html:`https://your-typo3-site.example.com/typo3/oauth2/callback/handle?oauth2-provider=<provider-identifier>&action=callback`
+TYPO3 v11: :html:`https://your-typo3-site.example.com/typo3/oauth2/callback/handle?oauth2-provider=<provider-identifier>&action=callback`
+
+TYPO3 v10: :html:`https://your-typo3-site.example.com/typo3/index.php?route=%2Foauth2%2Fcallback%2Fhandle&oauth2-provider=<provider-identifier>&action=callback`
 
 .. note::
 
@@ -340,7 +346,7 @@ If you append :html:`after-oauth2-redirect-uri=https://your-typo3-site.example.c
    The custom redirect url must not be relative to the current page and must point to the same host on which the project is accessible.
    You cannot redirect to external pages or to pages of other page trees (sites).
 
-An example of an Oauth2 login URL would look like this: :html:`https://your-typo3-site.example.com/<callback-slug>?oauth2-provider=<provider-identifier>&logintype=login&after-oauth2-redirect-uri=https://your-typo3-site.example.com/sales/`.
+An example of an Oauth2 login URL would look like this: :html:`https://your-typo3-site.example.com/some-site?oauth2-provider=<provider-identifier>&logintype=login&after-oauth2-redirect-uri=https://your-typo3-site.example.com/sales/`.
 
 .. note::
    You do not need to include the :html:`after-oauth2-redirect-uri=https://your-typo3-site.example.com/sales/` part in the callback URL configuration of your OAuth2 provider.

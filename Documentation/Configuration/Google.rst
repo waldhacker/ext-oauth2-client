@@ -6,6 +6,10 @@
 Configuration with Google
 =========================
 
+.. note::
+
+   This example contains the callback URLs which are required for TYPO3 v11.
+
 Adding the OAuth2 app in Google
 ===============================
 

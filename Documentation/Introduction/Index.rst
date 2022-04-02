@@ -44,7 +44,7 @@ This extension is especially powerful in combination with the Multi-Factor Capab
    Use OAuth2 in conjunction with Multi-Factor authentication.
 
 TYPO3 Frontend
-^^^^^^^^^^^^^
+^^^^^^^^^^^^^^
 
 Allow your frontend users to add login possibilities via any OAuth2 provider. Popular examples are Github or Gitlab, Google, Facebook
 or LinkedIn or classically self-hosted solutions like Keycloak.

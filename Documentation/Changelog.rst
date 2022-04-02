@@ -5,25 +5,23 @@ Changelog
 (unreleased)
 ------------
 
-Tasks
-~~~~~
-- Add functionals for fe userstorage configuration. [waldhacker1]
-- Fix functionals. [waldhacker1]
-- Fix composer constraints. [waldhacker1]
-- TYPO3 v10 compat. [waldhacker1]
-- Add storage constraints. [waldhacker1]
-- Add storage constraints. [waldhacker1]
-- Add storage constraints. [waldhacker1]
-
 Features
 ~~~~~~~~
-- Add redirect from query. [waldhacker1]
-- Frontend integration. [Ralf Zimmermann]
-- Frontend integration. [Ralf Zimmermann]
+- Frontend integration (#5) [Ralf Zimmermann]
 
-Bugfixes
-~~~~~~~~
-- Fix callback detection. [waldhacker1]
+  * [FEATURE] Frontend integration
+
+  * [TASK] TYPO3 v10 compat
+
+  * [FEATURE] Add redirect from query
+
+  * [DOCS] Add frontend integration docs
+
+Other
+~~~~~
+- Merge tag '1.0.1' into develop. [waldhacker1]
+
+  1.0.1
 
 
 1.0.1 (2022-03-11)
