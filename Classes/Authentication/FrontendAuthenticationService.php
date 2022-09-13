@@ -219,4 +219,12 @@ class FrontendAuthenticationService extends AbstractService
         }
         return $request;
     }
+    
+    public function processLoginData(array &$loginData, $passwordTransmissionStrategy)
+    {
+        $loginData['uname'] = $loginData['uname'] ?? '';
+        $loginData['uident'] = $loginData['uident'] ?? '';
+
+        return true;
+    }
 }
