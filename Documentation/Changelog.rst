@@ -2,8 +2,29 @@ Changelog
 =========
 
 
+2.0.1 (2022-09-20)
+------------------
+
+Bugfixes
+~~~~~~~~
+- Fix missing fe_login flexform data within functional tests. [Ralf
+  Zimmermann]
+- Fix query restriction errors in cli mode #8. [Ralf Zimmermann]
+- PHP 8 compatibility in authentication services #10. [Ralf Zimmermann]
+
+Other
+~~~~~
+- Merge tag '2.0.0' into develop. [waldhacker1]
+
+  2.0.0
+
+
 2.0.0 (2022-04-02)
 ------------------
+
+Tasks
+~~~~~
+- Prepare release 2.0.0. [waldhacker1]
 
 Features
 ~~~~~~~~
@@ -19,6 +40,7 @@ Features
 
 Other
 ~~~~~
+- Merge branch 'release/2.0.0' into main. [waldhacker1]
 - [DOCS] Add more frontend integration docs. [waldhacker1]
 - Merge tag '1.0.1' into develop. [waldhacker1]
 
