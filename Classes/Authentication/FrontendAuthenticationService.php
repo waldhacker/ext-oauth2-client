@@ -107,6 +107,14 @@ class FrontendAuthenticationService extends AbstractService
         return -100;
     }
 
+    public function processLoginData(array &$loginData, string $passwordTransmissionStrategy): bool
+    {
+        $loginData['uname'] = $loginData['uname'] ?? '';
+        $loginData['uident'] = $loginData['uident'] ?? '';
+
+        return true;
+    }
+
     private function authorize(string $providerId, ServerRequestInterface $request): void
     {
         // no oauth2 login at all or invalid provider
