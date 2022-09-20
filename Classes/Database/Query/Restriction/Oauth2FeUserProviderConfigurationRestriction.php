@@ -48,6 +48,7 @@ class Oauth2FeUserProviderConfigurationRestriction implements QueryRestrictionIn
 
         if (
             ($GLOBALS['TYPO3_REQUEST'] ?? null) instanceof ServerRequestInterface
+            && is_int($GLOBALS['TYPO3_REQUEST']->getAttribute('applicationType'))
             && ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isBackend()
         ) {
             $this->isBackendUser = true;
