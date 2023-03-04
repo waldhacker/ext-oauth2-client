@@ -61,17 +61,9 @@ jobs:
         run: composer run ci:psalm
         if: matrix.typo3 != '^10.4'
 
-      - name: Psalm
-        run: composer run ci:psalm:v10
-        if: matrix.typo3 == '^10.4'
-
       - name: PHPStan
         run: composer run ci:stan
         if: matrix.typo3 != '^10.4'
-
-      - name: PHPStan
-        run: composer run ci:stan:v10
-        if: matrix.typo3 == '^10.4'
 
       #- name: Unit tests
       #  run: composer run ci:tests:unit:cover
