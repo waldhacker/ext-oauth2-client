@@ -2,11 +2,26 @@ Changelog
 =========
 
 
+2.1.0 (2023-03-04)
+------------------
+
+Features
+~~~~~~~~
+- Overwritable login provider templates #12. [Ralf Zimmermann]
+
+Other
+~~~~~
+- Merge tag '2.0.2' into develop. [Ralf Zimmermann]
+
+  2.0.2
+
+
 2.0.2 (2023-03-04)
 ------------------
 
 Tasks
 ~~~~~
+- Update changelog. [Ralf Zimmermann]
 - Version 2.0.2. [Ralf Zimmermann]
 - Fix license. [Ralf Zimmermann]
 
@@ -24,6 +39,7 @@ Bugfixes
 
 Other
 ~~~~~
+- Merge branch 'release/2.0.2' into main. [Ralf Zimmermann]
 - Merge tag '2.0.1' into develop. [Ralf Zimmermann]
 
   2.0.1
