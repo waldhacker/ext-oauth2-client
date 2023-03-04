@@ -2,10 +2,6 @@
 
 defined('TYPO3') || die();
 
-if (file_exists(__DIR__ . '/Resources/Private/PHP/autoload.php')) {
-    require_once(__DIR__ . '/Resources/Private/PHP/autoload.php');
-}
-
 (static function () {
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addService(
         'oauth2_client',
