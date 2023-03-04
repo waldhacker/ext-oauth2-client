@@ -6,9 +6,19 @@ parameters:
 			path: ../Classes/Backend/LoginProvider/Oauth2LoginProvider.php
 
 		-
+			message: "#^Cannot call method fetchAll\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
+			count: 3
+			path: ../Classes/Repository/BackendUserRepository.php
+
+		-
 			message: "#^Cannot call method fetchAllAssociative\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
 			count: 3
 			path: ../Classes/Repository/BackendUserRepository.php
+
+		-
+			message: "#^Cannot call method fetchAll\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
+			count: 3
+			path: ../Classes/Repository/FrontendUserRepository.php
 
 		-
 			message: "#^Cannot call method fetchAllAssociative\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"

@@ -25,9 +25,8 @@ $EM_CONF[$_EXTKEY] = [
             'Waldhacker\\Oauth2Client\\' => 'Classes',
         ],
         'classmap' => [
-            'Resources/Private/PHP/guzzlehttp',
             'Resources/Private/PHP/league',
-            'Resources/Private/PHP/ralouphie',
+            'Resources/Private/PHP/paragonie',
         ],
     ]
 ];

@@ -63,7 +63,7 @@ class UserSessionManager implements LoggerAwareInterface
 
     public function createFromGlobalCookieOrAnonymous(string $cookieName): UserSession
     {
-        $sessionId = isset($_COOKIE[$cookieName]) ? stripslashes((string)$_COOKIE[$cookieName]) : '';
+        $sessionId = isset($_COOKIE[$cookieName]) ? stripslashes($_COOKIE[$cookieName]) : '';
         return $this->getSessionFromSessionId($sessionId) ?? $this->createAnonymousSession();
     }
 
