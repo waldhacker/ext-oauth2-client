@@ -1,6 +1,32 @@
 # Changelog
 
 
+## 2.0.2 (2023-03-04)
+
+### Bugfixes
+
+* Load dependencies in non composer mode #6 #14 (#16) [waldhacker-joerg]
+
+  * [BUGFIX] The missing classes are now included via the ext_emconf.php
+  autoloader configuration. #6  #14
+
+  * [TASK] TYPO3 v10 non composer compatibility
+
+  ---------
+
+### Tasks
+
+* Version 2.0.2. [Ralf Zimmermann]
+
+* Fix license. [Ralf Zimmermann]
+
+### Other
+
+* Merge tag '2.0.1' into develop. [Ralf Zimmermann]
+
+  2.0.1
+
+
 ## 2.0.1 (2022-09-20)
 
 ### Bugfixes
@@ -11,7 +37,13 @@
 
 * PHP 8 compatibility in authentication services #10. [Ralf Zimmermann]
 
+### Tasks
+
+* Prepare release 2.0.1. [Ralf Zimmermann]
+
 ### Other
+
+* Merge branch 'release/2.0.1' into main. [Ralf Zimmermann]
 
 * Merge tag '2.0.0' into develop. [waldhacker1]
 

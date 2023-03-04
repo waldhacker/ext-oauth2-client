@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.22.0@fc2c6ab4d5fa5d644d8617089f012f3bb84b8703">
+<files psalm-version="4.30.0@d0bc6e25d89f649e4f36a534f330f8bb4643dd69">
   <file src="Classes/Authentication/BackendAuthenticationService.php">
     <InternalClass occurrences="2">
       <code>ServerRequestFactory::fromGlobals()</code>
@@ -105,18 +105,34 @@
       <code>$backendUser-&gt;user</code>
       <code>$backendUser-&gt;user</code>
     </InternalProperty>
-    <PossiblyInvalidMethodCall occurrences="3">
+    <PossiblyInvalidMethodCall occurrences="6">
+      <code>fetchAll</code>
+      <code>fetchAll</code>
+      <code>fetchAll</code>
       <code>fetchAllAssociative</code>
       <code>fetchAllAssociative</code>
       <code>fetchAllAssociative</code>
     </PossiblyInvalidMethodCall>
+    <UndefinedInterfaceMethod occurrences="3">
+      <code>fetchAll</code>
+      <code>fetchAll</code>
+      <code>fetchAll</code>
+    </UndefinedInterfaceMethod>
   </file>
   <file src="Classes/Repository/FrontendUserRepository.php">
-    <PossiblyInvalidMethodCall occurrences="3">
+    <PossiblyInvalidMethodCall occurrences="6">
+      <code>fetchAll</code>
+      <code>fetchAll</code>
+      <code>fetchAll</code>
       <code>fetchAllAssociative</code>
       <code>fetchAllAssociative</code>
       <code>fetchAllAssociative</code>
     </PossiblyInvalidMethodCall>
+    <UndefinedInterfaceMethod occurrences="3">
+      <code>fetchAll</code>
+      <code>fetchAll</code>
+      <code>fetchAll</code>
+    </UndefinedInterfaceMethod>
   </file>
   <file src="Classes/Service/SiteService.php">
     <InternalClass occurrences="2">

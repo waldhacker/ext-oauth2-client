@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /*
  * This file is part of the OAuth2 Client extension for TYPO3
- * - (c) 2021 Waldhacker UG
+ * - (c) 2021 waldhacker UG (haftungsbeschränkt)
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -18,9 +18,11 @@ declare(strict_types=1);
 
 namespace Waldhacker\Oauth2Client\Repository;
 
+use Doctrine\DBAL\FetchMode;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use Waldhacker\Oauth2Client\Backend\DataHandling\DataHandlerHook;
 use Waldhacker\Oauth2Client\Database\Query\Restriction\Oauth2FeUserProviderConfigurationRestriction;
 
@@ -59,8 +61,9 @@ class FrontendUserRepository
                     $qb->expr()->eq('fe_users.pid', $qb->createNamedParameter($storagePid, \PDO::PARAM_INT))
                 )
             )
-            ->execute()
-            ->fetchAllAssociative();
+            ->execute();
+
+        $result = $this->isV10Branch() ? $result->fetchAll(FetchMode::ASSOCIATIVE) : $result->fetchAllAssociative();
 
         // @todo: log warning if more than one user matches
         // Do not login if more than one user matches!
@@ -132,8 +135,9 @@ class FrontendUserRepository
                     $qb->expr()->neq('config.provider', $qb->createNamedParameter(DataHandlerHook::INVALID_TOKEN, \PDO::PARAM_STR))
                 )
             )
-            ->execute()
-            ->fetchAllAssociative();
+            ->execute();
+
+        $result = $this->isV10Branch() ? $result->fetchAll(FetchMode::ASSOCIATIVE) : $result->fetchAllAssociative();
 
         $keys = array_column($result, 'provider');
         return (array)array_combine($keys, $result);
@@ -188,9 +192,15 @@ class FrontendUserRepository
                     $qb->expr()->eq($userWithEditRightsColumn, $qb->createNamedParameter($userid, \PDO::PARAM_INT))
                 )
             )
-            ->execute()
-            ->fetchAllAssociative();
+            ->execute();
+
+        $result = $this->isV10Branch() ? $result->fetchAll(FetchMode::ASSOCIATIVE) : $result->fetchAllAssociative();
 
         return $result;
+    }
+
+    private function isV10Branch(): bool
+    {
+        return (int)VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version())['version_main'] === 10;
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /*
  * This file is part of the OAuth2 Client extension for TYPO3
- * - (c) 2021 Waldhacker UG
+ * - (c) 2021 waldhacker UG (haftungsbeschränkt)
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2

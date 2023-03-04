@@ -17,11 +17,16 @@ $EM_CONF[$_EXTKEY] = [
             'fluid' => '10.4.0-11.5.99',
             'setup' => '10.4.0-11.5.99',
             'typo3' => '10.4.0-11.5.99',
+            'php' => '7.4.0-8.1.99',
         ]
     ],
     'autoload' => [
         'psr-4' => [
             'Waldhacker\\Oauth2Client\\' => 'Classes',
+        ],
+        'classmap' => [
+            'Resources/Private/PHP/league',
+            'Resources/Private/PHP/paragonie',
         ],
     ]
 ];
