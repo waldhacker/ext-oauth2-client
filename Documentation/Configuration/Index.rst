@@ -365,3 +365,32 @@ Specific Providers (Examples)
    Google
    Keycloak
    Hydra
+
+Login provider templates
+------------------------
+
+If you need to customize the login template :file:`Resources/Private/Templates/Backend/Oauth2LoginProvider.html` you can override it by adding your own fluid template search paths.
+
+Example:
+
+.. code-block:: php
+
+   $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['oauth2_client'] = [
+       'view' => [
+           // add some additional layout search paths:
+           'layoutRootPaths' => [
+               'EXT:site_package/Resources/Private/Layouts/Backend/',
+           ],
+           // add some additional template search paths:
+           'templateRootPaths' => [
+               'EXT:site_package/Resources/Private/Templates/Backend/',
+           ],
+           // add some additional partial search paths:
+           'partialRootPaths' => [
+               'EXT:site_package/Resources/Private/Partials/Backend/',
+           ],
+           // you can override the template name too:
+           'template' => 'Oauth2LoginProvider',
+       ],
+   ];
+
