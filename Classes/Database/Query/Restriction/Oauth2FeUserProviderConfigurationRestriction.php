@@ -71,7 +71,7 @@ class Oauth2FeUserProviderConfigurationRestriction implements QueryRestrictionIn
             );
         }
 
-        return $expressionBuilder->andX(...$constraints);
+        return $expressionBuilder->and(...$constraints);
     }
 
     public function isEnforced(): bool

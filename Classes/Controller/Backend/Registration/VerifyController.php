@@ -24,7 +24,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Core\Context\Context;
-use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use Waldhacker\Oauth2Client\Controller\Backend\AbstractBackendController;
 use Waldhacker\Oauth2Client\Repository\BackendUserRepository;
 use Waldhacker\Oauth2Client\Service\Oauth2ProviderManager;
@@ -120,7 +120,7 @@ class VerifyController extends AbstractBackendController
         $this->addFlashMessage(
             $this->getLanguageService()->sL('LLL:EXT:oauth2_client/Resources/Private/Language/locallang_be.xlf:flash.providerConfigurationAdded.description'),
             $this->getLanguageService()->sL('LLL:EXT:oauth2_client/Resources/Private/Language/locallang_be.xlf:flash.providerConfigurationAdded.title'),
-            FlashMessage::OK
+            ContextualFeedbackSeverity::OK
         );
 
         $response = $this->responseFactory
@@ -136,7 +136,7 @@ class VerifyController extends AbstractBackendController
         $this->addFlashMessage(
             $this->getLanguageService()->sL('LLL:EXT:oauth2_client/Resources/Private/Language/locallang_be.xlf:flash.providerConfigurationFailed.description'),
             $this->getLanguageService()->sL('LLL:EXT:oauth2_client/Resources/Private/Language/locallang_be.xlf:flash.providerConfigurationFailed.title'),
-            FlashMessage::WARNING
+            ContextualFeedbackSeverity::WARNING
         );
 
         $response = $this->responseFactory

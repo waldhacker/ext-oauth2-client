@@ -23,9 +23,9 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
+use TYPO3\CMS\Core\Authentication\AbstractAuthenticationService;
 use TYPO3\CMS\Core\Http\ImmediateResponseException;
 use TYPO3\CMS\Core\Http\ServerRequestFactory;
-use TYPO3\CMS\Core\Service\AbstractService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Waldhacker\Oauth2Client\Backend\LoginProvider\Oauth2LoginProvider;
 use Waldhacker\Oauth2Client\Events\BackendUserLookupEvent;
@@ -35,7 +35,7 @@ use Waldhacker\Oauth2Client\Service\Oauth2ProviderManager;
 use Waldhacker\Oauth2Client\Service\Oauth2Service;
 use Waldhacker\Oauth2Client\Session\SessionManager;
 
-class BackendAuthenticationService extends AbstractService
+class BackendAuthenticationService
 {
     private array $loginData = [];
     private Oauth2ProviderManager $oauth2ProviderManager;
@@ -46,6 +46,12 @@ class BackendAuthenticationService extends AbstractService
     private ResponseFactoryInterface $responseFactory;
     private ?ResourceOwnerInterface $remoteUser = null;
     private string $action = '';
+
+    /**
+     * @var array service description array
+     */
+    public array $info = [];
+
 
     public function __construct(
         Oauth2ProviderManager $oauth2ProviderManager,
@@ -199,12 +205,15 @@ class BackendAuthenticationService extends AbstractService
 
     private function buildCallbackUri(string $providerId): string
     {
+        $now = (string)time();
         return (string)$this->uriBuilder->buildUriFromRoute('login', [
             'loginProvider' => Oauth2LoginProvider::PROVIDER_ID,
             'oauth2-provider' => $providerId,
             // TYPO3\CMS\Core\Authentication\BackendUserAuthentication->formfield_status
             'login_status' => 'login',
-            'commandLI' => 'attempt'
+            'commandLI' => 'attempt',
+            'time' => $now,
+            'hmac' => GeneralUtility::hmac($now, BackendAuthenticationService::class),
         ], UriBuilder::ABSOLUTE_URL);
     }
 
@@ -215,5 +224,83 @@ class BackendAuthenticationService extends AbstractService
             throw new \InvalidArgumentException(sprintf('Request must implement "%s"', ServerRequestInterface::class), 1643446001);
         }
         return $request;
+    }
+
+    /**
+     * Initialization of the service.
+     * This is a stub as needed by GeneralUtility::makeInstanceService()
+     *
+     * @internal this is part of the Service API which should be avoided to be used and only used within TYPO3 internally
+     */
+    public function init(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Resets the service.
+     * This is a stub as needed by GeneralUtility::makeInstanceService()
+     *
+     * @internal this is part of the Service API which should be avoided to be used and only used within TYPO3 internally
+     */
+    public function reset()
+    {
+        // nothing to do
+    }
+
+    /**
+     * Returns the service key of the service
+     *
+     * @return string Service key
+     * @internal this is part of the Service API which should be avoided to be used and only used within TYPO3 internally
+     */
+    public function getServiceKey()
+    {
+        return $this->info['serviceKey'];
+    }
+
+    /**
+     * Returns the title of the service
+     *
+     * @return string Service title
+     * @internal this is part of the Service API which should be avoided to be used and only used within TYPO3 internally
+     */
+    public function getServiceTitle()
+    {
+        return $this->info['title'];
+    }
+
+    /**
+     * Returns service configuration values from the $TYPO3_CONF_VARS['SVCONF'] array
+     *
+     * @param string $optionName Name of the config option
+     * @param mixed $defaultValue Default configuration if no special config is available
+     * @param bool $includeDefaultConfig If set the 'default' config will be returned if no special config for this service is available (default: TRUE)
+     * @return mixed Configuration value for the service
+     * @internal this is part of the Service API which should be avoided to be used and only used within TYPO3 internally
+     */
+    public function getServiceOption($optionName, $defaultValue = '', $includeDefaultConfig = true)
+    {
+        $config = null;
+        $serviceType = $this->info['serviceType'] ?? '';
+        $serviceKey = $this->info['serviceKey'] ?? '';
+        $svOptions = $GLOBALS['TYPO3_CONF_VARS']['SVCONF'][$serviceType] ?? [];
+        if (isset($svOptions[$serviceKey][$optionName])) {
+            $config = $svOptions[$serviceKey][$optionName];
+        } elseif ($includeDefaultConfig && isset($svOptions['default'][$optionName])) {
+            $config = $svOptions['default'][$optionName];
+        }
+        if (!isset($config)) {
+            $config = $defaultValue;
+        }
+        return $config;
+    }
+
+    /**
+     * @internal this is part of the Service API which should be avoided to be used and only used within TYPO3 internally
+     */
+    public function getLastErrorArray(): array
+    {
+        return [];
     }
 }

@@ -18,44 +18,23 @@ declare(strict_types=1);
 
 namespace Waldhacker\Oauth2ClientTest\Controller\Backend;
 
-use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Backend\Template\ModuleTemplate;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
-use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 
 class ManageProvidersController
 {
-    private ModuleTemplate $moduleTemplate;
-    private ResponseFactoryInterface $responseFactory;
+    private ModuleTemplateFactory $moduleTemplateFactory;
 
     public function __construct(
-        ModuleTemplate $moduleTemplate,
-        ResponseFactoryInterface $responseFactory
+        ModuleTemplateFactory $moduleTemplateFactory
     ) {
-        $this->moduleTemplate = $moduleTemplate;
-        $this->responseFactory = $responseFactory;
+        $this->moduleTemplateFactory = $moduleTemplateFactory;
     }
 
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
-        $view = $this->initializeView('ManageProviders');
-        $this->moduleTemplate->setContent($view->render());
-        $response = $this->responseFactory->createResponse()->withHeader('Content-Type', 'text/html; charset=utf-8');
-        $response->getBody()->write($this->moduleTemplate->renderContent());
-        return $response;
-    }
-
-    private function initializeView(string $templateName): ViewInterface
-    {
-        /** @var StandaloneView $view */
-        $view = GeneralUtility::makeInstance(StandaloneView::class);
-        $view->setTemplateRootPaths(['EXT:oauth2_client_test/Resources/Private/Templates/Backend']);
-        $view->setPartialRootPaths(['EXT:backend/Resources/Private/Partials']);
-        $view->setLayoutRootPaths(['EXT:backend/Resources/Private/Layouts']);
-        $view->setTemplate($templateName);
-        return $view;
+        $moduleTemplate = $this->moduleTemplateFactory->create($request);
+        return $moduleTemplate->renderResponse('ManageProviders');
     }
 }

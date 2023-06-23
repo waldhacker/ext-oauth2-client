@@ -44,19 +44,10 @@ defined('TYPO3') || die();
         [\Waldhacker\Oauth2Client\Controller\Frontend\ManageProvidersController::class => 'list,deactivate']
     );
 
-    $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
-    $iconRegistry->registerIcon(
-        'oauth2_client_plugin_manage_providers',
-        \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
-        [
-            'source' => 'EXT:oauth2_client/Resources/Public/Icons/oauth2_client_plugin_manage_providers.svg'
-        ]
-    );
-
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['backend']['loginProviders'][\Waldhacker\Oauth2Client\Backend\LoginProvider\Oauth2LoginProvider::PROVIDER_ID] = [
         'provider' => \Waldhacker\Oauth2Client\Backend\LoginProvider\Oauth2LoginProvider::class,
         'sorting' => 25,
-        'icon-class' => 'fa-key',
+        'iconIdentifier' => 'actions-key',
         'label' => 'LLL:EXT:oauth2_client/Resources/Private/Language/locallang_be.xlf:login.link',
     ];
 

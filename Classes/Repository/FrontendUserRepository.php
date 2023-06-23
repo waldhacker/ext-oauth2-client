@@ -53,7 +53,7 @@ class FrontendUserRepository
             ->from(self::OAUTH2_FE_CONFIG_TABLE, 'config')
             ->join('config', 'fe_users', 'fe_users', 'config.' . $userWithEditRightsColumn . '=fe_users.uid')
             ->where(
-                $qb->expr()->andX(
+                $qb->expr()->and(
                     $qb->expr()->eq('identifier', $qb->createNamedParameter($identifier, \PDO::PARAM_STR)),
                     $qb->expr()->eq('provider', $qb->createNamedParameter($provider, \PDO::PARAM_STR)),
                     $qb->expr()->neq('identifier', $qb->createNamedParameter(DataHandlerHook::INVALID_TOKEN, \PDO::PARAM_STR)),
@@ -61,7 +61,7 @@ class FrontendUserRepository
                     $qb->expr()->eq('fe_users.pid', $qb->createNamedParameter($storagePid, \PDO::PARAM_INT))
                 )
             )
-            ->execute();
+            ->executeQuery();
 
         $result = $result->fetchAllAssociative();
 
@@ -88,12 +88,12 @@ class FrontendUserRepository
             $qb = $this->connectionPool->getQueryBuilderForTable(self::OAUTH2_FE_CONFIG_TABLE);
             $qb->delete(self::OAUTH2_FE_CONFIG_TABLE)
                 ->where(
-                    $qb->expr()->andX(
+                    $qb->expr()->and(
                         $qb->expr()->eq($userWithEditRightsColumn, $qb->createNamedParameter($userid, \PDO::PARAM_INT)),
                         $qb->expr()->in('uid', $qb->createNamedParameter($activeConfigurationUids, Connection::PARAM_INT_ARRAY))
                     )
                 )
-                ->execute();
+                ->executeStatement();
         }
 
         $qb = $this->connectionPool->getQueryBuilderForTable(self::OAUTH2_FE_CONFIG_TABLE);
@@ -105,18 +105,18 @@ class FrontendUserRepository
             ->setValue('parentid', $userid)
             ->setValue('provider', $provider)
             ->setValue('identifier', $identifier)
-            ->execute();
+            ->executeStatement();
 
         $activeProviders = $this->getActiveProviders();
         $qb = $this->connectionPool->getQueryBuilderForTable('fe_users');
         $qb->update('fe_users')
             ->set('tx_oauth2_client_configs', count($activeProviders))
             ->where(
-                $qb->expr()->andX(
+                $qb->expr()->and(
                     $qb->expr()->eq('uid', $qb->createNamedParameter($userid, \PDO::PARAM_INT))
                 )
             )
-            ->execute();
+            ->executeQuery();
     }
 
     public function getActiveProviders(): array
@@ -129,13 +129,13 @@ class FrontendUserRepository
             ->from(self::OAUTH2_FE_CONFIG_TABLE, 'config')
             ->join('config', 'fe_users', 'fe_users', 'config.' . $userWithEditRightsColumn . '=fe_users.uid')
             ->where(
-                $qb->expr()->andX(
+                $qb->expr()->and(
                     $qb->expr()->eq('fe_users.uid', $qb->createNamedParameter($userid, \PDO::PARAM_INT)),
                     $qb->expr()->neq('config.identifier', $qb->createNamedParameter(DataHandlerHook::INVALID_TOKEN, \PDO::PARAM_STR)),
                     $qb->expr()->neq('config.provider', $qb->createNamedParameter(DataHandlerHook::INVALID_TOKEN, \PDO::PARAM_STR))
                 )
             )
-            ->execute();
+            ->executeQuery();
 
         $result = $result->fetchAllAssociative();
 
@@ -156,22 +156,22 @@ class FrontendUserRepository
         $qb = $this->connectionPool->getQueryBuilderForTable(self::OAUTH2_FE_CONFIG_TABLE);
         $qb->delete(self::OAUTH2_FE_CONFIG_TABLE)
             ->where(
-                $qb->expr()->andX(
+                $qb->expr()->and(
                     $qb->expr()->eq($userWithEditRightsColumn, $qb->createNamedParameter($userid, \PDO::PARAM_INT)),
                     $qb->expr()->eq('uid', $qb->createNamedParameter($providerUid, \PDO::PARAM_INT))
                 )
             )
-            ->execute();
+            ->executeStatement();
 
         $qb = $this->connectionPool->getQueryBuilderForTable('fe_users');
         $qb->update('fe_users')
             ->set('tx_oauth2_client_configs', count($activeProviders) - 1)
             ->where(
-                $qb->expr()->andX(
+                $qb->expr()->and(
                     $qb->expr()->eq('uid', $qb->createNamedParameter($userid, \PDO::PARAM_INT))
                 )
             )
-            ->execute();
+            ->executeStatement();
     }
 
     private function getConfigurationsByIdentity(string $provider, string $identifier): array
@@ -184,7 +184,7 @@ class FrontendUserRepository
         $result = $qb->select('*')
             ->from(self::OAUTH2_FE_CONFIG_TABLE)
             ->where(
-                $qb->expr()->andX(
+                $qb->expr()->and(
                     $qb->expr()->eq('identifier', $qb->createNamedParameter($identifier, \PDO::PARAM_STR)),
                     $qb->expr()->eq('provider', $qb->createNamedParameter($provider, \PDO::PARAM_STR)),
                     $qb->expr()->neq('identifier', $qb->createNamedParameter(DataHandlerHook::INVALID_TOKEN, \PDO::PARAM_STR)),
@@ -192,7 +192,7 @@ class FrontendUserRepository
                     $qb->expr()->eq($userWithEditRightsColumn, $qb->createNamedParameter($userid, \PDO::PARAM_INT))
                 )
             )
-            ->execute();
+            ->executeQuery();
 
         $result = $result->fetchAllAssociative();
 

@@ -40,6 +40,11 @@ services:
         identifier: 'oauth2_client'
         event: TYPO3\CMS\FrontendLogin\Event\ModifyLoginFormViewEvent
 
+  Waldhacker\Oauth2Client\Events\Listener\GenerateRequestTokenListener:
+    tags:
+      - name: event.listener
+        identifier: 'oauth2_client_req_token'
+
   Waldhacker\Oauth2Client\Service\Oauth2ProviderManager:
     public: true
 

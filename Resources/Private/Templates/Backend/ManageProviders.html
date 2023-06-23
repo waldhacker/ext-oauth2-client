@@ -3,34 +3,41 @@
         xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
         xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers"
         data-namespace-typo3-fluid="true">
-<h1>
-    <f:translate key="LLL:EXT:oauth2_client/Resources/Private/Language/locallang_be.xlf:overview.title" />
-</h1>
+<f:layout name="Module" />
+<f:section name="Content">
+    <f:be.pageRenderer
+        includeJsFiles="{0: 'EXT:oauth2_client/Resources/Public/JavaScript/register.js' }"
+    />
+    <h1>
+        <f:translate key="LLL:EXT:oauth2_client/Resources/Private/Language/locallang_be.xlf:overview.title" />
+    </h1>
 
-<f:if condition="{providers}">
-    <f:then>
-        <div class="card-container">
-            <f:for each="{providers}" as="provider" key="identifier">
-                <f:render section="Item" arguments="{provider: provider, identifier: identifier, activeProviders: activeProviders}" />
-            </f:for>
-        </div>
+    <f:if condition="{providers}">
+        <f:then>
+            <div class="card-container">
+                <f:for each="{providers}" as="provider" key="identifier">
+                    <f:render section="Item" arguments="{provider: provider, identifier: identifier, activeProviders: activeProviders}" />
+                </f:for>
+            </div>
 
-        <form
-            action="{f:be.uri(route:'oauth2_registration_verify', parameters:'{action: \'save\'}')}"
-            method="post"
-            enctype="multipart/form-data"
-            name="edit"
-            id="oauth2-authorize"
-        >
-            <input type="hidden" name="oauth2-state" id="oauth2-state" value="" />
-            <input type="hidden" name="oauth2-code" id="oauth2-code" value="" />
-            <input type="hidden" name="oauth2-provider" id="oauth2-provider" value="" />
-        </form>
-    </f:then>
-    <f:else>
-        <f:translate key="LLL:EXT:oauth2_client/Resources/Private/Language/locallang_be.xlf:oauth2Providers.notAvailable" />
-    </f:else>
-</f:if>
+            <form
+                action="{f:be.uri(route:'oauth2_registration_verify', parameters:'{action: \'save\'}')}"
+                method="post"
+                enctype="multipart/form-data"
+                name="edit"
+                id="oauth2-authorize"
+            >
+                <input type="hidden" name="oauth2-state" id="oauth2-state" value="" />
+                <input type="hidden" name="oauth2-code" id="oauth2-code" value="" />
+                <input type="hidden" name="oauth2-provider" id="oauth2-provider" value="" />
+            </form>
+        </f:then>
+        <f:else>
+            <f:translate key="LLL:EXT:oauth2_client/Resources/Private/Language/locallang_be.xlf:oauth2Providers.notAvailable" />
+        </f:else>
+    </f:if>
+</f:section>
+
 
 <f:section name="Item">
     <f:variable name="providerLabel" value ="{f:translate(key: provider.label, default: provider.label)}" />

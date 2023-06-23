@@ -57,14 +57,14 @@ class BackendUserRepository
             ->from(self::OAUTH2_BE_CONFIG_TABLE, 'config')
             ->join('config', 'be_users', 'be_users', 'config.' . $userWithEditRightsColumn . '=be_users.uid')
             ->where(
-                $qb->expr()->andX(
+                $qb->expr()->and(
                     $qb->expr()->eq('identifier', $qb->createNamedParameter($identifier, \PDO::PARAM_STR)),
                     $qb->expr()->eq('provider', $qb->createNamedParameter($provider, \PDO::PARAM_STR)),
                     $qb->expr()->neq('identifier', $qb->createNamedParameter(DataHandlerHook::INVALID_TOKEN, \PDO::PARAM_STR)),
                     $qb->expr()->neq('provider', $qb->createNamedParameter(DataHandlerHook::INVALID_TOKEN, \PDO::PARAM_STR))
                 )
             )
-            ->execute();
+            ->executeQuery();
 
         $result = $result->fetchAllAssociative();
 
@@ -122,13 +122,13 @@ class BackendUserRepository
             ->from(self::OAUTH2_BE_CONFIG_TABLE, 'config')
             ->join('config', 'be_users', 'be_users', 'config.' . $userWithEditRightsColumn . '=be_users.uid')
             ->where(
-                $qb->expr()->andX(
+                $qb->expr()->and(
                     $qb->expr()->eq('be_users.uid', $qb->createNamedParameter($userid, \PDO::PARAM_INT)),
                     $qb->expr()->neq('config.identifier', $qb->createNamedParameter(DataHandlerHook::INVALID_TOKEN, \PDO::PARAM_STR)),
                     $qb->expr()->neq('config.provider', $qb->createNamedParameter(DataHandlerHook::INVALID_TOKEN, \PDO::PARAM_STR))
                 )
             )
-            ->execute();
+            ->executeQuery();
 
         $result = $result->fetchAllAssociative();
 
@@ -146,7 +146,7 @@ class BackendUserRepository
         $result = $qb->select('*')
             ->from(self::OAUTH2_BE_CONFIG_TABLE)
             ->where(
-                $qb->expr()->andX(
+                $qb->expr()->and(
                     $qb->expr()->eq('identifier', $qb->createNamedParameter($identifier, \PDO::PARAM_STR)),
                     $qb->expr()->eq('provider', $qb->createNamedParameter($provider, \PDO::PARAM_STR)),
                     $qb->expr()->neq('identifier', $qb->createNamedParameter(DataHandlerHook::INVALID_TOKEN, \PDO::PARAM_STR)),
@@ -154,7 +154,7 @@ class BackendUserRepository
                     $qb->expr()->eq($userWithEditRightsColumn, $qb->createNamedParameter($userid, \PDO::PARAM_INT))
                 )
             )
-            ->execute();
+            ->executeQuery();
 
         $result = $result->fetchAllAssociative();
 

@@ -13,7 +13,7 @@ defined('TYPO3') || die();
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['backend']['loginProviders'][\Waldhacker\Oauth2ClientTest\Backend\LoginProvider\Oauth2LoginProvider::PROVIDER_ID] = [
         'provider' => \Waldhacker\Oauth2ClientTest\Backend\LoginProvider\Oauth2LoginProvider::class,
         'sorting' => 26,
-        'icon-class' => 'fa-key',
+        'iconIdentifier' => 'actions-key',
         'label' => 'LLL:EXT:oauth2_client_test/Resources/Private/Language/locallang_be.xlf:login.link',
     ];
 
