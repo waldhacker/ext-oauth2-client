@@ -18,7 +18,8 @@
         "issues": "https://github.com/waldhacker/ext-oauth2-client/issues"
     },
     "require": {
-        "league/oauth2-client": "^2.6.0"
+        "php": "^8.1",
+        "league/oauth2-client": "^2.7"
     },
     "autoload": {
         "psr-4": {
@@ -31,9 +32,6 @@
             "typo3/class-alias-loader": true,
             "composer/package-versions-deprecated": true,
             "phpstan/extension-installer": true
-        },
-        "platform": {
-            "php": "7.4.15"
         },
         "sort-packages": true,
         "vendor-dir": "Resources/Private/PHP/"

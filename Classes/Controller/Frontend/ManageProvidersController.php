@@ -59,9 +59,8 @@ class ManageProvidersController extends ActionController
 
     public function listAction(): ?ResponseInterface
     {
-        $isV10Branch = $this->isV10Branch();
         /** @var ServerRequestInterface $serverRequest */
-        $serverRequest = $isV10Branch ? $this->getServerRequest() : $this->request;
+        $serverRequest = $this->request;
 
         if ($this->context->getAspect('frontend.user')->isLoggedIn() && $this->typo3UserIsWithinConfiguredStorage($serverRequest)) {
             $this->view->assignMultiple([
@@ -70,16 +69,12 @@ class ManageProvidersController extends ActionController
             ]);
         }
 
-        $psrResponse = $isV10Branch ? null : $this->htmlResponse();
+        $psrResponse = $this->htmlResponse();
 
         if ($this->context->getAspect('frontend.user')->isLoggedIn() && $this->typo3UserIsWithinConfiguredStorage($serverRequest)) {
             $originalRequestData = $this->redirectRequestService->buildOriginalRequestData($serverRequest);
             $this->sessionManager->setAndSaveSessionData(SessionManager::SESSION_NAME_ORIGINAL_REQUEST, $originalRequestData, $serverRequest);
-            if ($isV10Branch) {
-                $this->sessionManager->appendOAuth2CookieToExtbaseResponse($serverRequest);
-            } else {
-                $psrResponse = $psrResponse ? $this->sessionManager->appendOAuth2CookieToResponse($psrResponse, $serverRequest) : null;
-            }
+            $psrResponse = $psrResponse ? $this->sessionManager->appendOAuth2CookieToResponse($psrResponse, $serverRequest) : null;
         }
 
         return $psrResponse;
@@ -92,11 +87,6 @@ class ManageProvidersController extends ActionController
         }
 
         $this->redirect('list');
-    }
-
-    private function isV10Branch(): bool
-    {
-        return (int)VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version())['version_main'] === 10;
     }
 
     private function getServerRequest(): ServerRequestInterface

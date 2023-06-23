@@ -63,9 +63,7 @@ class BackendRegistrationTest extends FunctionalTestCase
         self::assertEquals('code', $authorizationQuery['response_type'] ?? null, 'assert: the correct response type is requested');
         self::assertEquals('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', $authorizationQuery['client_id'] ?? null, 'assert: the correct client id is requested');
         self::assertEquals(
-            $this->isV10Branch()
-                ? 'http://localhost/typo3/index.php?route=%2Foauth2%2Fcallback%2Fhandle&oauth2-provider=gitlab2-be&action=callback'
-                : 'http://localhost/typo3/oauth2/callback/handle?oauth2-provider=gitlab2-be&action=callback',
+            'http://localhost/typo3/oauth2/callback/handle?oauth2-provider=gitlab2-be&action=callback',
             $authorizationQuery['redirect_uri'] ?? null,
             'assert: the correct callback uri is sent'
         );
@@ -127,22 +125,12 @@ class BackendRegistrationTest extends FunctionalTestCase
         self::assertEquals($backendUserUid, (int)$backendUserOauth2ProviderConfigurations[0]['parentid'], 'assert: created backend user oauth2 provider configuration is valid');
         self::assertEquals('gitlab2-be', $backendUserOauth2ProviderConfigurations[0]['provider'], 'assert: created backend user oauth2 provider configuration is valid');
         self::assertEquals('user1-gitlab2-be-remote-identity', $backendUserOauth2ProviderConfigurations[0]['identifier'], 'assert: created backend user oauth2 provider configuration is valid');
-        if ($this->isV10Branch()) {
-            self::assertStringContainsString(
-                'Provider configuration successfully added.',
-                $backendUserSessionData[0]['ses_data_original'],
-                'assert: flash message was created'
-            );
-            self::assertEquals('/typo3/index.php', $redirectUri->getPath(), 'assert: we are redirected to the OAuth2 provider management module');
-            self::assertEquals('/oauth2/manage/providers', $redirectQuery['route'], 'assert: we are redirected to the OAuth2 provider management module');
-        } else {
-            self::assertEquals(
-                '{"severity":0,"title":"Success","message":"Provider configuration successfully added.","storeInSession":true}',
-                $backendUserSessionData[0]['ses_data']['core.template.flashMessages'][0] ?? null,
-                'assert: flash message was created'
-            );
-            self::assertEquals('/typo3/oauth2/manage/providers', $redirectUri->getPath(), 'assert: we are redirected to the OAuth2 provider management module');
-        }
+        self::assertEquals(
+            '{"severity":0,"title":"Success","message":"Provider configuration successfully added.","storeInSession":true}',
+            $backendUserSessionData[0]['ses_data']['core.template.flashMessages'][0] ?? null,
+            'assert: flash message was created'
+        );
+        self::assertEquals('/typo3/oauth2/manage/providers', $redirectUri->getPath(), 'assert: we are redirected to the OAuth2 provider management module');
         self::assertEquals(
             'OAuth2: Done. Redirection to original requested location',
             $responseData['response']->getReasonPhrase(),
@@ -305,9 +293,7 @@ class BackendRegistrationTest extends FunctionalTestCase
         self::assertEquals('code', $authorizationQuery['response_type'] ?? null, 'assert: the correct response type is requested');
         self::assertEquals('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', $authorizationQuery['client_id'] ?? null, 'assert: the correct client id is requested');
         self::assertEquals(
-            $this->isV10Branch()
-                ? 'http://localhost/typo3/index.php?route=%2Foauth2%2Fcallback%2Fhandle&oauth2-provider=gitlab2-be&action=callback'
-                : 'http://localhost/typo3/oauth2/callback/handle?oauth2-provider=gitlab2-be&action=callback',
+            'http://localhost/typo3/oauth2/callback/handle?oauth2-provider=gitlab2-be&action=callback',
             $authorizationQuery['redirect_uri'] ?? null,
             'assert: the correct callback uri is sent'
         );
@@ -369,22 +355,12 @@ class BackendRegistrationTest extends FunctionalTestCase
         self::assertCount(0, $oauth2BackendSessionData, 'assert: no backend backend session exists');
         self::assertCount(0, $frontendUserOauth2ProviderConfigurations, 'assert: no oauth2 provider configuration exists for frontend users');
         self::assertCount(0, $backendUserOauth2ProviderConfigurations, 'assert: no oauth2 provider configuration exists for backend users');
-        if ($this->isV10Branch()) {
-            self::assertStringContainsString(
-                'Please try again. If the error persists, please check the logs or contact your system administrator.',
-                $backendUserSessionData[0]['ses_data_original'],
-                'assert: flash message was created'
-            );
-            self::assertEquals('/typo3/index.php', $redirectUri->getPath(), 'assert: we are redirected to the OAuth2 provider management module');
-            self::assertEquals('/oauth2/manage/providers', $redirectQuery['route'], 'assert: we are redirected to the OAuth2 provider management module');
-        } else {
-            self::assertEquals(
-                '{"severity":1,"title":"Error while adding provider.","message":"Please try again. If the error persists, please check the logs or contact your system administrator.","storeInSession":true}',
-                $backendUserSessionData[0]['ses_data']['core.template.flashMessages'][0] ?? null,
-                'assert: flash message was created'
-            );
-            self::assertEquals('/typo3/oauth2/manage/providers', $redirectUri->getPath(), 'assert: we are redirected to the OAuth2 provider management module');
-        }
+        self::assertEquals(
+            '{"severity":1,"title":"Error while adding provider.","message":"Please try again. If the error persists, please check the logs or contact your system administrator.","storeInSession":true}',
+            $backendUserSessionData[0]['ses_data']['core.template.flashMessages'][0] ?? null,
+            'assert: flash message was created'
+        );
+        self::assertEquals('/typo3/oauth2/manage/providers', $redirectUri->getPath(), 'assert: we are redirected to the OAuth2 provider management module');
 
         self::assertEquals(
             'OAuth2: Not logged in or invalid data',
@@ -442,18 +418,12 @@ class BackendRegistrationTest extends FunctionalTestCase
         $backendUserOauth2ProviderConfigurations = $this->getBackendUserOauth2ProviderConfigurations();
         $frontendUserOauth2ProviderConfigurations = $this->getFrontendUserOauth2ProviderConfigurations();
 
-        if ($this->isV10Branch()) {
-            self::assertArrayHasKey('be_typo_user', $responseData['cookieData'], 'assert: a backend user cookie exists');
-        } else {
-            self::assertArrayNotHasKey('be_typo_user', $responseData['cookieData'], 'assert: no backend user cookie exists');
-        }
+        self::assertArrayNotHasKey('be_typo_user', $responseData['cookieData'], 'assert: no backend user cookie exists');
         self::assertArrayNotHasKey('fe_typo_user_oauth2', $responseData['cookieData'], 'assert: no oauth2 frontend cookie is sent to the client');
         self::assertArrayNotHasKey('be_typo_user_oauth2', $responseData['cookieData'], 'assert: no oauth2 backend cookie is sent to the client');
         self::assertTrue($responseData['response']->hasHeader('location'), 'assert: a redirect is made');
         self::assertEquals(
-            $this->isV10Branch()
-                ? '/typo3/'
-                : '/typo3/login',
+            '/typo3/login',
             (new Uri($responseData['response']->getHeaderLine('location')))->getPath(),
             'assert: login redirect is made'
         );
@@ -511,9 +481,7 @@ class BackendRegistrationTest extends FunctionalTestCase
         self::assertEquals('code', $authorizationQuery['response_type'] ?? null, 'assert: the correct response type is requested');
         self::assertEquals('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', $authorizationQuery['client_id'] ?? null, 'assert: the correct client id is requested');
         self::assertEquals(
-            $this->isV10Branch()
-                ? 'http://localhost/typo3/index.php?route=%2Foauth2%2Fcallback%2Fhandle&oauth2-provider=gitlab2-be&action=callback'
-                : 'http://localhost/typo3/oauth2/callback/handle?oauth2-provider=gitlab2-be&action=callback',
+            'http://localhost/typo3/oauth2/callback/handle?oauth2-provider=gitlab2-be&action=callback',
             $authorizationQuery['redirect_uri'] ?? null,
             'assert: the correct callback uri is sent'
         );
@@ -568,11 +536,7 @@ class BackendRegistrationTest extends FunctionalTestCase
         $backendUserOauth2ProviderConfigurations = $this->getBackendUserOauth2ProviderConfigurations();
         $frontendUserOauth2ProviderConfigurations = $this->getFrontendUserOauth2ProviderConfigurations();
 
-        if ($this->isV10Branch()) {
-            self::assertArrayHasKey('be_typo_user', $responseData['cookieData'], 'assert: a backend user cookie exists');
-        } else {
-            self::assertArrayNotHasKey('be_typo_user', $responseData['cookieData'], 'assert: no backend user cookie exists');
-        }
+        self::assertArrayNotHasKey('be_typo_user', $responseData['cookieData'], 'assert: no backend user cookie exists');
         self::assertArrayHasKey('be_typo_user_oauth2', $responseData['cookieData'], 'assert: the oauth2 backend cookie still exists');
         self::assertArrayNotHasKey('fe_typo_user_oauth2', $responseData['cookieData'], 'assert: no oauth2 frontend cookie is sent to the client');
 
@@ -584,9 +548,7 @@ class BackendRegistrationTest extends FunctionalTestCase
 
         self::assertTrue($responseData['response']->hasHeader('location'), 'assert: a redirect is made');
         self::assertEquals(
-            $this->isV10Branch()
-                ? '/typo3/'
-                : '/typo3/login',
+            '/typo3/login',
             (new Uri($responseData['response']->getHeaderLine('location')))->getPath(),
             'assert: login redirect is made'
         );

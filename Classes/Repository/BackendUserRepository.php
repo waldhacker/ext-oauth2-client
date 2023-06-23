@@ -66,7 +66,7 @@ class BackendUserRepository
             )
             ->execute();
 
-        $result = $this->isV10Branch() ? $result->fetchAll(FetchMode::ASSOCIATIVE) : $result->fetchAllAssociative();
+        $result = $result->fetchAllAssociative();
 
         // @todo: log warning if more than one user matches
         // Do not login if more than one user matches!
@@ -130,7 +130,7 @@ class BackendUserRepository
             )
             ->execute();
 
-        $result = $this->isV10Branch() ? $result->fetchAll(FetchMode::ASSOCIATIVE) : $result->fetchAllAssociative();
+        $result = $result->fetchAllAssociative();
 
         $keys = array_column($result, 'provider');
         return (array)array_combine($keys, $result);
@@ -156,7 +156,7 @@ class BackendUserRepository
             )
             ->execute();
 
-        $result = $this->isV10Branch() ? $result->fetchAll(FetchMode::ASSOCIATIVE) : $result->fetchAllAssociative();
+        $result = $result->fetchAllAssociative();
 
         return $result;
     }
@@ -164,10 +164,5 @@ class BackendUserRepository
     private function getBackendUser(): BackendUserAuthentication
     {
         return $GLOBALS['BE_USER'];
-    }
-
-    private function isV10Branch(): bool
-    {
-        return (int)VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version())['version_main'] === 10;
     }
 }

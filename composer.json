@@ -18,13 +18,14 @@
         "issues": "https://github.com/waldhacker/ext-oauth2-client/issues"
     },
     "require": {
+        "php": "^8.1",
         "ext-pdo": "*",
-        "league/oauth2-client": "^2.6.0",
+        "league/oauth2-client": "^2.7",
         "psr/log": "*",
-        "typo3/cms-backend": "^10.4@dev || ^11.5@dev",
-        "typo3/cms-core": "^10.4@dev || ^11.5@dev",
-        "typo3/cms-fluid": "^10.4@dev || ^11.5@dev",
-        "typo3/cms-setup": "^10.4@dev || ^11.5@dev"
+        "typo3/cms-backend": "^11.5@dev || ^12.4@dev",
+        "typo3/cms-core": "^11.5@dev || ^12.4@dev",
+        "typo3/cms-fluid": "^11.5@dev || ^12.4@dev",
+        "typo3/cms-setup": "^11.5@dev || ^12.4@dev"
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.23",
@@ -36,12 +37,12 @@
         "roave/security-advisories": "dev-latest",
         "saschaegerer/phpstan-typo3": "@dev",
         "symfony/yaml": "^5.1",
-        "typo3/cms-extensionmanager": "^10.4@dev || ^11.5@dev",
-        "typo3/cms-felogin": "^10.4@dev || ^11.5@dev",
-        "typo3/cms-fluid-styled-content": "^10.4@dev || ^11.5@dev",
-        "typo3/cms-frontend": "^10.4@dev || ^11.5@dev",
-        "typo3/cms-install": "^10.4@dev || ^11.5@dev",
-        "typo3/cms-recordlist": "^10.4@dev || ^11.5@dev",
+        "typo3/cms-extensionmanager": "^11.5@dev || ^12.4@dev",
+        "typo3/cms-felogin": "^11.5@dev || ^12.4@dev",
+        "typo3/cms-fluid-styled-content": "^11.5@dev || ^12.4@dev",
+        "typo3/cms-frontend": "^11.5@dev || ^12.4@dev",
+        "typo3/cms-install": "^11.5@dev || ^12.4@dev",
+        "typo3/cms-recordlist": "^11.5@dev || ^12.4@dev",
         "typo3/coding-standards": "^0.4.0",
         "typo3/json-response": "*@dev",
         "typo3/testing-framework": "^6.15",
@@ -78,9 +79,6 @@
             "typo3/cms-composer-installers": true
         },
         "bin-dir": ".build/bin",
-        "platform": {
-            "php": "7.4.15"
-        },
         "sort-packages": true,
         "vendor-dir": ".build/vendor"
     },
@@ -124,23 +122,11 @@
         "ci:psalm:gen-baseline": [
             "psalm -c build/psalm.xml --set-baseline=build/psalm-baseline.xml"
         ],
-        "ci:psalm:gen-baseline:v10": [
-            "psalm -c build/psalm-v10.xml --set-baseline=build/psalm-baseline-v10.xml"
-        ],
-        "ci:psalm:v10": [
-            "psalm --config=build/psalm-v10.xml"
-        ],
         "ci:stan": [
             "phpstan analyze --configuration build/phpstan.neon"
         ],
         "ci:stan:gen-baseline": [
             "phpstan analyze --configuration build/phpstan.neon --generate-baseline build/phpstan.baseline.neon"
-        ],
-        "ci:stan:gen-baseline:v10": [
-            "phpstan analyze --configuration build/phpstan-v10.neon --generate-baseline build/phpstan.baseline-v10.neon"
-        ],
-        "ci:stan:v10": [
-            "phpstan analyze --configuration build/phpstan-v10.neon"
         ],
         "ci:tests:functional": [
             "phpunit -c build/phpunit-functionals.xml --log-junit .build/logs/junit-functionals.xml"

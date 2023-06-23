@@ -175,7 +175,7 @@ class SessionManager
      */
     private function createUserSessionManager(string $requestType)
     {
-        return $this->isV10Branch() ? UserSessionManagerBackport::create($requestType) : UserSessionManager::create($requestType);
+        return UserSessionManager::create($requestType);
     }
 
     private function buildOAuth2Cookie(ServerRequestInterface $request = null): Cookie
@@ -252,10 +252,5 @@ class SessionManager
             throw new \InvalidArgumentException(sprintf('Request must implement "%s"', ServerRequestInterface::class), 1643445716);
         }
         return $request;
-    }
-
-    private function isV10Branch(): bool
-    {
-        return (int)VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version())['version_main'] === 10;
     }
 }

@@ -328,9 +328,7 @@ abstract class FunctionalTestCase extends \TYPO3\TestingFramework\Core\Functiona
 
     protected function loginIntoBackendWithUsernameAndPassword(string $siteBaseUri, string $username, string $password): array
     {
-        $uri = $this->isV10Branch()
-               ? $siteBaseUri . '/typo3/index.php?loginProvider=1433416747'
-               : $siteBaseUri . '/typo3/login?loginProvider=1433416747';
+        $uri = $siteBaseUri . '/typo3/login?loginProvider=1433416747';
 
         $responseData = $this->fetchBackendPageContens($this->buildGetRequest($uri));
         $loginFormData = (new DataPusher(new DataExtractor($responseData['pageMarkup'])))
@@ -338,9 +336,6 @@ abstract class FunctionalTestCase extends \TYPO3\TestingFramework\Core\Functiona
             ->with('userident', $password);
 
         $request = $loginFormData->toPostRequest($this->buildGetRequest());
-        if ($this->isV10Branch()) {
-            $request = $request->withUri($request->getUri()->withPath('/typo3/index.php'));
-        }
 
         return $this->fetchBackendPageContens($request);
     }
@@ -348,9 +343,7 @@ abstract class FunctionalTestCase extends \TYPO3\TestingFramework\Core\Functiona
     protected function goToOauth2ProvidersTestBackendModule(array $responseData): array
     {
         // Goto user setup module
-        $userSetupModuleUri = $this->isV10Branch()
-                              ? $this->extractAttributeValueFromResponseData('user_setup', 'data-link', $responseData)
-                              : $this->extractLinkHrefFromResponseData('user_setup', $responseData);
+        $userSetupModuleUri = $this->extractLinkHrefFromResponseData('user_setup', $responseData);
 
         $responseData = $this->fetchBackendPageContens($this->buildGetRequest($userSetupModuleUri, $responseData['cookieData']));
         $cookies = $responseData['cookieData'];
@@ -371,11 +364,6 @@ abstract class FunctionalTestCase extends \TYPO3\TestingFramework\Core\Functiona
         $document->loadHTML($responseData['pageMarkup']);
         $element = $document->getElementById($elementId);
         return $element->getAttribute($attributeName);
-    }
-
-    protected function isV10Branch(): bool
-    {
-        return (int)VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version())['version_main'] === 10;
     }
 
     private function unserializeSessionDataFromSessions(array $sessions): array

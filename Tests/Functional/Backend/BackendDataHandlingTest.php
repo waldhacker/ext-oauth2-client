@@ -87,10 +87,6 @@ class BackendDataHandlingTest extends FunctionalTestCase
      */
     public function assertThatABackendUserIsUnableToCreateOAuth2BackendConfigurationsViaRecordCommitEndpoint(): void
     {
-        if ($this->isV10Branch()) {
-            self::markTestSkipped('Skipped in TYPO3 v10');
-        }
-
         $this->resetSessionData();
         $this->resetOauth2ProviderConfigurations();
 
@@ -182,10 +178,6 @@ class BackendDataHandlingTest extends FunctionalTestCase
      */
     public function assertThatABackendUserIsUnableToCreateOAuth2BackendConfigurationsViaRecordCommitEndpointV10(string $oauth2DeactivationId): void
     {
-        if (!$this->isV10Branch()) {
-            self::markTestSkipped('Skipped in TYPO3 > v10');
-        }
-
         self::expectException(\TypeError::class);
 
         $this->resetSessionData();

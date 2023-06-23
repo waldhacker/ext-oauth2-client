@@ -53,9 +53,7 @@ class BackendLoginTest extends FunctionalTestCase
         self::assertEquals('code', $authorizationQuery['response_type'] ?? null, 'assert: the correct response type is requested');
         self::assertEquals('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', $authorizationQuery['client_id'] ?? null, 'assert: the correct client id is requested');
         self::assertEquals(
-            $this->isV10Branch()
-                ? 'http://localhost/typo3/index.php?route=%2Flogin&loginProvider=1616569531&oauth2-provider=gitlab2-be&login_status=login&commandLI=attempt'
-                : 'http://localhost/typo3/login?loginProvider=1616569531&oauth2-provider=gitlab2-be&login_status=login&commandLI=attempt',
+            'http://localhost/typo3/login?loginProvider=1616569531&oauth2-provider=gitlab2-be&login_status=login&commandLI=attempt',
             $authorizationQuery['redirect_uri'] ?? null,
             'assert: the correct callback uri is sent'
         );
@@ -121,11 +119,7 @@ class BackendLoginTest extends FunctionalTestCase
 
         self::assertArrayNotHasKey('be_typo_user_oauth2', $responseData['cookieData'], 'assert: no oauth2 backend cookie exists');
         self::assertArrayNotHasKey('fe_typo_user_oauth2', $responseData['cookieData'], 'assert: no oauth2 frontend cookie is sent to the client');
-        if ($this->isV10Branch()) {
-            self::assertArrayHasKey('be_typo_user', $responseData['cookieData'], 'assert: a backend user cookie exists');
-        } else {
-            self::assertArrayNotHasKey('be_typo_user', $responseData['cookieData'], 'assert: no backend user cookie exists');
-        }
+        self::assertArrayNotHasKey('be_typo_user', $responseData['cookieData'], 'assert: no backend user cookie exists');
         self::assertCount(0, $oauth2FrontendSessionData, 'assert: no oauth2 frontend session exists');
         self::assertCount(0, $oauth2BackendSessionData, 'assert: no backend backend session exists');
         self::assertStringNotContainsString('toolbar-item-avatar', $responseData['pageMarkup'], 'assert: we are logged in');
@@ -157,9 +151,7 @@ class BackendLoginTest extends FunctionalTestCase
         self::assertEquals('code', $authorizationQuery['response_type'] ?? null, 'assert: the correct response type is requested');
         self::assertEquals('cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc', $authorizationQuery['client_id'] ?? null, 'assert: the correct client id is requested');
         self::assertEquals(
-            $this->isV10Branch()
-                ? 'http://localhost/typo3/index.php?route=%2Flogin&loginProvider=1616569531&oauth2-provider=gitlab3-both&login_status=login&commandLI=attempt'
-                : 'http://localhost/typo3/login?loginProvider=1616569531&oauth2-provider=gitlab3-both&login_status=login&commandLI=attempt',
+            'http://localhost/typo3/login?loginProvider=1616569531&oauth2-provider=gitlab3-both&login_status=login&commandLI=attempt',
             $authorizationQuery['redirect_uri'] ?? null,
             'assert: the correct callback uri is sent'
         );
@@ -201,11 +193,7 @@ class BackendLoginTest extends FunctionalTestCase
         // @todo: should not be present
         self::assertArrayHasKey('be_typo_user_oauth2', $responseData['cookieData'], 'assert: the backend oauth2 cookie exists');
         self::assertArrayNotHasKey('fe_typo_user_oauth2', $responseData['cookieData'], 'assert: no oauth2 frontend cookie is sent to the client');
-        if ($this->isV10Branch()) {
-            self::assertArrayHasKey('be_typo_user', $responseData['cookieData'], 'assert: a backend user cookie exists');
-        } else {
-            self::assertArrayNotHasKey('be_typo_user', $responseData['cookieData'], 'assert: no backend user cookie exists');
-        }
+        self::assertArrayNotHasKey('be_typo_user', $responseData['cookieData'], 'assert: no backend user cookie exists');
         self::assertCount(0, $oauth2FrontendSessionData, 'assert: no oauth2 frontend session exists');
         // @todo: session data is empty but the record should be removed completely
         self::assertCount(0, $oauth2BackendSessionData, 'assert: no backend backend session exists');
@@ -239,9 +227,7 @@ class BackendLoginTest extends FunctionalTestCase
         self::assertEquals('code', $authorizationQuery['response_type'] ?? null, 'assert: the correct response type is requested');
         self::assertEquals('cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc', $authorizationQuery['client_id'] ?? null, 'assert: the correct client id is requested');
         self::assertEquals(
-            $this->isV10Branch()
-                ? 'http://localhost/typo3/index.php?route=%2Flogin&loginProvider=1616569531&oauth2-provider=gitlab3-both&login_status=login&commandLI=attempt'
-                : 'http://localhost/typo3/login?loginProvider=1616569531&oauth2-provider=gitlab3-both&login_status=login&commandLI=attempt',
+            'http://localhost/typo3/login?loginProvider=1616569531&oauth2-provider=gitlab3-both&login_status=login&commandLI=attempt',
             $authorizationQuery['redirect_uri'] ?? null,
             'assert: the correct callback uri is sent'
         );
@@ -283,11 +269,7 @@ class BackendLoginTest extends FunctionalTestCase
         // @todo: should not be present
         self::assertArrayHasKey('be_typo_user_oauth2', $responseData['cookieData'], 'assert: the backend oauth2 cookie exists');
         self::assertArrayNotHasKey('fe_typo_user_oauth2', $responseData['cookieData'], 'assert: no oauth2 frontend cookie is sent to the client');
-        if ($this->isV10Branch()) {
-            self::assertArrayHasKey('be_typo_user', $responseData['cookieData'], 'assert: a backend user cookie exists');
-        } else {
-            self::assertArrayNotHasKey('be_typo_user', $responseData['cookieData'], 'assert: no backend user cookie exists');
-        }
+        self::assertArrayNotHasKey('be_typo_user', $responseData['cookieData'], 'assert: no backend user cookie exists');
         self::assertCount(0, $oauth2FrontendSessionData, 'assert: no oauth2 frontend session exists');
         // @todo: session data is empty but the record should be removed completely
         self::assertCount(0, $oauth2BackendSessionData, 'assert: no backend backend session exists');
@@ -321,9 +303,7 @@ class BackendLoginTest extends FunctionalTestCase
         self::assertEquals('code', $authorizationQuery['response_type'] ?? null, 'assert: the correct response type is requested');
         self::assertEquals('cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc', $authorizationQuery['client_id'] ?? null, 'assert: the correct client id is requested');
         self::assertEquals(
-            $this->isV10Branch()
-                ? 'http://localhost/typo3/index.php?route=%2Flogin&loginProvider=1616569531&oauth2-provider=gitlab3-both&login_status=login&commandLI=attempt'
-                : 'http://localhost/typo3/login?loginProvider=1616569531&oauth2-provider=gitlab3-both&login_status=login&commandLI=attempt',
+            'http://localhost/typo3/login?loginProvider=1616569531&oauth2-provider=gitlab3-both&login_status=login&commandLI=attempt',
             $authorizationQuery['redirect_uri'] ?? null,
             'assert: the correct callback uri is sent'
         );
@@ -365,11 +345,7 @@ class BackendLoginTest extends FunctionalTestCase
         // @todo: should not be present
         self::assertArrayHasKey('be_typo_user_oauth2', $responseData['cookieData'], 'assert: the backend oauth2 cookie exists');
         self::assertArrayNotHasKey('fe_typo_user_oauth2', $responseData['cookieData'], 'assert: no oauth2 frontend cookie is sent to the client');
-        if ($this->isV10Branch()) {
-            self::assertArrayHasKey('be_typo_user', $responseData['cookieData'], 'assert: a backend user cookie exists');
-        } else {
-            self::assertArrayNotHasKey('be_typo_user', $responseData['cookieData'], 'assert: no backend user cookie exists');
-        }
+        self::assertArrayNotHasKey('be_typo_user', $responseData['cookieData'], 'assert: no backend user cookie exists');
         self::assertCount(0, $oauth2FrontendSessionData, 'assert: no oauth2 frontend session exists');
         // @todo: session data is empty but the record should be removed completely
         self::assertCount(0, $oauth2BackendSessionData, 'assert: no backend backend session exists');
@@ -402,9 +378,7 @@ class BackendLoginTest extends FunctionalTestCase
         self::assertEquals('code', $authorizationQuery['response_type'] ?? null, 'assert: the correct response type is requested');
         self::assertEquals('cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc', $authorizationQuery['client_id'] ?? null, 'assert: the correct client id is requested');
         self::assertEquals(
-            $this->isV10Branch()
-                ? 'http://localhost/typo3/index.php?route=%2Flogin&loginProvider=1616569531&oauth2-provider=gitlab3-both&login_status=login&commandLI=attempt'
-                : 'http://localhost/typo3/login?loginProvider=1616569531&oauth2-provider=gitlab3-both&login_status=login&commandLI=attempt',
+            'http://localhost/typo3/login?loginProvider=1616569531&oauth2-provider=gitlab3-both&login_status=login&commandLI=attempt',
             $authorizationQuery['redirect_uri'] ?? null,
             'assert: the correct callback uri is sent'
         );
@@ -446,11 +420,7 @@ class BackendLoginTest extends FunctionalTestCase
         // @todo: should not be present
         self::assertArrayHasKey('be_typo_user_oauth2', $responseData['cookieData'], 'assert: the backend oauth2 cookie exists');
         self::assertArrayNotHasKey('fe_typo_user_oauth2', $responseData['cookieData'], 'assert: no oauth2 frontend cookie is sent to the client');
-        if ($this->isV10Branch()) {
-            self::assertArrayHasKey('be_typo_user', $responseData['cookieData'], 'assert: a backend user cookie exists');
-        } else {
-            self::assertArrayNotHasKey('be_typo_user', $responseData['cookieData'], 'assert: no backend user cookie exists');
-        }
+        self::assertArrayNotHasKey('be_typo_user', $responseData['cookieData'], 'assert: no backend user cookie exists');
         self::assertCount(0, $oauth2FrontendSessionData, 'assert: no oauth2 frontend session exists');
         // @todo: session data is empty but the record should be removed completely
         self::assertCount(0, $oauth2BackendSessionData, 'assert: no backend backend session exists');
@@ -550,9 +520,7 @@ class BackendLoginTest extends FunctionalTestCase
         self::assertEquals('code', $authorizationQuery['response_type'] ?? null, 'assert: the correct response type is requested');
         self::assertEquals('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', $authorizationQuery['client_id'] ?? null, 'assert: the correct client id is requested');
         self::assertEquals(
-            $this->isV10Branch()
-                ? 'http://localhost/typo3/index.php?route=%2Flogin&loginProvider=1616569531&oauth2-provider=gitlab2-be&login_status=login&commandLI=attempt'
-                : 'http://localhost/typo3/login?loginProvider=1616569531&oauth2-provider=gitlab2-be&login_status=login&commandLI=attempt',
+            'http://localhost/typo3/login?loginProvider=1616569531&oauth2-provider=gitlab2-be&login_status=login&commandLI=attempt',
             $authorizationQuery['redirect_uri'] ?? null,
             'assert: the correct callback uri is sent'
         );
@@ -599,11 +567,7 @@ class BackendLoginTest extends FunctionalTestCase
         // @todo: should not be present
         self::assertArrayHasKey('be_typo_user_oauth2', $responseData['cookieData'], 'assert: the backend oauth2 cookie exists');
         self::assertArrayNotHasKey('fe_typo_user_oauth2', $responseData['cookieData'], 'assert: no oauth2 frontend cookie is sent to the client');
-        if ($this->isV10Branch()) {
-            self::assertArrayHasKey('be_typo_user', $responseData['cookieData'], 'assert: a backend user cookie exists');
-        } else {
-            self::assertArrayNotHasKey('be_typo_user', $responseData['cookieData'], 'assert: no backend user cookie exists');
-        }
+        self::assertArrayNotHasKey('be_typo_user', $responseData['cookieData'], 'assert: no backend user cookie exists');
         self::assertCount(0, $oauth2FrontendSessionData, 'assert: no oauth2 frontend session exists');
         self::assertCount(0, $oauth2BackendSessionData, 'assert: no oauth2 backend session exists');
         self::assertStringNotContainsString('toolbar-item-avatar', $responseData['pageMarkup'], 'assert: we are logged in');
@@ -651,9 +615,7 @@ class BackendLoginTest extends FunctionalTestCase
         self::assertEquals('code', $authorizationQuery['response_type'] ?? null, 'assert: the correct response type is requested');
         self::assertEquals('cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc', $authorizationQuery['client_id'] ?? null, 'assert: the correct client id is requested');
         self::assertEquals(
-            $this->isV10Branch()
-                ? 'http://localhost/typo3/index.php?route=%2Flogin&loginProvider=1616569531&oauth2-provider=gitlab3-both&login_status=login&commandLI=attempt'
-                : 'http://localhost/typo3/login?loginProvider=1616569531&oauth2-provider=gitlab3-both&login_status=login&commandLI=attempt',
+            'http://localhost/typo3/login?loginProvider=1616569531&oauth2-provider=gitlab3-both&login_status=login&commandLI=attempt',
             $authorizationQuery['redirect_uri'] ?? null,
             'assert: the correct callback uri is sent'
         );
@@ -695,11 +657,7 @@ class BackendLoginTest extends FunctionalTestCase
         // @todo: should not be present
         self::assertArrayHasKey('be_typo_user_oauth2', $responseData['cookieData'], 'assert: the backend oauth2 cookie exists');
         self::assertArrayNotHasKey('fe_typo_user_oauth2', $responseData['cookieData'], 'assert: no oauth2 frontend cookie is sent to the client');
-        if ($this->isV10Branch()) {
-            self::assertArrayHasKey('be_typo_user', $responseData['cookieData'], 'assert: a backend user cookie exists');
-        } else {
-            self::assertArrayNotHasKey('be_typo_user', $responseData['cookieData'], 'assert: no backend user cookie exists');
-        }
+        self::assertArrayNotHasKey('be_typo_user', $responseData['cookieData'], 'assert: no backend user cookie exists');
         self::assertCount(0, $oauth2FrontendSessionData, 'assert: no oauth2 frontend session exists');
         // @todo: session data is empty but the record should be removed completely
         self::assertCount(0, $oauth2BackendSessionData, 'assert: no backend backend session exists');
@@ -708,9 +666,7 @@ class BackendLoginTest extends FunctionalTestCase
 
     private function loginIntoBackendWithOAuth2Provider(string $siteBaseUri, string $providerId): array
     {
-        $uri = $this->isV10Branch()
-               ? $siteBaseUri . '/typo3/index.php?loginProvider=1616569532'
-               : $siteBaseUri . '/typo3/login?loginProvider=1616569532';
+        $uri = $siteBaseUri . '/typo3/login?loginProvider=1616569532';
 
         $responseData = $this->fetchBackendPageContens($this->buildGetRequest($uri));
         $loginFormData = (new DataPusher(new DataExtractor($responseData['pageMarkup'])))
