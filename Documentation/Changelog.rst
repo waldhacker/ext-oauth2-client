@@ -2,8 +2,27 @@ Changelog
 =========
 
 
+2.1.1 (2023-03-04)
+------------------
+
+Tasks
+~~~~~
+- Remove unused code. [Ralf Zimmermann]
+- Make psalm happy. [Ralf Zimmermann]
+
+Other
+~~~~~
+- Merge tag '2.1.0' into develop. [Ralf Zimmermann]
+
+  2.1.0
+
+
 2.1.0 (2023-03-04)
 ------------------
+
+Tasks
+~~~~~
+- Update 2.1.0. [Ralf Zimmermann]
 
 Features
 ~~~~~~~~
@@ -11,6 +30,7 @@ Features
 
 Other
 ~~~~~
+- Merge branch 'release/2.1.0' into main. [Ralf Zimmermann]
 - Merge tag '2.0.2' into develop. [Ralf Zimmermann]
 
   2.0.2
