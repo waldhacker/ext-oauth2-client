@@ -20,6 +20,11 @@
       <code>new ImmediateResponseException($response, 1643006821)</code>
     </InternalMethod>
   </file>
+  <file src="Classes/Backend/LoginProvider/Oauth2LoginProvider.php">
+    <InternalMethod occurrences="1">
+      <code>setTemplate</code>
+    </InternalMethod>
+  </file>
   <file src="Classes/Controller/Backend/ManageProvidersController.php">
     <InternalMethod occurrences="1">
       <code>setTemplate</code>
