@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * This file is part of the OAuth2 Client extension for TYPO3
@@ -35,10 +35,9 @@ class GenerateRequestTokenListener
         // wenn oauth cookie => get time from token from cookie
         // wenn request within 5 sec => generate and set token
 
-        // $requestToken = RequestToken::create('core/user-auth/be');
-        // $event->setRequestToken($requestToken);
+        $requestToken = RequestToken::create('core/user-auth/be');
+        $event->setRequestToken($requestToken);
 
-        /*
         $request = $event->getRequest();
 
         $getParameters = $request->getQueryParams();
@@ -64,14 +63,12 @@ class GenerateRequestTokenListener
 
         $requestToken = $event->getRequestToken();
 
-
-
         if (!($requestToken instanceof RequestToken)) {
             $event->setRequestToken(null);
             return;
         }
 
-        // check time of request within 5 sec 
+        // check time of request within 5 sec
         $now = $this->context->getAspect('date')->getDateTime();
         $interval = new \DateInterval(sprintf('PT%dS', 5));
 
@@ -80,6 +77,5 @@ class GenerateRequestTokenListener
             $event->setRequestToken(null);
             return;
         }
-        */
     }
 }
