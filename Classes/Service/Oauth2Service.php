@@ -59,6 +59,13 @@ class Oauth2Service implements LoggerAwareInterface
         ?string $callbackUrl = null,
         ServerRequestInterface $request = null
     ): ?AbstractProvider {
+        $oauth2StateFromSession = $this->sessionManager->getSessionData(SessionManager::SESSION_NAME_STATE, $request);
+
+        $this->sessionManager->setAndSaveSessionData(SessionManager::SESSION_NAME_STATE, null, $request);
+        if (empty($oauth2StateFromSession) || $oauth2StateFromSession !== $state) {
+            return null;
+        }
+
         return $this->oauth2ProviderManager->createProvider($providerId, $callbackUrl);
     }
 
