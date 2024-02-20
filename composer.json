@@ -1,6 +1,6 @@
 {
-    "name": "waldhacker/typo3-oauth2-client",
-    "description": "TYPO3 OAuth2 Login Client (backend and frontend)",
+    "name": "in2code/typo3-oauth2-client-fork",
+    "description": "FORK: TYPO3 OAuth2 Login Client (backend and frontend)",
     "license": [
         "GPL-2.0-or-later"
     ],
