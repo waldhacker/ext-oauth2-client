@@ -57,16 +57,16 @@ class BackendUserRepository
             ->from(self::OAUTH2_BE_CONFIG_TABLE, 'config')
             ->join('config', 'be_users', 'be_users', 'config.' . $userWithEditRightsColumn . '=be_users.uid')
             ->where(
-                $qb->expr()->andX(
+                $qb->expr()->and(
                     $qb->expr()->eq('identifier', $qb->createNamedParameter($identifier, \PDO::PARAM_STR)),
                     $qb->expr()->eq('provider', $qb->createNamedParameter($provider, \PDO::PARAM_STR)),
                     $qb->expr()->neq('identifier', $qb->createNamedParameter(DataHandlerHook::INVALID_TOKEN, \PDO::PARAM_STR)),
                     $qb->expr()->neq('provider', $qb->createNamedParameter(DataHandlerHook::INVALID_TOKEN, \PDO::PARAM_STR))
                 )
             )
-            ->execute();
+            ->executeQuery();
 
-        $result = $this->isV10Branch() ? $result->fetchAll(FetchMode::ASSOCIATIVE) : $result->fetchAllAssociative();
+        $result = $result->fetchAllAssociative();
 
         // @todo: log warning if more than one user matches
         // Do not login if more than one user matches!
@@ -122,15 +122,15 @@ class BackendUserRepository
             ->from(self::OAUTH2_BE_CONFIG_TABLE, 'config')
             ->join('config', 'be_users', 'be_users', 'config.' . $userWithEditRightsColumn . '=be_users.uid')
             ->where(
-                $qb->expr()->andX(
+                $qb->expr()->and(
                     $qb->expr()->eq('be_users.uid', $qb->createNamedParameter($userid, \PDO::PARAM_INT)),
                     $qb->expr()->neq('config.identifier', $qb->createNamedParameter(DataHandlerHook::INVALID_TOKEN, \PDO::PARAM_STR)),
                     $qb->expr()->neq('config.provider', $qb->createNamedParameter(DataHandlerHook::INVALID_TOKEN, \PDO::PARAM_STR))
                 )
             )
-            ->execute();
+            ->executeQuery();
 
-        $result = $this->isV10Branch() ? $result->fetchAll(FetchMode::ASSOCIATIVE) : $result->fetchAllAssociative();
+        $result = $result->fetchAllAssociative();
 
         $keys = array_column($result, 'provider');
         return (array)array_combine($keys, $result);
@@ -146,7 +146,7 @@ class BackendUserRepository
         $result = $qb->select('*')
             ->from(self::OAUTH2_BE_CONFIG_TABLE)
             ->where(
-                $qb->expr()->andX(
+                $qb->expr()->and(
                     $qb->expr()->eq('identifier', $qb->createNamedParameter($identifier, \PDO::PARAM_STR)),
                     $qb->expr()->eq('provider', $qb->createNamedParameter($provider, \PDO::PARAM_STR)),
                     $qb->expr()->neq('identifier', $qb->createNamedParameter(DataHandlerHook::INVALID_TOKEN, \PDO::PARAM_STR)),
@@ -154,9 +154,9 @@ class BackendUserRepository
                     $qb->expr()->eq($userWithEditRightsColumn, $qb->createNamedParameter($userid, \PDO::PARAM_INT))
                 )
             )
-            ->execute();
+            ->executeQuery();
 
-        $result = $this->isV10Branch() ? $result->fetchAll(FetchMode::ASSOCIATIVE) : $result->fetchAllAssociative();
+        $result = $result->fetchAllAssociative();
 
         return $result;
     }
@@ -164,10 +164,5 @@ class BackendUserRepository
     private function getBackendUser(): BackendUserAuthentication
     {
         return $GLOBALS['BE_USER'];
-    }
-
-    private function isV10Branch(): bool
-    {
-        return (int)VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version())['version_main'] === 10;
     }
 }

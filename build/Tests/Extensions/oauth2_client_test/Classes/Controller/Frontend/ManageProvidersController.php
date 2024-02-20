@@ -26,11 +26,6 @@ class ManageProvidersController extends ActionController
 {
     public function listAction(): ?ResponseInterface
     {
-        return $this->isV10Branch() ? null : $this->htmlResponse();
-    }
-
-    private function isV10Branch(): bool
-    {
-        return (int)VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version())['version_main'] === 10;
+        return $this->htmlResponse();
     }
 }

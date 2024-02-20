@@ -24,6 +24,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
+use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -37,7 +38,7 @@ class ManageProvidersController extends AbstractBackendController
 {
     private Oauth2ProviderManager $oauth2ProviderManager;
     private BackendUserRepository $backendUserRepository;
-    private ModuleTemplate $moduleTemplate;
+    private ModuleTemplateFactory $moduleTemplateFactory;
     private UriBuilder $uriBuilder;
     private ResponseFactoryInterface $responseFactory;
     private IconFactory $iconFactory;
@@ -45,14 +46,14 @@ class ManageProvidersController extends AbstractBackendController
     public function __construct(
         Oauth2ProviderManager $oauth2ProviderManager,
         BackendUserRepository $backendUserRepository,
-        ModuleTemplate $moduleTemplate,
+        ModuleTemplateFactory $moduleTemplate,
         UriBuilder $uriBuilder,
         ResponseFactoryInterface $responseFactory,
         IconFactory $iconFactory
     ) {
         $this->oauth2ProviderManager = $oauth2ProviderManager;
         $this->backendUserRepository = $backendUserRepository;
-        $this->moduleTemplate = $moduleTemplate;
+        $this->moduleTemplateFactory = $moduleTemplate;
         $this->uriBuilder = $uriBuilder;
         $this->responseFactory = $responseFactory;
         $this->iconFactory = $iconFactory;
@@ -60,23 +61,18 @@ class ManageProvidersController extends AbstractBackendController
 
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
-        $this->addButtons($request);
-
-        $view = $this->initializeView('ManageProviders');
-        $view->assignMultiple([
+        $moduleTemplate = $this->moduleTemplateFactory->create($request);
+        $this->addButtons($request, $moduleTemplate);
+        $moduleTemplate->assignMultiple([
             'providers' => $this->oauth2ProviderManager->getConfiguredBackendProviders(),
             'activeProviders' => $this->backendUserRepository->getActiveProviders()
         ]);
-        $this->moduleTemplate->setContent($view->render());
-        $this->moduleTemplate->getPageRenderer()->addJsFile('EXT:oauth2_client/Resources/Public/JavaScript/register.js');
-        $response = $this->responseFactory->createResponse()->withHeader('Content-Type', 'text/html; charset=utf-8');
-        $response->getBody()->write($this->moduleTemplate->renderContent());
-        return $response;
+        return $moduleTemplate->renderResponse('Backend/ManageProviders');
     }
 
-    private function addButtons(ServerRequestInterface $request): void
+    private function addButtons(ServerRequestInterface $request, ModuleTemplate $moduleTemplate): void
     {
-        $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
+        $buttonBar = $moduleTemplate->getDocHeaderComponent()->getButtonBar();
 
         if (($returnUrl = $this->getReturnUrl($request)) !== '') {
             $button = $buttonBar
@@ -94,17 +90,6 @@ class ManageProvidersController extends AbstractBackendController
             ->setTitle($this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.reload'))
             ->setIcon($this->iconFactory->getIcon('actions-refresh', Icon::SIZE_SMALL));
         $buttonBar->addButton($reloadButton, ButtonBar::BUTTON_POSITION_RIGHT);
-    }
-
-    private function initializeView(string $templateName): ViewInterface
-    {
-        /** @var StandaloneView $view */
-        $view = GeneralUtility::makeInstance(StandaloneView::class);
-        $view->setTemplateRootPaths(['EXT:oauth2_client/Resources/Private/Templates/Backend']);
-        $view->setPartialRootPaths(['EXT:backend/Resources/Private/Partials']);
-        $view->setLayoutRootPaths(['EXT:backend/Resources/Private/Layouts']);
-        $view->setTemplate($templateName);
-        return $view;
     }
 
     private function getReturnUrl(ServerRequestInterface $request): string

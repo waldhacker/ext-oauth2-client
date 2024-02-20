@@ -102,11 +102,11 @@ class RenameClientConfigsTableUpdateWizard20220122130120 implements UpgradeWizar
             ->select('uid', 'tstamp', 'crdate', 'cruser_id', 'parentid', 'provider', 'identifier')
             ->from(self::OAUTH2_LEGACY_CONFIG_TABLE)
             ->where(
-                $qb->expr()->andX(
+                $qb->expr()->and(
                     $qb->expr()->eq('deleted', $qb->createNamedParameter(0, \PDO::PARAM_INT))
                 )
             )
-            ->execute();
+            ->executeQuery();
 
         while ($row = $result->fetchAssociative()) {
             if (is_array($row)) {
@@ -129,6 +129,6 @@ class RenameClientConfigsTableUpdateWizard20220122130120 implements UpgradeWizar
     {
         $qb = $this->connectionPool->getQueryBuilderForTable($tableName);
         $qb->getRestrictions()->removeByType(Oauth2BeUserProviderConfigurationRestriction::class);
-        return (int)$qb->count('*')->from($tableName)->execute()->fetchOne() === 0;
+        return (int)$qb->count('*')->from($tableName)->executeQuery()->fetchOne() === 0;
     }
 }

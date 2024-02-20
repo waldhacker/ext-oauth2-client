@@ -91,7 +91,6 @@ class AfterAuthenticationHandler implements MiddlewareInterface
                 return $this->sessionManager->appendRemoveOAuth2CookieToResponse($response, $request);
             }
 
-            $isV10Branch = $this->isV10Branch();
             if ($originalRequestData['method'] === 'POST') {
                 $subRequest = new ServerRequest(
                     $originalRequestData['uri'],
@@ -108,9 +107,7 @@ class AfterAuthenticationHandler implements MiddlewareInterface
                 unset($_COOKIE[$this->sessionManager->getOAuth2CookieName($request)]);
                 $userIsLoggedIn = $request->getAttribute('frontend.user') instanceof FrontendUserAuthentication && $this->context->getAspect('frontend.user')->isLoggedIn();
                 if ($userIsLoggedIn) {
-                    $sessionId = $isV10Branch
-                                  ? $request->getAttribute('frontend.user')->getSessionId()
-                                  : $request->getAttribute('frontend.user')->getSession()->getIdentifier();
+                    $sessionId = $request->getAttribute('frontend.user')->getSession()->getIdentifier();
 
                     $_COOKIE = array_replace_recursive(
                         $_COOKIE,
@@ -121,9 +118,7 @@ class AfterAuthenticationHandler implements MiddlewareInterface
                 $subRequest = $subRequest->withCookieParams($_COOKIE ?? []);
                 $GLOBALS['TSFE'] = null;
 
-                $response = $isV10Branch
-                            ? $this->performSubRequestV10($subRequest)
-                            : $this->performSubRequest($subRequest);
+                $response = $this->performSubRequest($subRequest);
 
                 $this->sessionManager->removeSessionData($request);
                 // response code was not changed by legacy code (eg. extbase redirect)
@@ -144,7 +139,7 @@ class AfterAuthenticationHandler implements MiddlewareInterface
                 ->withHeader('location', $redirectUri);
 
             $userIsLoggedIn = $request->getAttribute('frontend.user') instanceof FrontendUserAuthentication && $this->context->getAspect('frontend.user')->isLoggedIn();
-            if ($userIsLoggedIn && !$isV10Branch) {
+            if ($userIsLoggedIn) {
                 $response = $request->getAttribute('frontend.user')->appendCookieToResponse($response);
             }
 
@@ -178,10 +173,5 @@ class AfterAuthenticationHandler implements MiddlewareInterface
         );
         $request = $request->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_FE);
         return $requestHandler->handle($request);
-    }
-
-    private function isV10Branch(): bool
-    {
-        return (int)VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version())['version_main'] === 10;
     }
 }

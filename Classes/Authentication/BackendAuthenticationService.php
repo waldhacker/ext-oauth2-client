@@ -23,9 +23,9 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
+use TYPO3\CMS\Core\Authentication\AbstractAuthenticationService;
 use TYPO3\CMS\Core\Http\ImmediateResponseException;
 use TYPO3\CMS\Core\Http\ServerRequestFactory;
-use TYPO3\CMS\Core\Service\AbstractService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Waldhacker\Oauth2Client\Backend\LoginProvider\Oauth2LoginProvider;
 use Waldhacker\Oauth2Client\Events\BackendUserLookupEvent;
@@ -35,7 +35,7 @@ use Waldhacker\Oauth2Client\Service\Oauth2ProviderManager;
 use Waldhacker\Oauth2Client\Service\Oauth2Service;
 use Waldhacker\Oauth2Client\Session\SessionManager;
 
-class BackendAuthenticationService extends AbstractService
+class BackendAuthenticationService extends AbstractAuthenticationService
 {
     private array $loginData = [];
     private Oauth2ProviderManager $oauth2ProviderManager;
@@ -63,15 +63,10 @@ class BackendAuthenticationService extends AbstractService
         $this->responseFactory = $responseFactory;
     }
 
-    public function initAuth(string $subType, array $loginData): void
-    {
-        $this->loginData = $loginData;
-    }
-
     public function getUser(): ?array
     {
         $request = $this->getRequest();
-        if ($this->loginData['status'] !== 'login') {
+        if ($this->login['status'] !== 'login') {
             return null;
         }
 
@@ -199,12 +194,13 @@ class BackendAuthenticationService extends AbstractService
 
     private function buildCallbackUri(string $providerId): string
     {
+        $now = (string)time();
         return (string)$this->uriBuilder->buildUriFromRoute('login', [
             'loginProvider' => Oauth2LoginProvider::PROVIDER_ID,
             'oauth2-provider' => $providerId,
             // TYPO3\CMS\Core\Authentication\BackendUserAuthentication->formfield_status
             'login_status' => 'login',
-            'commandLI' => 'attempt'
+            'commandLI' => 'attempt',
         ], UriBuilder::ABSOLUTE_URL);
     }
 
@@ -216,4 +212,5 @@ class BackendAuthenticationService extends AbstractService
         }
         return $request;
     }
+
 }

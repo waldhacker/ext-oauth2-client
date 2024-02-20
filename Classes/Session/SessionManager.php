@@ -25,6 +25,7 @@ use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Http\CookieHeaderTrait;
 use TYPO3\CMS\Core\Http\ServerRequestFactory;
+use TYPO3\CMS\Core\Security\JwtTrait;
 use TYPO3\CMS\Core\Session\UserSession;
 use TYPO3\CMS\Core\Session\UserSessionManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -36,6 +37,7 @@ use Waldhacker\Oauth2Client\Session\v10\UserSessionManager as UserSessionManager
 class SessionManager
 {
     use CookieHeaderTrait;
+    use JwtTrait;
 
     public const SESSION_NAME_STATE = 'oauth2-state';
     public const SESSION_NAME_ORIGINAL_REQUEST = 'oauth2-original-registration-request-data';
@@ -92,20 +94,6 @@ class SessionManager
     public function appendOAuth2CookieToResponse(ResponseInterface $response, ServerRequestInterface $request = null): ResponseInterface
     {
         return $response->withAddedHeader('Set-Cookie', (string)$this->buildOAuth2Cookie($request));
-    }
-
-    public function appendOAuth2CookieToExtbaseResponse(ServerRequestInterface $request = null): void
-    {
-        // @see \TYPO3\CMS\Extbase\Mvc\Response::sendHeaders()
-        // extbase replaces all headers instead of appending them,
-        // which would be necessary for multi value headers like "set-cookie".
-        // The only way to send cookies without extbase eating them (in TYPO3 10)
-        // is to send them via the native php function.
-        if (headers_sent()) {
-            return;
-        }
-
-        header('Set-Cookie: ' . (string)$this->buildOAuth2Cookie($request), false);
     }
 
     public function appendRemoveOAuth2CookieToResponse(ResponseInterface $response, ServerRequestInterface $request = null): ResponseInterface
@@ -175,7 +163,7 @@ class SessionManager
      */
     private function createUserSessionManager(string $requestType)
     {
-        return $this->isV10Branch() ? UserSessionManagerBackport::create($requestType) : UserSessionManager::create($requestType);
+        return UserSessionManager::create($requestType);
     }
 
     private function buildOAuth2Cookie(ServerRequestInterface $request = null): Cookie
@@ -195,6 +183,14 @@ class SessionManager
         $isSecure = $cookieSameSite === Cookie::SAMESITE_NONE || (bool)GeneralUtility::getIndpEnv('TYPO3_SSL');
         $httpOnly = true;
         $raw = false;
+
+        $sessionId = self::encodeHashSignedJwt(
+            [
+                'identifier' => $sessionId,
+                'time' => (new \DateTimeImmutable())->format(\DateTimeImmutable::RFC3339),
+            ],
+            self::createSigningKeyFromEncryptionKey(UserSession::class)
+        );
 
         return new Cookie(
             $cookieName,
@@ -252,10 +248,5 @@ class SessionManager
             throw new \InvalidArgumentException(sprintf('Request must implement "%s"', ServerRequestInterface::class), 1643445716);
         }
         return $request;
-    }
-
-    private function isV10Branch(): bool
-    {
-        return (int)VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version())['version_main'] === 10;
     }
 }
