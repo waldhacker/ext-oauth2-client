@@ -35,7 +35,8 @@ class GenerateRequestTokenListener
         // wenn oauth cookie => get time from token from cookie
         // wenn request within 5 sec => generate and set token
 
-        $requestToken = RequestToken::create('core/user-auth/be');
+        $user = $event->getUser();
+        $requestToken = RequestToken::create('core/user-auth/' . strtolower($user->loginType));
         $event->setRequestToken($requestToken);
 
         $request = $event->getRequest();

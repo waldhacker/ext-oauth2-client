@@ -22,9 +22,9 @@ use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Authentication\AbstractAuthenticationService;
 use TYPO3\CMS\Core\Http\ImmediateResponseException;
 use TYPO3\CMS\Core\Http\ServerRequestFactory;
-use TYPO3\CMS\Core\Service\AbstractService;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Waldhacker\Oauth2Client\Events\FrontendUserLookupEvent;
@@ -36,9 +36,8 @@ use Waldhacker\Oauth2Client\Service\Oauth2Service;
 use Waldhacker\Oauth2Client\Service\SiteService;
 use Waldhacker\Oauth2Client\Session\SessionManager;
 
-class FrontendAuthenticationService extends AbstractService
+class FrontendAuthenticationService extends AbstractAuthenticationService
 {
-    private array $loginData = [];
     private Oauth2ProviderManager $oauth2ProviderManager;
     private Oauth2Service $oauth2Service;
     private SessionManager $sessionManager;
@@ -65,11 +64,6 @@ class FrontendAuthenticationService extends AbstractService
         $this->siteService = $siteService;
         $this->requestStates = $requestStates;
         $this->responseFactory = $responseFactory;
-    }
-
-    public function initAuth(string $subType, array $loginData): void
-    {
-        $this->loginData = $loginData;
     }
 
     public function getUser(): ?array
