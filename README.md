@@ -1,5 +1,16 @@
 [![ci](https://github.com/waldhacker/ext-oauth2-client/actions/workflows/ci.yml/badge.svg)](https://github.com/waldhacker/ext-oauth2-client/actions/workflows/ci.yml)
 
+:warning:
+
+**This repository is no longer maintained.  
+No Issues or Pull Requests will be considered or approved.  
+The maintenance and further development is thankfully the responsibility of [@vertexvaar](https://github.com/vertexvaar).  
+The new code base can be found [in this GitLab repository](https://gitlab.com/co-stack.com/co-stack.com/typo3-extensions/typo3-oauth2-client).
+Read all the details about the migration there.
+Many thanks to [@vertexvaar](https://github.com/vertexvaar) for taking over the further development and many thanks to all users for their trust.**
+
+:warning:
+
 # TYPO3 OAuth2 login client (backend and frontend)
 
 Allow your frontend and backend users to add login possibilities via any OAuth2 provider. Popular examples are Github or Gitlab, Google, Facebook or LinkedIn or classically self-hosted solutions like Keycloak.
